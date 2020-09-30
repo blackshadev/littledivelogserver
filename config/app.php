@@ -166,8 +166,6 @@ return [
          * Package Service Providers...
          */
         App\Providers\TauthServiceProvider::class,
-        Laravel\Scout\ScoutServiceProvider::class,
-        ScoutElastic\ScoutElasticServiceProvider::class,
 
         /*
          * Application Service Providers...

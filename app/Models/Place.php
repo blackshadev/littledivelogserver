@@ -23,4 +23,5 @@ class Place extends Model
     {
         return $this->belongsTo(Country::class);
     }
+
 }

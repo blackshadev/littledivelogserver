@@ -10,7 +10,7 @@ class PlaceListViewModel extends  ViewModel
 {
     use FromEloquentCollection;
 
-    protected $visible = ['place_id', 'name', 'country_code'];
+    protected array $visible = ['place_id', 'name', 'country_code'];
 
     private Place $place;
 

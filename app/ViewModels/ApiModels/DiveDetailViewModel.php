@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class DiveDetailViewModel extends ViewModel
 {
-    protected $visible = [
+    protected array $visible = [
         'dive_id', 'date', 'divetime',
         'max_depth', 'place', 'buddies',
         'tags', 'tanks'

@@ -12,7 +12,7 @@ class DiveBuddiesViewModel extends ViewModel
 {
     use FromEloquentCollection;
 
-    protected $visible = ["buddy_id", "color", "text"];
+    protected array $visible = ["buddy_id", "color", "text"];
 
     private Buddy $buddy;
 

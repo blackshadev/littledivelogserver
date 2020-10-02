@@ -12,7 +12,7 @@ class DiveListViewModel extends ViewModel
 {
     use FromEloquentCollection;
 
-    protected $visible = ['dive_id', 'divetime', 'date', 'tags', 'place'];
+    protected array $visible = ['dive_id', 'divetime', 'date', 'tags', 'place'];
 
     private Dive $dive;
 

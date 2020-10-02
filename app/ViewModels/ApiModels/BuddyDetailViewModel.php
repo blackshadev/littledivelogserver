@@ -7,7 +7,7 @@ namespace App\ViewModels\ApiModels;
 class BuddyDetailViewModel extends BuddyListViewModel
 {
 
-    protected $visible = ['buddy_id', 'text', 'color', 'dive_count', 'last_dive', 'email', 'buddy_user_id'];
+    protected array $visible = ['buddy_id', 'text', 'color', 'dive_count', 'last_dive', 'email', 'buddy_user_id'];
 
     public function getEmail()
     {

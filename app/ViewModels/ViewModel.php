@@ -9,7 +9,7 @@ use JsonSerializable;
 
 class ViewModel implements Jsonable, JsonSerializable, Arrayable
 {
-    protected $visible = [];
+    protected array $visible = [];
 
     private static function getMethodName(string $property) {
         return 'get' . implode('', array_map('ucfirst', explode('_', $property)));

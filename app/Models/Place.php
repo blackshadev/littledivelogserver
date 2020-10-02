@@ -14,6 +14,8 @@ class Place extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['country_code', 'name'];
+
     public function dives()
     {
         return $this->hasMany(Dive::class);

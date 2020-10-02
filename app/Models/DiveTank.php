@@ -9,6 +9,8 @@ class DiveTank extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['volume', 'oxygen', 'pressure_begin', 'pressure_end', 'pressure_type'];
+
     public function dive()
     {
         return $this->belongsTo(Dive::class);

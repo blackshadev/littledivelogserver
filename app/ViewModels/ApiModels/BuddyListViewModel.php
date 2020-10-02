@@ -11,7 +11,7 @@ class BuddyListViewModel extends ViewModel
 {
     use FromEloquentCollection;
 
-    protected $visible = ['buddy_id', 'text', 'color', 'dive_count', 'last_dive'];
+    protected array $visible = ['buddy_id', 'text', 'color', 'dive_count', 'last_dive'];
 
     protected Buddy $buddy;
 

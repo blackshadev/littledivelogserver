@@ -10,7 +10,7 @@ final class TranslatedCountryViewModel extends ViewModel
 {
     use FromEloquentCollection;
 
-    protected $visible = ['name', 'iso2'];
+    protected array $visible = ['name', 'iso2'];
 
     private Country $country;
 

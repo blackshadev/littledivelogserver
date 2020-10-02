@@ -10,7 +10,7 @@ class DiveTankViewModel extends ViewModel
 {
     use FromEloquentCollection;
 
-    protected $visible = ['volume', 'oxygen', 'pressure'];
+    protected array $visible = ['volume', 'oxygen', 'pressure'];
 
     private $tank;
 

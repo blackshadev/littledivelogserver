@@ -10,7 +10,7 @@ class DiveTagsViewModel extends ViewModel
 {
     use FromEloquentCollection;
 
-    protected $visible = ['tag_id', 'color', 'text'];
+    protected array $visible = ['tag_id', 'color', 'text'];
     private Tag $tag;
 
     public function __construct(Tag $tag)

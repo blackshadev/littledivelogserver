@@ -7,7 +7,7 @@ use App\ViewModels\ViewModel;
 
 class PlaceViewModel extends ViewModel
 {
-    protected $visible = ['country_code', 'place_id', 'name'];
+    protected array $visible = ['country_code', 'place_id', 'name'];
     protected Place $place;
 
     public function __construct(Place $place)

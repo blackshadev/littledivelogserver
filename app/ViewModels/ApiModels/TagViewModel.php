@@ -12,7 +12,7 @@ class TagViewModel extends ViewModel
 {
     use FromEloquentCollection;
 
-    protected $visible = ['tag_id', 'text', 'color', 'dive_count', 'last_dive'];
+    protected array $visible = ['tag_id', 'text', 'color', 'dive_count', 'last_dive'];
 
     protected Tag $tag;
 

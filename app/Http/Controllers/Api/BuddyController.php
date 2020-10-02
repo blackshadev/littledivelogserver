@@ -20,8 +20,13 @@ class BuddyController extends Controller
         return BuddyListViewModel::fromCollection($user->buddies);
     }
 
-    public function show(User $user)
+    public function show(Buddy $budy)
     {
-        return new BuddyDetailViewModel($user->buddies);
+        return new BuddyDetailViewModel(buddy);
+    }
+
+    public function update(Buddy $buddy)
+    {
+
     }
 }

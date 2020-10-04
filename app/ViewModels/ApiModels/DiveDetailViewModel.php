@@ -36,7 +36,7 @@ class DiveDetailViewModel extends ViewModel
         return $this->dive->date;
     }
 
-    public function getMaxDepth(): ?int
+    public function getMaxDepth(): ?float
     {
         return $this->dive->max_depth;
     }
@@ -51,9 +51,9 @@ class DiveDetailViewModel extends ViewModel
         return DiveBuddiesViewModel::fromCollection($this->dive->buddies);
     }
 
-    public function getPlace(): PlaceViewModel
+    public function getPlace(): ?PlaceViewModel
     {
-        return new PlaceViewModel($this->dive->place);
+        return $this->dive->place !== null ? new PlaceViewModel($this->dive->place) : null;
     }
 
     public function getTanks(): Collection

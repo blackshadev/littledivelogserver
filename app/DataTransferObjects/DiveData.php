@@ -25,7 +25,7 @@ class DiveData
         $diveData->maxDepth = $data['max_depth'] ?? null;
         $diveData->computerId = $data['computer_id'] ?? null;
         $diveData->fingerprint = $data['fingerprint'] ?? null;
-        $diveData->place = PlaceData::fromArray($data['place']);
+        $diveData->place = PlaceData::fromArray($data['place'] ?? []);
         $diveData->tags = array_map(fn ($tagData) => TagData::fromArray($tagData), $data['tags'] ?? []);
         $diveData->buddies = array_map(fn ($buddyData) => BuddyData::fromArray($buddyData), $data['buddies'] ?? []);
         $diveData->tanks = array_map(fn ($tank) => TankData::fromArray($tank), $data['tanks'] ?? []);

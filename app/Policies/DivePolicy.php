@@ -30,4 +30,9 @@ class DivePolicy
         return $user->is($dive->user);
     }
 
+    public function create(User $user)
+    {
+        return true;
+    }
+
 }

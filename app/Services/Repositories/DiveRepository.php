@@ -36,7 +36,9 @@ class DiveRepository
     public function update(Dive $dive, DiveData $data)
     {
         DB::transaction(function() use ($dive, $data) {
+            $dive->date = $data->getDate();
             $dive->max_depth = $data->getMaxDepth();
+            $dive->divetime = $data->getDivetime();
 
             if (!$data->getPlace()->isEmpty()) {
                 $place = $this->placeRepository->findOrCreate($data->getPlace());

@@ -9,22 +9,26 @@ class DiveData
     private ?Carbon $date;
     private ?int $divetime;
     private ?float $maxDepth;
-    private array $tags = [];
-    private array $buddies = [];
+    private ?int $computerId;
+    private ?string $fingerprint;
     private PlaceData $place;
     private array $tanks;
+    private array $tags;
+    private array $buddies;
 
     public static function fromArray(array $data): self
     {
-        $diveData = new DiveData();
+        $diveData = new self();
 
         $diveData->date = Carbon::parse($data['date']) ?? null;
         $diveData->divetime = $data['divetime'] ?? null;
         $diveData->maxDepth = $data['max_depth'] ?? null;
+        $diveData->computerId = $data['computer_id'] ?? null;
+        $diveData->fingerprint = $data['fingerprint'] ?? null;
+        $diveData->place = PlaceData::fromArray($data['place']);
         $diveData->tags = array_map(fn ($tagData) => TagData::fromArray($tagData), $data['tags'] ?? []);
         $diveData->buddies = array_map(fn ($buddyData) => BuddyData::fromArray($buddyData), $data['buddies'] ?? []);
         $diveData->tanks = array_map(fn ($tank) => TankData::fromArray($tank), $data['tanks'] ?? []);
-        $diveData->place = PlaceData::fromArray($data['place']);
 
         return $diveData;
     }
@@ -42,6 +46,16 @@ class DiveData
     public function getMaxDepth(): ?float
     {
         return $this->maxDepth;
+    }
+
+    public function getComputerId(): ?int
+    {
+        return $this->computerId;
+    }
+
+    public function getFingerprint(): ?string
+    {
+        return $this->fingerprint;
     }
 
     public function getPlace(): PlaceData
@@ -66,4 +80,5 @@ class DiveData
     {
         return $this->tanks;
     }
+
 }

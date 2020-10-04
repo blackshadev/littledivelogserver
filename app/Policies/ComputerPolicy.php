@@ -19,4 +19,9 @@ class ComputerPolicy
     {
         return $user->is($computer->user);
     }
+
+    public function create(User $user)
+    {
+        return true;
+    }
 }

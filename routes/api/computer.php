@@ -5,3 +5,4 @@ use \App\Http\Controllers\Api\ComputerController;
 
 Route::get('/', [ComputerController::class, 'index']);
 Route::get('/{computer}', [ComputerController::class, 'show']);
+Route::post('/', [ComputerController::class, 'store']);

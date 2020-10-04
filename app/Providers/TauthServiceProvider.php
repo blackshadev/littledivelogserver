@@ -3,10 +3,9 @@
 namespace App\Providers;
 
 use App\Models\User;
-use App\Services\Tauth\TauthRepository;
+use App\Services\Repositories\TauthRepository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Littledev\Tauth\Services\JWTService;
 use Littledev\Tauth\Services\JWTServiceInterface;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\HexColor;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,11 +18,11 @@ class DiveUpdateRequest extends FormRequest
             'buddies' => 'array',
             'buddies.*.buddy_id' => 'integer|exists:buddies,id|required_without:buddies.*.text',
             'buddies.*.text' => 'string|required_without:buddies.*.buddy_id',
-            'buddies.*.color' => 'regex:/^\#[0-9abcdef]{6}$/i',
+            'buddies.*.color' => new HexColor(),
             'tags' => 'array',
             'tags.*.tag_id' => 'integer|exists:tags,id|required_without:tags.*.text',
             'tags.*.text' => 'string|required_without:tags.*.tag_id',
-            'tags.*.color' => 'regex:/^\#[0-9abcdef]{6}$/i',
+            'tags.*.color' => new HexColor(),
             'place.country_code' => 'string|exists:countries,iso2|required_with:place.text',
             'place.place_id' => 'integer|exists:places,id|required_without:place.text',
             'place.name' => 'string|required_without:place.place_id',

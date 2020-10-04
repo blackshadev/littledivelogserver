@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Tags;
+namespace App\Services\Repositories;
 
 use App\DataTransferObjects\TagData;
 use App\Helpers\Color;
@@ -28,5 +28,14 @@ class TagRepository
         }
 
         throw new \RuntimeException("Tag data encountered without id or name");
+    }
+
+    public function update(Tag $tag, TagData $data)
+    {
+        $tag->fill([
+            'text' => $data->getText(),
+            'color' => $data->getColor()
+        ]);
+        $tag->save();
     }
 }

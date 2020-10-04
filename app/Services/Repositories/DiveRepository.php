@@ -1,44 +1,36 @@
 <?php
 
-namespace App\Services\Dives;
+namespace App\Services\Repositories;
 
 use App\DataTransferObjects\BuddyData;
 use App\DataTransferObjects\DiveData;
-use App\DataTransferObjects\PlaceData;
 use App\DataTransferObjects\TagData;
 use App\DataTransferObjects\TankData;
-use App\Helpers\Color;
-use App\Models\Buddy;
+use App\Models\Computer;
 use App\Models\Dive;
 use App\Models\DiveTank;
-use App\Models\Place;
-use App\Models\Tag;
-use App\Models\User;
-use App\Services\Buddies\BuddyRepository;
-use App\Services\Places\PlaceRepository;
-use App\Services\Tags\TagRepository;
-use App\Services\Tanks\TankRepository;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
 class DiveRepository
 {
-
     private PlaceRepository $placeRepository;
     private BuddyRepository $buddyRepository;
     private TagRepository $tagRepository;
     private TankRepository $tankRepository;
+    private ComputerRepository $computerRepository;
 
     public function __construct(
         PlaceRepository $placeRepository,
         BuddyRepository $buddyRepository,
         TagRepository $tagRepository,
-        TankRepository $tankRepository
+        TankRepository $tankRepository,
+        ComputerRepository $computerRepository
     ) {
         $this->placeRepository = $placeRepository;
         $this->buddyRepository = $buddyRepository;
         $this->tagRepository = $tagRepository;
         $this->tankRepository = $tankRepository;
+        $this->computerRepository = $computerRepository;
     }
 
     public function update(Dive $dive, DiveData $data)
@@ -69,6 +61,12 @@ class DiveRepository
 
             $this->updateDiveTanks($dive, $data->getTanks());
 
+            if ($data->getComputerId() !== null) {
+                $computer = Computer::findOrFail($data->getComputerId());
+                $dive->computer()->associate($computer);
+
+                $this->computerRepository->updateLastRead($computer, $data->getDate(), $data->getFingerprint());
+            }
 
             $dive->save();
         });

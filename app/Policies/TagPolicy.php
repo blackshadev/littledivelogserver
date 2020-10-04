@@ -19,4 +19,9 @@ class TagPolicy
     {
         return $user->is($tag->user);
     }
+
+    public function update(User $user, Tag $tag)
+    {
+        return $user->is($tag->user);
+    }
 }

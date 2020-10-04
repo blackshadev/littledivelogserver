@@ -13,6 +13,8 @@ class Buddy extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'color'];
+
     public function dives()
     {
         return $this->belongsToMany(Dive::class);

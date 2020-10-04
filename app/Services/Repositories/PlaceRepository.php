@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\Places;
+namespace App\Services\Repositories;
 
 
 use App\DataTransferObjects\PlaceData;

@@ -26,6 +26,7 @@ class CreateComputersTable extends Migration
             $table->timestamp('last_read');
             $table->string('last_fingerprint');
 
+            $table->unique(['user_id', 'serial']);
         });
     }
 

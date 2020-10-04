@@ -5,3 +5,4 @@ use \App\Http\Controllers\Api\TagController;
 
 Route::get('/', [TagController::class, 'index']);
 Route::get('/{tag}', [TagController::class, 'show']);
+Route::put('/{tag}', [TagController::class, 'update']);

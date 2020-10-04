@@ -128,6 +128,7 @@ return [
     | specify a specific custom language line for a given attribute rule.
     |
     */
+    'hex_color' => 'The :attribute must be a hex color',
 
     'custom' => [
         'attribute-name' => [

@@ -21,4 +21,9 @@ class BuddyPolicy
         return $user->is($buddy->user);
     }
 
+    public function update(User $user, Buddy $buddy)
+    {
+        return $user->is($buddy->user);
+    }
+
 }

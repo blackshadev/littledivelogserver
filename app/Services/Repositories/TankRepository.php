@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Services\Tanks;
+namespace App\Services\Repositories;
 
 use App\DataTransferObjects\TankData;
-use App\Models\Dive;
 use App\Models\DiveTank;
 
 class TankRepository

@@ -10,7 +10,9 @@ class ComputerListViewModel extends ViewModel
 {
     use FromEloquentCollection;
 
-    protected array $visible = ['computer_id', 'serial'];
+    protected array $visible = [
+        'computer_id', 'serial', 'vendor', 'model', 'type', 'type' , 'dive_count', 'last_read', 'last_fingerprint'
+    ];
 
     private Computer $computer;
 
@@ -42,5 +44,20 @@ class ComputerListViewModel extends ViewModel
     public function getType()
     {
         return $this->computer->type;
+    }
+
+    public function getDiveCount()
+    {
+        return $this->computer->dives()->count();
+    }
+
+    public function getLastRead()
+    {
+        return $this->computer->last_read;
+    }
+
+    public function getLastFingerprint()
+    {
+        return $this->computer->last_fingerprint;
     }
 }

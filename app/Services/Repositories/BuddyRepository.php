@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\Buddies;
+namespace App\Services\Repositories;
 
 
 use App\DataTransferObjects\BuddyData;
@@ -30,5 +30,14 @@ class BuddyRepository
         }
 
         throw new \RuntimeException("Buddies data encountered without id or name");
+    }
+
+    public function update(Buddy $buddy, BuddyData $data)
+    {
+        $buddy->fill([
+            'name' => $data->getName(),
+            'color' => $data->getColor()
+        ]);
+        $buddy->save();
     }
 }

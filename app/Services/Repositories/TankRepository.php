@@ -29,7 +29,18 @@ class TankRepository
             'pressure_end' => $tankData->getPressures()->getEnd(),
             'pressure_type' => $tankData->getPressures()->getType(),
         ]);
+
+        $this->save($tank);
+    }
+
+    public function save(DiveTank $tank): void
+    {
         $tank->save();
+    }
+
+    public function delete(DiveTank $tank): void
+    {
+        $tank->delete();
     }
 
 }

@@ -18,7 +18,7 @@ class DiveCreateTest extends TestCase
         $this->fakedTauth();
     }
 
-    public function testMinimalData()
+    public function testItWorksWithMinimalData()
     {
         /** @var User $user */
         $user = User::factory()->createOne();
@@ -42,9 +42,8 @@ class DiveCreateTest extends TestCase
         $this->assertDatabaseHas('dives', array_merge($data, ['user_id' => $user->id] ));
     }
 
-    public function testShouldBeLoggedIn()
+    public function testItRequiresToBeLoggedIn()
     {
-
         $user = User::factory()->createOne();
         $dive = Dive::factory()->state([
             'user_id' => null
@@ -59,32 +58,8 @@ class DiveCreateTest extends TestCase
         $this->post(action([DiveController::class, 'store']), $data)
             ->assertStatus(403);
 
+
         $this->assertDatabaseMissing('dives', array_merge($data, ['user_id' => $user->id] ));
-    }
-
-    public function testShouldCreateNonExistingPlace()
-    {
-
-    }
-
-    public function testShouldCreateNonExistingTags()
-    {
-
-    }
-
-    public function testShouldCreateNonExistingBuddies()
-    {
-
-    }
-
-    public function testShouldStoreTankData()
-    {
-
-    }
-
-    public function testShouldUpdateComputerLastRead()
-    {
-
     }
 
     public function testFullData()

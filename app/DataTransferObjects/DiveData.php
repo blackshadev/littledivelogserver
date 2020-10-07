@@ -6,15 +6,20 @@ use Carbon\Carbon;
 
 class DiveData
 {
-    private ?Carbon $date;
-    private ?int $divetime;
-    private ?float $maxDepth;
-    private ?int $computerId;
-    private ?string $fingerprint;
+    private ?Carbon $date = null;
+    private ?int $divetime = null;
+    private ?float $maxDepth = null;
+    private ?int $computerId = null;
+    private ?string $fingerprint = null;
     private PlaceData $place;
-    private array $tanks;
-    private array $tags;
-    private array $buddies;
+    private ?array $tanks = null;
+    private ?array $tags = null;
+    private ?array $buddies = null;
+
+    public function __construct()
+    {
+        $this->place = new PlaceData();
+    }
 
     public static function fromArray(array $data): self
     {
@@ -63,22 +68,66 @@ class DiveData
         return $this->place;
     }
 
-    /** @return TagData[] */
-    public function getTags(): array
+    /** @return null|TagData[] */
+    public function getTags(): ?array
     {
         return $this->tags;
     }
 
-    /** @return BuddyData[] */
-    public function getBuddies(): array
+    /** @return null|BuddyData[] */
+    public function getBuddies(): ?array
     {
         return $this->buddies;
     }
 
-    /** @return TankData[] */
-    public function getTanks(): array
+    /** @return null|TankData[] */
+    public function getTanks(): ?array
     {
         return $this->tanks;
     }
 
+    public function setDate(?Carbon $date): void
+    {
+        $this->date = $date;
+    }
+
+    public function setDivetime(?int $divetime): void
+    {
+        $this->divetime = $divetime;
+    }
+
+    public function setMaxDepth(?float $maxDepth): void
+    {
+        $this->maxDepth = $maxDepth;
+    }
+
+    public function setComputerId(?int $computerId): void
+    {
+        $this->computerId = $computerId;
+    }
+
+    public function setFingerprint(?string $fingerprint): void
+    {
+        $this->fingerprint = $fingerprint;
+    }
+
+    public function setPlace(PlaceData $place): void
+    {
+        $this->place = $place;
+    }
+
+    public function setTanks(?array $tanks): void
+    {
+        $this->tanks = $tanks;
+    }
+
+    public function setTags(?array $tags): void
+    {
+        $this->tags = $tags;
+    }
+
+    public function setBuddies(?array $buddies): void
+    {
+        $this->buddies = $buddies;
+    }
 }

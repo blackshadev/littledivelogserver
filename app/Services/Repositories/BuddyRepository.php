@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class BuddyRepository
 {
-    public function findOrCreate(BuddyData $data, ?User $user = null): Buddy
+    public function findOrMake(BuddyData $data, ?User $user = null): Buddy
     {
         /** @var Buddy|Builder $scope */
         $scope = $user !== null ? $user->buddies() : Buddy::query();
@@ -38,6 +38,11 @@ class BuddyRepository
             'name' => $data->getName(),
             'color' => $data->getColor()
         ]);
+        $this->save($buddy);
+    }
+
+    public function save(Buddy $buddy)
+    {
         $buddy->save();
     }
 }

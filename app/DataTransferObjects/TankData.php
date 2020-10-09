@@ -17,6 +17,21 @@ class TankData
         return $tankData;
     }
 
+    public function __construct()
+    {
+        $this->pressures = new TankPressureData();
+    }
+
+    public function setVolume(?int $volume): void
+    {
+        $this->volume = $volume;
+    }
+
+    public function setOxygen(?int $oxygen): void
+    {
+        $this->oxygen = $oxygen;
+    }
+
     public function getPressures(): TankPressureData
     {
         return $this->pressures;

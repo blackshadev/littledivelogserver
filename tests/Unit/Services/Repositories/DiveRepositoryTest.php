@@ -7,6 +7,7 @@ use App\DataTransferObjects\DiveData;
 use App\DataTransferObjects\TagData;
 use App\DataTransferObjects\TankData;
 use App\Models\Buddy;
+use App\Models\Computer;
 use App\Models\Dive;
 use App\Models\DiveTank;
 use App\Models\Place;
@@ -19,7 +20,6 @@ use App\Services\Repositories\PlaceRepository;
 use App\Services\Repositories\TagRepository;
 use App\Services\Repositories\TankRepository;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Mockery;
@@ -99,11 +99,11 @@ class DiveRepositoryTest extends TestCase
         $dive = new Dive();
         $data = new DiveData();
 
-        $this->placeRepository->shouldNotReceive('findOrCreate');
-        $this->tagRepository->shouldNotReceive('findOrCreate');
-        $this->buddyRepository->shouldNotReceive('findOrCreate');
-        $this->tankRepository->shouldNotReceive('findOrCreate');
-        $this->computerRepository->shouldNotReceive('findOrCreate');
+        $this->placeRepository->shouldNotReceive('findOrMake');
+        $this->tagRepository->shouldNotReceive('findOrMake');
+        $this->buddyRepository->shouldNotReceive('findOrMake');
+        $this->tankRepository->shouldNotReceive('findOrMake');
+        $this->computerRepository->shouldNotReceive('findOrMake');
 
         $this->diveRepository->update($dive, $data);
     }
@@ -117,7 +117,7 @@ class DiveRepositoryTest extends TestCase
         $data->getPlace()->setName($this->faker->word);
         $data->getPlace()->setCountryCode($this->faker->countryCode);
 
-        $this->placeRepository->expects('findOrCreate')->with($data->getPlace())->andReturn($place);
+        $this->placeRepository->expects('findOrMake')->with($data->getPlace())->andReturn($place);
 
         $this->diveRepository->update($dive, $data);
 
@@ -135,7 +135,7 @@ class DiveRepositoryTest extends TestCase
         $data = new DiveData();
         $data->setTags([$tagData]);
 
-        $this->tagRepository->expects('findOrCreate')
+        $this->tagRepository->expects('findOrMake')
             ->with($tagData, $user)
             ->andReturn($tag);
 
@@ -155,7 +155,7 @@ class DiveRepositoryTest extends TestCase
         $data = new DiveData();
         $data->setBuddies([$buddyData]);
 
-        $this->buddyRepository->expects('findOrCreate')
+        $this->buddyRepository->expects('findOrMake')
             ->with($buddyData, $user)
             ->andReturn($buddy);
 
@@ -174,12 +174,68 @@ class DiveRepositoryTest extends TestCase
         $data->setTanks([$tankData]);
 
         $this->diveRepository->expects("appendTank")->with($dive, $tank);
-        $this->tankRepository->expects('create')->with($tankData)->andReturn($tank);
+        $this->tankRepository->expects('make')->with($tankData)->andReturn($tank);
         $this->diveRepository->update($dive, $data);
     }
 
-    public function testShouldUpdateComputerLastRead()
+    public function testItRemovesOldTanks()
     {
+        $tank = new DiveTank();
 
+        $dive = new Dive();
+        $dive->tanks = [$tank];
+
+        $data = new DiveData();
+        $data->setTanks([]);
+
+        $this->diveRepository->expects("removeTank")->with($dive, $tank);
+
+        $this->diveRepository->update($dive, $data);
+    }
+
+    public function testItUpdatesTanks()
+    {
+        $tankData = new TankData();
+        $tankData->setOxygen($this->faker->randomElement([21, 32, 39, 41]));
+        $tankData->setVolume($this->faker->randomElement([7, 9, 10, 12]));
+        $tankData->getPressures()->setType($this->faker->randomElement(['bar', 'psi']));
+        $tankData->getPressures()->setBegin($this->faker->numberBetween(110, 210));
+        $tankData->getPressures()->setType(
+            $this->faker->numberBetween(40, $tankData->getPressures()->getBegin())
+        );
+
+        $tank = new DiveTank();
+
+        $dive = new Dive();
+        $dive->tanks = [$tank];
+
+        $data = new DiveData();
+        $data->setTanks([$tankData]);
+
+        $this->tankRepository->expects("update")->with($tank, $tankData);
+
+        $this->diveRepository->update($dive, $data);
+    }
+
+    public function testItUpdatesComputerLastRead()
+    {
+        $computer = new Computer();
+        $computer->id = 1;
+        $dive = new Dive();
+        $dive->computer = $computer;
+
+        $data = new DiveData();
+        $data->setComputerId($computer->id);
+        $data->setDate(new Carbon($this->faker->dateTime));
+        $data->setFingerprint($this->faker->word);
+
+        $this->computerRepository->expects('find')
+            ->with($computer->id)
+            ->andReturn($computer);
+
+        $this->computerRepository->expects('updateLastRead')
+            ->with($computer, $data->getDate(), $data->getFingerprint());
+
+        $this->diveRepository->update($dive, $data);
     }
 }

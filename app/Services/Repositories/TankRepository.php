@@ -7,7 +7,7 @@ use App\Models\DiveTank;
 
 class TankRepository
 {
-    public function create(TankData $tankData): DiveTank
+    public function make(TankData $tankData): DiveTank
     {
         $tank = new DiveTank([
             'volume' => $tankData->getVolume(),

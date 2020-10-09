@@ -10,7 +10,7 @@ use PhpParser\Builder;
 
 class TagRepository
 {
-    public function findOrCreate(TagData $data, ?User $user = null)
+    public function findOrMake(TagData $data, ?User $user = null)
     {
         /** @var Tag|Builder $scope */
         $scope = $user !== null ? $user->tags() : Tag::query();

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BuddyUpdateRequest;
 use App\Models\Buddy;
 use App\Models\User;
-use App\Repositories\Repositories\BuddyRepository;
+use App\Services\Repositories\BuddyRepository;
 use App\ViewModels\ApiModels\BuddyDetailViewModel;
 use App\ViewModels\ApiModels\BuddyListViewModel;
 

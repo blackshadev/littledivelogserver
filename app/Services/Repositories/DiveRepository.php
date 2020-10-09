@@ -6,6 +6,7 @@ use App\DataTransferObjects\BuddyData;
 use App\DataTransferObjects\DiveData;
 use App\DataTransferObjects\TagData;
 use App\DataTransferObjects\TankData;
+use App\Error\ComputerNotFound;
 use App\Models\Buddy;
 use App\Models\Computer;
 use App\Models\Dive;
@@ -38,12 +39,13 @@ class DiveRepository
     public function update(Dive $dive, DiveData $data)
     {
         DB::transaction(function() use ($dive, $data) {
+
             $dive->date = $data->getDate();
             $dive->max_depth = $data->getMaxDepth();
             $dive->divetime = $data->getDivetime();
 
             if (!$data->getPlace()->isEmpty()) {
-                $place = $this->placeRepository->findOrCreate($data->getPlace());
+                $place = $this->placeRepository->findOrMake($data->getPlace());
                 $dive->place()->associate($place);
             } else {
                 $dive->place()->dissociate();
@@ -52,7 +54,7 @@ class DiveRepository
             if ($data->getTags() !== null) {
                 /** @var TagData $tag */
                 $tags = array_map(
-                    fn($tag) => $this->tagRepository->findOrCreate($tag, $dive->user),
+                    fn($tag) => $this->tagRepository->findOrMake($tag, $dive->user),
                     $data->getTags()
                 );
 
@@ -62,7 +64,7 @@ class DiveRepository
             if ($data->getBuddies() !== null) {
                 /** @var BuddyData $buddy */
                 $buddies = array_map(
-                    fn($buddy) => $this->buddyRepository->findOrCreate($buddy, $dive->user),
+                    fn($buddy) => $this->buddyRepository->findOrMake($buddy, $dive->user),
                     $data->getBuddies()
                 );
 
@@ -74,7 +76,11 @@ class DiveRepository
             }
 
             if ($data->getComputerId() !== null) {
-                $computer = Computer::findOrFail($data->getComputerId());
+                $computer = $this->computerRepository->find($data->getComputerId());
+                if ($computer === null) {
+                    throw new ComputerNotFound();
+                }
+
                 $dive->computer()->associate($computer);
 
                 $this->computerRepository->updateLastRead($computer, $data->getDate(), $data->getFingerprint());
@@ -100,7 +106,7 @@ class DiveRepository
 
         for ($iXMax = count($tanks); $iX < $iXMax; $iX++) {
             $tankData = $tanks[$iX];
-            $tank = $this->tankRepository->create($tankData);
+            $tank = $this->tankRepository->make($tankData);
             $this->appendTank($dive, $tank);
         }
         $dive->unsetRelation('tanks');

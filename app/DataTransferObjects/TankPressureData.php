@@ -17,6 +17,11 @@ class TankPressureData
         return $pressures;
     }
 
+    public function __construct()
+    {
+        $this->type = 'bar';
+    }
+
     public function getBegin(): ?int
     {
         return $this->begin;
@@ -30,5 +35,20 @@ class TankPressureData
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function setBegin(?int $begin): void
+    {
+        $this->begin = $begin;
+    }
+
+    public function setEnd(?int $end): void
+    {
+        $this->end = $end;
+    }
+
+    public function setType(string $type): void
+    {
+        $this->type = $type;
     }
 }

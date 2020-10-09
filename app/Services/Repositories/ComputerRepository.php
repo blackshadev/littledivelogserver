@@ -29,6 +29,11 @@ class ComputerRepository
         ]);
     }
 
+    public function find(int $id): ?Computer
+    {
+        return Computer::find($id);
+    }
+
     public function updateLastRead(Computer $computer, Carbon $date, string $fingerprint)
     {
         /** @var Carbon $computerDate */

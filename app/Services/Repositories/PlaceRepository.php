@@ -9,7 +9,7 @@ use App\Models\Place;
 
 class PlaceRepository
 {
-    public function findOrCreate(PlaceData $data, ?User $user = null): Place
+    public function findOrMake(PlaceData $data, ?User $user = null): Place
     {
         if ($data->getId()) {
             return Place::findOrFail($data->getId());

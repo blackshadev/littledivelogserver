@@ -5,28 +5,35 @@ namespace App\Services\Repositories;
 
 
 use App\DataTransferObjects\BuddyData;
+use App\Error\BuddyNotFound;
 use App\Helpers\Color;
 use App\Models\Buddy;
 use App\Models\User;
+use App\Rules\HexColor;
 use Illuminate\Database\Eloquent\Builder;
 
 class BuddyRepository
 {
-    public function findOrMake(BuddyData $data, ?User $user = null): Buddy
-    {
-        /** @var Buddy|Builder $scope */
-        $scope = $user !== null ? $user->buddies() : Buddy::query();
 
+    public function findOrCreate(BuddyData $data, User $user): Buddy
+    {
         if ($data->getId()) {
-            return $scope->findOrFail($data->getId());
+            $buddy = $this->find($data->getId(), $user);
+            if ($buddy === null) {
+                throw new BuddyNotFound();
+            }
+
+            return $buddy;
         }
 
         if ($data->getName()) {
-            return $scope->firstOrCreate([
-                'text' => $data->getName(),
-                'color' => $data->getColor() ?? Color::randomHex(),
-                'user_id' => $user->id
-            ]);
+            $buddy = $this->findByName($data->getName(), $user);
+
+            if ($buddy !== null) {
+                return $buddy;
+            }
+
+            return $this->create($data, $user);
         }
 
         throw new \RuntimeException("Buddies data encountered without id or name");
@@ -39,6 +46,34 @@ class BuddyRepository
             'color' => $data->getColor()
         ]);
         $this->save($buddy);
+    }
+
+    public function create(BuddyData $buddyData, User $user): Buddy
+    {
+        $buddy = new Buddy();
+        $buddy->fill([
+            'name' => $buddyData->getName(),
+            'color' => $buddyData->getColor(),
+        ]);
+        $buddy->user()->associate($user);
+        $this->save($buddy);
+        return $buddy;
+    }
+
+     public function find(int $id, User $user): ?Buddy
+    {
+        /** @var Buddy|null $buddy */
+        $buddy = $user->buddies()->find($id);
+        return $buddy;
+    }
+
+    public function findByName(string $name, User $user): ?Buddy
+    {
+        /** @var Buddy|null $buddy */
+        $buddy = $user->buddies()->find([
+            'name' => $name
+        ]);
+        return $buddy;
     }
 
     public function save(Buddy $buddy)

@@ -2,11 +2,8 @@
 
 namespace Tests\Unit\Services\Repositories;
 
-use App\DataTransferObjects\BuddyData;
 use App\DataTransferObjects\TagData;
-use App\Error\BuddyNotFound;
 use App\Error\TagNotFound;
-use App\Models\Buddy;
 use App\Models\Tag;
 use App\Models\User;
 use App\Services\Repositories\TagRepository;
@@ -39,11 +36,11 @@ class TagRepositoryTest extends TestCase
 
         $this->repository->update($tag, $tagData);
 
-        self::assertEquals($tagData->getText(), $tag->text);
-        self::assertEquals($tagData->getColor(), $tag->color);
+        self::assertSame($tagData->getText(), $tag->text);
+        self::assertSame($tagData->getColor(), $tag->color);
     }
 
-    public function testFindOrCreateThrowsErrorWhenTagNotFound()
+    public function testFindOrCreateThrowsExceptionWhenTagNotFound()
     {
         $id = $this->faker->numberBetween();
         $tagData = new TagData();
@@ -75,7 +72,7 @@ class TagRepositoryTest extends TestCase
 
         $result = $this->repository->findOrCreate($tagData, $user);
 
-        self::assertEquals($tag, $result);
+        self::assertSame($tag, $result);
     }
 
     public function testFindOrCreateReturnsExistingTagByText()
@@ -94,7 +91,7 @@ class TagRepositoryTest extends TestCase
 
         $result = $this->repository->findOrCreate($tagData, $user);
 
-        self::assertEquals($tag, $result);
+        self::assertSame($tag, $result);
     }
 
     public function testFindOrCreateReturnsNewTagWhenNotFound()
@@ -116,7 +113,7 @@ class TagRepositoryTest extends TestCase
 
         $result = $this->repository->findOrCreate($tagData, $user);
 
-        self::assertEquals($tags, $result);
+        self::assertSame($tags, $result);
     }
 
     public function testItCreatesANewTag()
@@ -135,7 +132,7 @@ class TagRepositoryTest extends TestCase
 ;
         $this->repository->expects('save')
             ->withArgs(function ($arg) use ($tagData, $user) {
-                /** @var Buddy $arg */
+                /** @var Tag $arg */
                 self::assertInstanceOf(Tag::class, $arg);
                 self::assertEquals($tagData->getText(), $arg->text);
                 self::assertEquals($tagData->getColor(), $arg->color);

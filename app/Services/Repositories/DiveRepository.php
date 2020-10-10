@@ -45,7 +45,7 @@ class DiveRepository
             $dive->divetime = $data->getDivetime();
 
             if (!$data->getPlace()->isEmpty()) {
-                $place = $this->placeRepository->findOrCreate($data->getPlace());
+                $place = $this->placeRepository->findOrCreate($data->getPlace(), $dive->user);
                 $dive->place()->associate($place);
             } else {
                 $dive->place()->dissociate();

@@ -19,7 +19,14 @@ class CreatePlacesTable extends Migration
             $table->string('country_code', 2);
             $table->string('name');
 
-            $table->foreign('country_code')->on('countries')->references('iso2');
+            $table->foreignId('created_by')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+
+            $table->foreign('country_code')
+                ->on('countries')
+                ->references('iso2');
         });
     }
 

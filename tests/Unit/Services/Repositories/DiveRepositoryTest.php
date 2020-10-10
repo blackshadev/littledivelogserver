@@ -112,12 +112,18 @@ class DiveRepositoryTest extends TestCase
     {
         $place = new Place();
 
+        $user = new User();
         $dive = new Dive();
+        $dive->user = $user;
+
         $data = new DiveData();
         $data->getPlace()->setName($this->faker->word);
         $data->getPlace()->setCountryCode($this->faker->countryCode);
 
-        $this->placeRepository->expects('findOrCreate')->with($data->getPlace())->andReturn($place);
+        $this->placeRepository->expects('findOrCreate')->with(
+            $data->getPlace(),
+            $user
+        )->andReturn($place);
 
         $this->diveRepository->update($dive, $data);
 

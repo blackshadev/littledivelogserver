@@ -36,11 +36,11 @@ class BuddyRepositoryTest extends TestCase
 
         $this->repository->update($buddy, $buddyData);
 
-        self::assertEquals($buddyData->getName(), $buddy->name);
-        self::assertEquals($buddyData->getColor(), $buddy->color);
+        self::assertSame($buddyData->getName(), $buddy->name);
+        self::assertSame($buddyData->getColor(), $buddy->color);
     }
 
-    public function testFindOrCreateThrowsErrorWhenBuddyNotFound()
+    public function testFindOrCreateThrowsExceptionWhenBuddyNotFound()
     {
         $id = $this->faker->numberBetween();
         $buddyData = new BuddyData();

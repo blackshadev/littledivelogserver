@@ -28,7 +28,6 @@ jobs:
       before_script:
         - cp .env.travis .env
         - php artisan key:generate
-        - php artisan key:generateg
         - php artisan migrate:fresh --seed
       script:
         - php artisan test

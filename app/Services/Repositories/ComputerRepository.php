@@ -14,24 +14,28 @@ class ComputerRepository
 {
     public function create(ComputerData $computerData, User $user)
     {
-        $hasComputer = $user->computers()->where('serial', $computerData->getSerial())->exists();
+        $serial = $computerData->getSerial();
+        $hasComputer = $serial !== null ? $this->findBySerial($computerData->getSerial(), $user) : null;
         if ($hasComputer) {
-            throw new ComputerAlreadyExists($computerData->getSerial());
+            throw new ComputerAlreadyExists($serial);
         }
 
-        Computer::create([
-            'serial' => $computerData->getSerial(),
-            'name' => $computerData->getName(),
-            'model' => $computerData->getModel(),
-            'vendor' => $computerData->getVendor(),
-            'type' => $computerData->getType(),
-            'user_id' => $user->id
-        ]);
+        $computer = $this->make($computerData, $user);
+        $this->save($computer);
+
+        return $computer;
     }
 
     public function find(int $id): ?Computer
     {
         return Computer::find($id);
+    }
+
+    public function findBySerial(int $serial, User $user): ?Computer
+    {
+        /** @var Computer|null $computer */
+        $computer = $user->computers()->find(['serial' => $serial]);
+        return $computer;
     }
 
     public function updateLastRead(Computer $computer, Carbon $date, string $fingerprint)
@@ -44,5 +48,24 @@ class ComputerRepository
 
         $computer->last_read = $date;
         $computer->last_fingerprint = $fingerprint;
+
+        $this->save($computer);
+    }
+
+    public function make(ComputerData $computerData, User $user): Computer
+    {
+        return Computer::make([
+            'serial' => $computerData->getSerial(),
+            'name' => $computerData->getName(),
+            'model' => $computerData->getModel(),
+            'vendor' => $computerData->getVendor(),
+            'type' => $computerData->getType(),
+            'user_id' => $user->id
+        ]);
+    }
+
+    public function save(Computer $computer)
+    {
+        $computer->save();
     }
 }

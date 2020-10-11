@@ -13,7 +13,7 @@ class ComputerCreateRequest extends FormRequest
             'vendor' => 'required|string',
             'model' => 'required|integer',
             'type' => 'required|integer',
-            'name' => 'required|string'
+            'name' => 'required|string',
         ];
     }
 }

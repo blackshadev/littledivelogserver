@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\Repositories;
-
 
 use App\DataTransferObjects\PlaceData;
 use App\Models\Place;
@@ -22,6 +20,6 @@ class PlaceRepository
             ]);
         }
 
-        throw new \RuntimeException("Place data encountered without id or name");
+        throw new \RuntimeException('Place data encountered without id or name');
     }
 }

@@ -23,6 +23,4 @@ class PlaceController extends Controller
     {
         return PlaceListViewModel::fromCollection($country->places);
     }
-
-
 }

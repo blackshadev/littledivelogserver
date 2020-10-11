@@ -25,13 +25,13 @@ class DiveCreateTest extends TestCase
         $this->fakeAccessTokenFor($user);
 
         $dive = Dive::factory()->state([
-            'user_id' => null
+            'user_id' => null,
         ])->makeOne();
 
         $data = [
             'date' => $dive->date,
             'divetime' => $dive->divetime,
-            'max_depth' => $dive->max_depth
+            'max_depth' => $dive->max_depth,
         ];
 
         $this->post(action([DiveController::class, 'store']), $data)
@@ -39,32 +39,29 @@ class DiveCreateTest extends TestCase
             ->assertJsonStructure(['dive_id'])
             ->assertJsonFragment($data);
 
-        $this->assertDatabaseHas('dives', array_merge($data, ['user_id' => $user->id] ));
+        $this->assertDatabaseHas('dives', array_merge($data, ['user_id' => $user->id]));
     }
 
     public function testItRequiresToBeLoggedIn()
     {
         $user = User::factory()->createOne();
         $dive = Dive::factory()->state([
-            'user_id' => null
+            'user_id' => null,
         ])->makeOne();
 
         $data = [
             'date' => $dive->date,
             'divetime' => $dive->divetime,
-            'max_depth' => $dive->max_depth
+            'max_depth' => $dive->max_depth,
         ];
 
         $this->post(action([DiveController::class, 'store']), $data)
             ->assertStatus(403);
 
-
-        $this->assertDatabaseMissing('dives', array_merge($data, ['user_id' => $user->id] ));
+        $this->assertDatabaseMissing('dives', array_merge($data, ['user_id' => $user->id]));
     }
 
     public function testFullData()
     {
-
     }
-
 }

@@ -35,12 +35,14 @@ class DiveController extends Controller
     public function samples(Dive $dive)
     {
         $this->authorize('view', $dive);
+
         return $dive->samples ?? [];
     }
 
     public function update(Dive $dive, DiveUpdateRequest $request)
     {
         $this->repository->update($dive, DiveData::fromArray($request->all()));
+
         return new DiveDetailViewModel($dive);
     }
 
@@ -49,6 +51,7 @@ class DiveController extends Controller
         $dive = new Dive();
         $dive->user()->associate($user);
         $this->repository->update($dive, DiveData::fromArray($request->all()));
+
         return new DiveDetailViewModel($dive);
     }
 }

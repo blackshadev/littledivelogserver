@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
 
         User::factory()
             ->state([
-                'email' => 'test@test.nl'
+                'email' => 'test@test.nl',
             ])
             ->create();
     }

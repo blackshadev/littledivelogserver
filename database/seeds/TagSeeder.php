@@ -14,7 +14,7 @@ class TagSeeder extends Seeder
             Tag::factory()
                 ->count(random_int(0, 20))
                 ->state([
-                    'user_id' => $user->id
+                    'user_id' => $user->id,
                 ])
                 ->create();
         });

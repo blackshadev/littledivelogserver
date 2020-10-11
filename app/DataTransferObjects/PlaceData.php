@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\DataTransferObjects;
-
 
 class PlaceData
 {
@@ -12,10 +10,11 @@ class PlaceData
 
     public static function fromArray(array $data): self
     {
-        $place = new PlaceData();
+        $place = new self();
         $place->id = $data['place_id'] ?? null;
         $place->name = $data['name'] ?? null;
         $place->countryCode = $data['country_code'] ?? null;
+
         return $place;
     }
 

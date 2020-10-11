@@ -17,7 +17,6 @@ class DiveListingTest extends TestCase
     use WithFaker;
     use WithFakeTAuthentication;
 
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -45,7 +44,5 @@ class DiveListingTest extends TestCase
 
         $response = $this->get('/api/dives/', ['Authorization' => 'Bearer aa.test.aa']);
         $response->assertStatus(200);
-
     }
-
 }

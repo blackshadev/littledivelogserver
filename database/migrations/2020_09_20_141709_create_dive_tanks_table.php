@@ -23,7 +23,6 @@ class CreateDiveTanksTable extends Migration
             $table->smallInteger('pressure_begin')->unsigned()->nullable();
             $table->smallInteger('pressure_end')->unsigned()->nullable();
             $table->enum('pressure_type', ['bar', 'psi'])->nullable();
-
         });
     }
 

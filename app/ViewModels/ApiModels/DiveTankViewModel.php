@@ -34,8 +34,7 @@ class DiveTankViewModel extends ViewModel
         return [
             'begin' => $this->tank->pressure_begin,
             'end' => $this->tank->pressure_end,
-            'type' => $this->tank->pressure_type
+            'type' => $this->tank->pressure_type,
         ];
     }
-
 }

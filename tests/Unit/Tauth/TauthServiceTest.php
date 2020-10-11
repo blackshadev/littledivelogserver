@@ -188,7 +188,6 @@ class TauthServiceTest extends TestCase
 
     public function testBreakWhenUserNotFound()
     {
-
         $accessToken = '';
         $userKey = '';
         $token = new Token();

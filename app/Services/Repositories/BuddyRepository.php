@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\Repositories;
-
 
 use App\DataTransferObjects\BuddyData;
 use App\Helpers\Color;
@@ -25,18 +23,18 @@ class BuddyRepository
             return $scope->firstOrCreate([
                 'text' => $data->getName(),
                 'color' => $data->getColor() ?? Color::randomHex(),
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
         }
 
-        throw new \RuntimeException("Buddies data encountered without id or name");
+        throw new \RuntimeException('Buddies data encountered without id or name');
     }
 
     public function update(Buddy $buddy, BuddyData $data)
     {
         $buddy->fill([
             'name' => $data->getName(),
-            'color' => $data->getColor()
+            'color' => $data->getColor(),
         ]);
         $this->save($buddy);
     }

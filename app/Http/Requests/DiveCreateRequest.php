@@ -8,7 +8,7 @@ class DiveCreateRequest extends DiveUpdateRequest
     {
         return parent::rules() + [
             'computer_id' => 'integer|exists:computers',
-            'fingerprint' => 'required_with:computer_id|string'
+            'fingerprint' => 'required_with:computer_id|string',
         ];
     }
 }

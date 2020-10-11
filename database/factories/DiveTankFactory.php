@@ -15,7 +15,7 @@ class DiveTankFactory extends Factory
             'oxygen' => $this->faker->randomElement([21, 32, 36, 40]),
             'pressure_begin' => $this->faker->numberBetween(150, 200),
             'pressure_end' => $this->faker->numberBetween(20, 150),
-            'pressure_type' => 'bar'
+            'pressure_type' => 'bar',
         ];
     }
 }

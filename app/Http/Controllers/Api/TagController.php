@@ -12,7 +12,6 @@ use App\ViewModels\ApiModels\TagViewModel;
 
 class TagController extends Controller
 {
-
     private TagRepository $repository;
 
     public function __construct(TagRepository $repository)

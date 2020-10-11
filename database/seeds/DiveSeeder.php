@@ -14,12 +14,12 @@ class DiveSeeder extends Seeder
 {
     public function run()
     {
-
         User::all()->each(function (User $user) {
             Dive::factory()
                 ->count(random_int(0, 100))
                 ->state(function () {
                     $place = Place::inRandomOrder()->firstOrFail();
+
                     return [
                         'place_id' => $place->id,
                         'country_code' => $place->country_code,
@@ -51,12 +51,11 @@ class DiveSeeder extends Seeder
 
                     /** @var DiveTank $tank */
                     $tank = DiveTank::factory()->createOne([
-                        'dive_id' => $dive->id
+                        'dive_id' => $dive->id,
                     ]);
 
                     $dive->tanks()->save($tank);
                 });
-
         });
     }
 }

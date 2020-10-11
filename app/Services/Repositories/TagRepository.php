@@ -23,18 +23,18 @@ class TagRepository
             return $scope->firstOrCreate([
                 'text' => $data->getText(),
                 'color' => $data->getColor() ?? Color::randomHex(),
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
         }
 
-        throw new \RuntimeException("Tag data encountered without id or name");
+        throw new \RuntimeException('Tag data encountered without id or name');
     }
 
     public function update(Tag $tag, TagData $data)
     {
         $tag->fill([
             'text' => $data->getText(),
-            'color' => $data->getColor()
+            'color' => $data->getColor(),
         ]);
         $tag->save();
     }

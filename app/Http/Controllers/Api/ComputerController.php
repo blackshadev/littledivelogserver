@@ -33,6 +33,5 @@ class ComputerController extends Controller
     public function store(ComputerCreateRequest $request, User $user)
     {
         $this->repository->create(ComputerData::fromArray($request->all()), $user);
-
     }
 }

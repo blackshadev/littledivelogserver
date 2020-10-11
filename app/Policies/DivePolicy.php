@@ -34,5 +34,4 @@ class DivePolicy
     {
         return true;
     }
-
 }

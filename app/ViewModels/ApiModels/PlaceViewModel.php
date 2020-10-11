@@ -29,5 +29,4 @@ class PlaceViewModel extends ViewModel
     {
         return $this->place->name;
     }
-
 }

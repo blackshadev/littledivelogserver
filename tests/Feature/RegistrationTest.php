@@ -13,34 +13,33 @@ class RegistrationTest extends TestCase
     use DatabaseTransactions;
     use WithFaker;
 
-
     public function testFailsWithNoData()
     {
-        $this->json('post', self::REGISTRATION_URL )
+        $this->json('post', self::REGISTRATION_URL)
             ->assertStatus(422)
             ->assertJson([
                 'message' => 'The given data was invalid.',
                 'errors' => [
                     'email' => ['The email field is required.'],
                     'password' => ['The password field is required.'],
-                    'name' => ['The name field is required.']
-                ]
+                    'name' => ['The name field is required.'],
+                ],
             ]);
     }
 
     public function testFailsWithInvalidEmail()
     {
-        $this->json('post', self::REGISTRATION_URL , [
+        $this->json('post', self::REGISTRATION_URL, [
             'email' => $this->faker->word,
             'name' => $this->faker->name,
-            'password' => $this->faker->password
+            'password' => $this->faker->password,
         ])
             ->assertStatus(422)
             ->assertJson([
                 'message' => 'The given data was invalid.',
                 'errors' => [
                     'email' => ['The email must be a valid email address.'],
-                ]
+                ],
             ]);
     }
 
@@ -48,17 +47,17 @@ class RegistrationTest extends TestCase
     {
         /** @var User $user */
         $user = User::factory()->create();
-        $this->json('post', self::REGISTRATION_URL , [
+        $this->json('post', self::REGISTRATION_URL, [
             'email' => $user->email,
             'name' => $this->faker->name,
-            'password' => $this->faker->password
+            'password' => $this->faker->password,
         ])
             ->assertStatus(422)
             ->assertJson([
                 'message' => 'The given data was invalid.',
                 'errors' => [
                     'email' => ['The email has already been taken.'],
-                ]
+                ],
             ]);
     }
 
@@ -66,11 +65,11 @@ class RegistrationTest extends TestCase
     {
         $data = [
             'email' => $this->faker->email,
-            'name' => $this->faker->name
+            'name' => $this->faker->name,
         ];
 
-        $this->json('post', self::REGISTRATION_URL ,
-            array_merge($data, [ 'password' => $this->faker->password])
+        $this->json('post', self::REGISTRATION_URL,
+            array_merge($data, ['password' => $this->faker->password])
         )
             ->assertStatus(201);
 

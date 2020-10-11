@@ -42,5 +42,4 @@ class TankRepository
     {
         $tank->delete();
     }
-
 }

@@ -10,10 +10,11 @@ class BuddyData
 
     public static function fromArray(array $data): self
     {
-        $buddy = new BuddyData();
+        $buddy = new self();
         $buddy->id = $data['buddy_id'] ?? null;
         $buddy->name = $data['name'] ?? null;
         $buddy->color = $data['color'] ?? null;
+
         return $buddy;
     }
 
@@ -31,5 +32,4 @@ class BuddyData
     {
         return $this->color;
     }
-
 }

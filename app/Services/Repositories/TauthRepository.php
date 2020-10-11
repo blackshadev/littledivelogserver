@@ -24,17 +24,17 @@ class TauthRepository implements TauthRepositoryInterface
 
     public function createRefreshToken(TauthAuthenticatable $user): RefreshTokenInterface
     {
-        if (!$user instanceof User) {
-            throw new \InvalidArgumentException("Expected user for refresh token");
+        if (! $user instanceof User) {
+            throw new \InvalidArgumentException('Expected user for refresh token');
         }
 
-        return RefreshToken::create([ "user" => $user ]);
+        return RefreshToken::create(['user' => $user]);
     }
 
     public function findValidRefreshToken(string $uuid): ?RefreshTokenInterface
     {
         $token = RefreshToken::valid()->where('id', $uuid)->first();
-        if ($token != null && !$token instanceof RefreshTokenInterface) {
+        if ($token != null && ! $token instanceof RefreshTokenInterface) {
             throw new \RuntimeException('Unexpected instance');
         }
 
@@ -51,8 +51,8 @@ class TauthRepository implements TauthRepositoryInterface
         Auth::once($credentials);
         $user = Auth::user();
 
-        if ($user && !$user instanceof TauthAuthenticatable) {
-            throw new \UnexpectedValueException('Found user of unexpected interface, ' . get_class($user));
+        if ($user && ! $user instanceof TauthAuthenticatable) {
+            throw new \UnexpectedValueException('Found user of unexpected interface, '.get_class($user));
         }
 
         return $user;
@@ -72,6 +72,7 @@ class TauthRepository implements TauthRepositoryInterface
         if ($refreshTokenId === null) {
             return false;
         }
+
         return Uuid::isValid($refreshTokenId);
     }
 

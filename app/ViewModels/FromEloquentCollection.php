@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\ViewModels;
 
 use Illuminate\Support\Collection;
@@ -11,5 +10,4 @@ trait FromEloquentCollection
     {
         return $all->map(fn ($entity) => new self($entity));
     }
-
 }

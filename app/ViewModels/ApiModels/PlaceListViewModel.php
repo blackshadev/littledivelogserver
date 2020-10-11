@@ -6,7 +6,7 @@ use App\Models\Place;
 use App\ViewModels\FromEloquentCollection;
 use App\ViewModels\ViewModel;
 
-class PlaceListViewModel extends  ViewModel
+class PlaceListViewModel extends ViewModel
 {
     use FromEloquentCollection;
 

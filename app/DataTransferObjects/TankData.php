@@ -10,10 +10,11 @@ class TankData
 
     public static function fromArray(array $data): self
     {
-        $tankData = new TankData();
+        $tankData = new self();
         $tankData->volume = $data['volume'] ?? null;
         $tankData->oxygen = $data['oxygen'] ?? null;
         $tankData->pressures = TankPressureData::fromArray($data['pressure']);
+
         return $tankData;
     }
 

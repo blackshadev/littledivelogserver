@@ -12,7 +12,7 @@ class DiveDetailViewModel extends ViewModel
     protected array $visible = [
         'dive_id', 'date', 'divetime',
         'max_depth', 'place', 'buddies',
-        'tags', 'tanks'
+        'tags', 'tanks',
     ];
     private Dive $dive;
 

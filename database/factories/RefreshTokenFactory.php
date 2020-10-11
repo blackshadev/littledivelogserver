@@ -22,7 +22,7 @@ class RefreshTokenFactory extends Factory
         return [
             'id' => $this->faker->uuid,
             'user_id' => User::factory(),
-            'expired_at' => null
+            'expired_at' => null,
         ];
     }
 }

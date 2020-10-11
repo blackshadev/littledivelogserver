@@ -15,7 +15,7 @@ class DiveFactory extends Factory
             'date' => $this->faker->dateTimeThisDecade,
             'divetime' => $this->faker->numberBetween(0, 3900),
             'place_id' => null,
-            'country_code' => null
+            'country_code' => null,
         ];
     }
 }

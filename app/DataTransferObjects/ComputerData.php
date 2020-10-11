@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\DataTransferObjects;
-
 
 class ComputerData
 {
@@ -14,14 +12,14 @@ class ComputerData
 
     public static function fromArray(array $data): self
     {
-         $computer = new self();
-         $computer->serial = $data['serial'];
-         $computer->vendor = $data['vendor'];
-         $computer->model = $data['model'];
-         $computer->type = $data['type'];
-         $computer->name = $data['name'];
+        $computer = new self();
+        $computer->serial = $data['serial'];
+        $computer->vendor = $data['vendor'];
+        $computer->model = $data['model'];
+        $computer->type = $data['type'];
+        $computer->name = $data['name'];
 
-         return $computer;
+        return $computer;
     }
 
     public function getVendor(): string

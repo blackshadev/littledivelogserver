@@ -3,6 +3,7 @@
 namespace App\Services\Repositories;
 
 use App\DataTransferObjects\TagData;
+use App\Error\TagNotFound;
 use App\Helpers\Color;
 use App\Models\Tag;
 use App\Models\User;
@@ -10,21 +11,27 @@ use PhpParser\Builder;
 
 class TagRepository
 {
-    public function findOrMake(TagData $data, ?User $user = null)
+    public function findOrCreate(TagData $data, User $user)
     {
-        /** @var Tag|Builder $scope */
-        $scope = $user !== null ? $user->tags() : Tag::query();
 
         if ($data->getId()) {
-            return $scope->findOrFail($data->getId());
+            $tag = $this->find($data->getId(), $user);
+
+            if ($tag === null) {
+                throw new TagNotFound();
+            }
+
+            return $tag;
         }
 
         if ($data->getText()) {
-            return $scope->firstOrCreate([
-                'text' => $data->getText(),
-                'color' => $data->getColor() ?? Color::randomHex(),
-                'user_id' => $user->id
-            ]);
+            $tag = $this->findByText($data->getText(), $user);
+
+            if ($tag !== null) {
+                return $tag;
+            }
+
+            return $this->create($data, $user);
         }
 
         throw new \RuntimeException("Tag data encountered without id or name");
@@ -36,6 +43,40 @@ class TagRepository
             'text' => $data->getText(),
             'color' => $data->getColor()
         ]);
+        $this->save($tag);
+    }
+
+    public function create(TagData $tagData, User $user)
+    {
+        $tag = new Tag();
+        $tag->fill([
+            'text' => $tagData->getText(),
+            'color' => $tagData->getColor(),
+        ]);
+        $tag->user()->associate($user);
+        $this->save($tag);
+        return $tag;
+    }
+
+    public function find(int $id, User $user): ?Tag
+    {
+        /** @var Tag|null $tag */
+        $tag = $user->tags()->find($id);
+        return $tag;
+    }
+
+    public function findByText(string $text, User $user): ?Tag
+    {
+        /** @var Tag|null $tag */
+        $tag = $user->tags()->find([
+            'text' => $text
+        ]);
+
+        return $tag;
+    }
+
+    public function save(Tag $tag)
+    {
         $tag->save();
     }
 }

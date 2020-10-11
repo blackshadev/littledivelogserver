@@ -13,6 +13,8 @@ class Tag extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['text', 'color'];
+
     public function dives()
     {
         return $this->belongsToMany(Dive::class);

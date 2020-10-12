@@ -23,7 +23,7 @@ class LoginTest extends TestCase
                 'errors' => [
                     'email' => ['The email field is required.'],
                     'password' => ['The password field is required.'],
-                ]
+                ],
             ]);
     }
 
@@ -31,11 +31,11 @@ class LoginTest extends TestCase
     {
         $this->json('post', self::LOGIN_URL, [
             'email' => $this->faker->email,
-            'password' => $this->faker->password
+            'password' => $this->faker->password,
         ])
             ->assertStatus(401)
             ->assertJson([
-                'message' => 'Invalid credentials.'
+                'message' => 'Invalid credentials.',
             ]);
     }
 
@@ -44,25 +44,25 @@ class LoginTest extends TestCase
         $password = $this->faker->password;
         /** @var User $user */
         $user = User::factory()->create([
-            'password' => $password
+            'password' => $password,
         ]);
         $response = $this->json('post', self::LOGIN_URL, [
             'email' => $user->email,
-            'password' => $password
+            'password' => $password,
         ]);
 
         $response
             ->assertStatus(200)
             ->assertJsonStructure([
                 'access_token',
-                'refresh_token'
+                'refresh_token',
             ]);
 
         $refreshToken = $response->json('refresh_token');
         $this->assertDatabaseHas('refresh_tokens', [
             'id' => $refreshToken,
             'user_id' => $user->id,
-            'expired_at' => null
+            'expired_at' => null,
         ]);
     }
 }

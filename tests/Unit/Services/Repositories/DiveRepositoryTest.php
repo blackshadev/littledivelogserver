@@ -21,9 +21,9 @@ use App\Services\Repositories\TagRepository;
 use App\Services\Repositories\TankRepository;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Mockery;
 use Mockery\MockInterface;
+use Tests\TestCase;
 
 class DiveRepositoryTest extends TestCase
 {
@@ -69,7 +69,7 @@ class DiveRepositoryTest extends TestCase
             $this->buddyRepository,
             $this->tagRepository,
             $this->tankRepository,
-            $this->computerRepository
+            $this->computerRepository,
         ])->makePartial();
 
         $this->diveRepository->shouldReceive('save')->byDefault();
@@ -179,7 +179,7 @@ class DiveRepositoryTest extends TestCase
         $data = new DiveData();
         $data->setTanks([$tankData]);
 
-        $this->diveRepository->expects("appendTank")->with($dive, $tank);
+        $this->diveRepository->expects('appendTank')->with($dive, $tank);
         $this->tankRepository->expects('make')->with($tankData)->andReturn($tank);
         $this->diveRepository->update($dive, $data);
     }
@@ -194,7 +194,7 @@ class DiveRepositoryTest extends TestCase
         $data = new DiveData();
         $data->setTanks([]);
 
-        $this->diveRepository->expects("removeTank")->with($dive, $tank);
+        $this->diveRepository->expects('removeTank')->with($dive, $tank);
 
         $this->diveRepository->update($dive, $data);
     }
@@ -218,7 +218,7 @@ class DiveRepositoryTest extends TestCase
         $data = new DiveData();
         $data->setTanks([$tankData]);
 
-        $this->tankRepository->expects("update")->with($tank, $tankData);
+        $this->tankRepository->expects('update')->with($tank, $tankData);
 
         $this->diveRepository->update($dive, $data);
     }

@@ -10,10 +10,11 @@ class TagData
 
     public static function fromArray(array $data): self
     {
-        $tagData = new TagData();
+        $tagData = new self();
         $tagData->id = $data['tag_id'] ?? null;
         $tagData->text = $data['text'] ?? null;
         $tagData->color = $data['color'] ?? null;
+
         return $tagData;
     }
 

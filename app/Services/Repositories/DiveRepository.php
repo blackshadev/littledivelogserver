@@ -38,13 +38,12 @@ class DiveRepository
 
     public function update(Dive $dive, DiveData $data)
     {
-        DB::transaction(function() use ($dive, $data) {
-
+        DB::transaction(function () use ($dive, $data) {
             $dive->date = $data->getDate();
             $dive->max_depth = $data->getMaxDepth();
             $dive->divetime = $data->getDivetime();
 
-            if (!$data->getPlace()->isEmpty()) {
+            if (! $data->getPlace()->isEmpty()) {
                 $place = $this->placeRepository->findOrCreate($data->getPlace(), $dive->user);
                 $dive->place()->associate($place);
             } else {
@@ -54,7 +53,7 @@ class DiveRepository
             if ($data->getTags() !== null) {
                 /** @var TagData $tag */
                 $tags = array_map(
-                    fn($tag) => $this->tagRepository->findOrCreate($tag, $dive->user),
+                    fn ($tag) => $this->tagRepository->findOrCreate($tag, $dive->user),
                     $data->getTags()
                 );
 
@@ -64,14 +63,14 @@ class DiveRepository
             if ($data->getBuddies() !== null) {
                 /** @var BuddyData $buddy */
                 $buddies = array_map(
-                    fn($buddy) => $this->buddyRepository->findOrCreate($buddy, $dive->user),
+                    fn ($buddy) => $this->buddyRepository->findOrCreate($buddy, $dive->user),
                     $data->getBuddies()
                 );
 
                 $this->attachBuddies($dive, $buddies);
             }
 
-            if($data->getTanks() !== null) {
+            if ($data->getTanks() !== null) {
                 $this->updateDiveTanks($dive, $data->getTanks());
             }
 
@@ -138,5 +137,4 @@ class DiveRepository
     {
         $this->tankRepository->delete($tank);
     }
-
 }

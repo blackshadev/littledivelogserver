@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\Repositories;
-
 
 use App\DataTransferObjects\ComputerData;
 use App\Error\ComputerAlreadyExists;
@@ -35,6 +33,7 @@ class ComputerRepository
     {
         /** @var Computer|null $computer */
         $computer = $user->computers()->find(['serial' => $serial]);
+
         return $computer;
     }
 
@@ -60,7 +59,7 @@ class ComputerRepository
             'model' => $computerData->getModel(),
             'vendor' => $computerData->getVendor(),
             'type' => $computerData->getType(),
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
     }
 

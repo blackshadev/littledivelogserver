@@ -11,14 +11,15 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
 {
     protected array $visible = [];
 
-    private static function getMethodName(string $property) {
-        return 'get' . implode('', array_map('ucfirst', explode('_', $property)));
+    private static function getMethodName(string $property)
+    {
+        return 'get'.implode('', array_map('ucfirst', explode('_', $property)));
     }
 
     public function __get(string $name)
     {
-        if (!isset($name)) {
-            throw new \BadMethodCallException('No getter method in view for ' . $name);
+        if (! isset($name)) {
+            throw new \BadMethodCallException('No getter method in view for '.$name);
         }
 
         $methodName = self::getMethodName($name);
@@ -26,7 +27,7 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
             return $this->$methodName();
         }
 
-        throw new \RuntimeException('Unexpected code path for ' . $name);
+        throw new \RuntimeException('Unexpected code path for '.$name);
     }
 
     public function __set(string $name, $value)
@@ -36,7 +37,7 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
 
     public function __isset(string $name): bool
     {
-        if (!contains($this->visible, $name) ) {
+        if (! contains($this->visible, $name)) {
             return false;
         }
 
@@ -54,6 +55,7 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
         foreach ($this->visible as $key) {
             $attribute[$key] = $this->$key;
         }
+
         return $attribute;
     }
 
@@ -77,5 +79,4 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
     {
         return $this->toJson();
     }
-
 }

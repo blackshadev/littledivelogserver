@@ -38,7 +38,7 @@ class DiveData
         return $diveData;
     }
 
-    function getDate(): ?Carbon
+    public function getDate(): ?Carbon
     {
         return $this->date;
     }

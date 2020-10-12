@@ -8,7 +8,6 @@ use Illuminate\Validation\Rule;
 
 class DiveUpdateRequest extends FormRequest
 {
-
     public function rules()
     {
         return [
@@ -31,7 +30,7 @@ class DiveUpdateRequest extends FormRequest
             'tanks.*.pressure.end' => 'integer|between:0,350',
             'tanks.*.pressure.type' => Rule::in(['bar', 'psi']),
             'tanks.*.volume' => 'integer',
-            'tanks.*.oxygen' => 'integer|between:21,100'
+            'tanks.*.oxygen' => 'integer|between:21,100',
         ];
     }
 }

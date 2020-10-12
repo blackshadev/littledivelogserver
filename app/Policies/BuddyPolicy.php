@@ -25,5 +25,4 @@ class BuddyPolicy
     {
         return $user->is($buddy->user);
     }
-
 }

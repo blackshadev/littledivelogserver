@@ -31,7 +31,7 @@ class PlaceRepository
             return $this->create($data, $user);
         }
 
-        throw new \RuntimeException("Place data encountered without id or name");
+        throw new \RuntimeException('Place data encountered without id or name');
     }
 
     public function find(int $id): ?Place
@@ -43,7 +43,7 @@ class PlaceRepository
     {
         return Place::find([
             'country_code' => $countryCode,
-            'name' => $name
+            'name' => $name,
         ]);
     }
 

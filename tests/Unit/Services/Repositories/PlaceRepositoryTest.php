@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Services\Repositories\PlaceRepository;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery\MockInterface;
-use \Tests\TestCase;
+use Tests\TestCase;
 
 class PlaceRepositoryTest extends TestCase
 {
@@ -125,11 +125,12 @@ class PlaceRepositoryTest extends TestCase
 
         $this->repository->expects('save')
             ->withArgs(function ($arg) use ($placeData, $user) {
-                /** @var Place $arg */
+                /* @var Place $arg */
                 self::assertInstanceOf(Place::class, $arg);
                 self::assertEquals($placeData->getCountryCode(), $arg->country_code);
                 self::assertEquals($placeData->getName(), $arg->name);
                 self::assertEquals($user->id, $arg->created_by);
+
                 return true;
             });
 

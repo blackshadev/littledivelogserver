@@ -12,10 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends TauthController
 {
-
     public function __construct(
         TauthServiceInterface $authenticationService,
-        TauthRepositoryInterface  $tauthRepository
+        TauthRepositoryInterface $tauthRepository
     ) {
         parent::__construct($authenticationService, $tauthRepository);
         $this->middleware('auth.tuath.access')->only(['listSessions']);
@@ -29,17 +28,17 @@ class AuthController extends TauthController
     public function register(RegistrationRequest $request)
     {
         User::create($request->all());
+
         return response()->noContent(Response::HTTP_CREATED);
     }
 
     public function listSessions()
     {
         $user = $this->authenticationService->getUser();
-        if(!$user instanceof User) {
-            throw new \UnexpectedValueException('Expected user model got ' . get_class($user));
+        if (! $user instanceof User) {
+            throw new \UnexpectedValueException('Expected user model got '.get_class($user));
         }
 
         return $user->sessions()->get();
     }
-
 }

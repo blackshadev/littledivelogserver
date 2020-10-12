@@ -11,7 +11,7 @@ class TagUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'color' => ['required', new HexColor()]
+            'color' => ['required', new HexColor()],
         ];
     }
 }

@@ -12,7 +12,7 @@ final class TagFactory extends Factory
         return [
             'color' => $this->faker->hexColor,
             'text' => $this->faker->word,
-            'user_id' => User::factory()
+            'user_id' => User::factory(),
         ];
     }
 }

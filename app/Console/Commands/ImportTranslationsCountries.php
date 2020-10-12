@@ -24,18 +24,18 @@ class ImportTranslationsCountries extends Command
 
         $iX = 0;
         $countries = [];
-        if (($handle = fopen($file, 'rb')) !== FALSE) {
-            while (($data = fgetcsv($handle)) !== FALSE) {
+        if (($handle = fopen($file, 'rb')) !== false) {
+            while (($data = fgetcsv($handle)) !== false) {
                 if ($hasHeader && $iX++ === 0) {
                     continue;
                 }
 
                 [$name, $iso2] = $data;
 
-                $countries[] = [ "name" => $name, "iso2" => $iso2 ];
+                $countries[] = ['name' => $name, 'iso2' => $iso2];
 
                 $country = Country::firstOrCreate([
-                    'iso2' => $iso2
+                    'iso2' => $iso2,
                 ]);
                 $country->save();
             }
@@ -44,7 +44,7 @@ class ImportTranslationsCountries extends Command
 
         file_put_contents(
             resource_path("lang/{$locale}/countries.php"),
-            view('translatable.countries', compact("countries"))
+            view('translatable.countries', compact('countries'))
         );
 
         return 0;

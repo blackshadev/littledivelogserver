@@ -68,7 +68,7 @@ class TauthJWTServiceTest extends TestCase
         /** @var RefreshToken $refresh */
         $refresh = RefreshToken::factory()->makeOne();
 
-        $this->configuration->setLifetime("PT5M", true);
+        $this->configuration->setLifetime('PT5M', true);
         $token = $this->jwtService->createTokenFor($refresh);
 
         self::assertFalse($this->jwtService->isValid($token));

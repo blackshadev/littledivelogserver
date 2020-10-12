@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\ViewModels\ApiModels;
-
 
 use App\Models\Buddy;
 use App\ViewModels\FromEloquentCollection;
@@ -12,7 +10,7 @@ class DiveBuddiesViewModel extends ViewModel
 {
     use FromEloquentCollection;
 
-    protected array $visible = ["buddy_id", "color", "text"];
+    protected array $visible = ['buddy_id', 'color', 'text'];
 
     private Buddy $buddy;
 
@@ -35,5 +33,4 @@ class DiveBuddiesViewModel extends ViewModel
     {
         return $this->buddy->text;
     }
-
 }

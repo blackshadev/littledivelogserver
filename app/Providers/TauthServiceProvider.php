@@ -37,6 +37,7 @@ class TauthServiceProvider extends ServiceProvider
         $this->app->bind(User::class, function (Container $app) {
             /** @var TauthServiceInterface $service */
             $service = $app->get(TauthServiceInterface::class);
+
             return $service->getUser();
         });
     }

@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\ViewModels\ApiModels;
 
 use App\Models\Buddy;
 use App\ViewModels\FromEloquentCollection;
-use \App\ViewModels\ViewModel;
+use App\ViewModels\ViewModel;
 
 class BuddyListViewModel extends ViewModel
 {

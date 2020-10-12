@@ -10,10 +10,11 @@ class TankPressureData
 
     public static function fromArray(array $data): self
     {
-        $pressures = new TankPressureData();
+        $pressures = new self();
         $pressures->begin = $data['begin'] ?? null;
         $pressures->end = $data['end'] ?? null;
         $pressures->type = $data['type'] ?? 'bar';
+
         return $pressures;
     }
 

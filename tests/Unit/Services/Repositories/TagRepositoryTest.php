@@ -14,7 +14,7 @@ class TagRepositoryTest extends TestCase
 {
     use WithFaker;
 
-    /** @var \Mockery\Mock|TagRepository  */
+    /** @var \Mockery\Mock|TagRepository */
     private $repository;
 
     protected function setUp(): void
@@ -122,21 +122,21 @@ class TagRepositoryTest extends TestCase
         $text = $this->faker->word;
         $color = $this->faker->hexColor;
 
-
         $tagData = new TagData();
         $tagData->setText($text);
         $tagData->setColor($color);
 
         $user = new User();
         $user->id = $uid;
-;
+
         $this->repository->expects('save')
             ->withArgs(function ($arg) use ($tagData, $user) {
-                /** @var Tag $arg */
+                /* @var Tag $arg */
                 self::assertInstanceOf(Tag::class, $arg);
                 self::assertEquals($tagData->getText(), $arg->text);
                 self::assertEquals($tagData->getColor(), $arg->color);
                 self::assertEquals($user->id, $arg->user_id);
+
                 return true;
             });
 
@@ -147,6 +147,4 @@ class TagRepositoryTest extends TestCase
         self::assertEquals($tagData->getColor(), $result->color);
         self::assertEquals($user->id, $result->user_id);
     }
-
-
 }

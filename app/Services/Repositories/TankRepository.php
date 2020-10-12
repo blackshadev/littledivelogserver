@@ -41,5 +41,4 @@ class TankRepository
             'pressure_type' => $tankData->getPressures()->getType(),
         ]);
     }
-
 }

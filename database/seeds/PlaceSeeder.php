@@ -12,7 +12,7 @@ class PlaceSeeder extends Seeder
     {
         $countries = Country::query()->whereIn('iso2', ['NL', 'GR', 'EG'])->get('iso2');
         Place::factory()
-            ->state(fn () => [ 'country_code' => $countries->random() ])
+            ->state(fn () => ['country_code' => $countries->random()])
             ->count(50)
             ->create();
     }

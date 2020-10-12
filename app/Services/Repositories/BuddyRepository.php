@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\Repositories;
-
 
 use App\DataTransferObjects\BuddyData;
 use App\Error\BuddyNotFound;
@@ -14,7 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class BuddyRepository
 {
-
     public function findOrCreate(BuddyData $data, User $user): Buddy
     {
         if ($data->getId()) {
@@ -36,14 +33,14 @@ class BuddyRepository
             return $this->create($data, $user);
         }
 
-        throw new \RuntimeException("Buddies data encountered without id or name");
+        throw new \RuntimeException('Buddies data encountered without id or name');
     }
 
     public function update(Buddy $buddy, BuddyData $data)
     {
         $buddy->fill([
             'name' => $data->getName(),
-            'color' => $data->getColor()
+            'color' => $data->getColor(),
         ]);
         $this->save($buddy);
     }
@@ -57,13 +54,15 @@ class BuddyRepository
         ]);
         $buddy->user()->associate($user);
         $this->save($buddy);
+
         return $buddy;
     }
 
-     public function find(int $id, User $user): ?Buddy
+    public function find(int $id, User $user): ?Buddy
     {
         /** @var Buddy|null $buddy */
         $buddy = $user->buddies()->find($id);
+
         return $buddy;
     }
 
@@ -71,8 +70,9 @@ class BuddyRepository
     {
         /** @var Buddy|null $buddy */
         $buddy = $user->buddies()->find([
-            'name' => $name
+            'name' => $name,
         ]);
+
         return $buddy;
     }
 

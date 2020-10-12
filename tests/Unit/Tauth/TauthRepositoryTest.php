@@ -31,7 +31,7 @@ class TauthRepositoryTest extends TestCase
     {
         $data = [
             'email' => $this->faker->email,
-            'password' => $this->faker->password
+            'password' => $this->faker->password,
         ];
         $user = new User();
 
@@ -47,7 +47,7 @@ class TauthRepositoryTest extends TestCase
     {
         $data = [
             'email' => $this->faker->email,
-            'password' => $this->faker->password
+            'password' => $this->faker->password,
         ];
 
         Auth::shouldReceive('once')->with($data)->andReturnFalse();
@@ -62,7 +62,7 @@ class TauthRepositoryTest extends TestCase
     {
         $data = [
             'email' => $this->faker->email,
-            'password' => $this->faker->password
+            'password' => $this->faker->password,
         ];
 
         Auth::shouldReceive('once')->with($data)->andReturnFalse();

@@ -19,7 +19,6 @@ class CreateTagsTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('text');
             $table->string('color');
-
         });
     }
 

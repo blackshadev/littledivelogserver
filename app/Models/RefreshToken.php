@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Models;
 
 use Carbon\Carbon;
@@ -23,12 +22,12 @@ class RefreshToken extends Model implements RefreshTokenInterface
     use HasFactory;
 
     public $incrementing = false;
-    protected $fillable = [ "user" ];
+    protected $fillable = ['user'];
 
     public static function boot()
     {
         parent::boot();
-        self::creating(function($model){
+        self::creating(function ($model) {
             $model->id = Uuid::uuid4();
         });
     }
@@ -80,7 +79,6 @@ class RefreshToken extends Model implements RefreshTokenInterface
 
     public function __toString(): string
     {
-        return (string)$this->id;
+        return (string) $this->id;
     }
-
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Tests;
-
 
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
@@ -12,10 +10,11 @@ use Mockery\Mock;
 
 trait WithFakeTAuthentication
 {
-    /** @var TauthServiceInterface|Mock  */
+    /** @var TauthServiceInterface|Mock */
     private TauthServiceInterface $tauthService;
 
-    private function fakedTauth() {
+    private function fakedTauth()
+    {
         $this->tauthService = \Mockery::mock(TauthServiceInterface::class);
         $this->app->instance(TauthServiceInterface::class, $this->tauthService);
 
@@ -29,5 +28,4 @@ trait WithFakeTAuthentication
         $this->tauthService->shouldReceive('getUser')->andReturn($user);
         Auth::setUser($user);
     }
-
 }

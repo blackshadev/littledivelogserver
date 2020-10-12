@@ -43,7 +43,7 @@ class PlaceRepository
     {
         return Place::find([
             'country_code' => $countryCode,
-            'name' => $name
+            'name' => $name,
         ]);
     }
 

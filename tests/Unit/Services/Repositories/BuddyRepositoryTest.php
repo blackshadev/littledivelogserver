@@ -14,7 +14,7 @@ class BuddyRepositoryTest extends TestCase
 {
     use WithFaker;
 
-    /** @var \Mockery\Mock|BuddyRepository  */
+    /** @var \Mockery\Mock|BuddyRepository */
     private $repository;
 
     protected function setUp(): void
@@ -122,21 +122,21 @@ class BuddyRepositoryTest extends TestCase
         $name = $this->faker->name;
         $color = $this->faker->hexColor;
 
-
         $buddyData = new BuddyData();
         $buddyData->setName($name);
         $buddyData->setColor($color);
 
         $user = new User();
         $user->id = $uid;
-;
+
         $this->repository->expects('save')
             ->withArgs(function ($arg) use ($buddyData, $user) {
-                /** @var Buddy $arg */
+                /* @var Buddy $arg */
                 self::assertInstanceOf(Buddy::class, $arg);
                 self::assertEquals($buddyData->getName(), $arg->name);
                 self::assertEquals($buddyData->getColor(), $arg->color);
                 self::assertEquals($user->id, $arg->user_id);
+
                 return true;
             });
 
@@ -147,6 +147,4 @@ class BuddyRepositoryTest extends TestCase
         self::assertEquals($buddyData->getColor(), $result->color);
         self::assertEquals($user->id, $result->user_id);
     }
-
-
 }

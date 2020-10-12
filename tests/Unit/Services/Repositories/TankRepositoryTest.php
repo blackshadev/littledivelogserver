@@ -7,7 +7,7 @@ use App\Models\DiveTank;
 use App\Services\Repositories\TankRepository;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery\MockInterface;
-use \Tests\TestCase;
+use Tests\TestCase;
 
 class TankRepositoryTest extends TestCase
 {
@@ -51,7 +51,6 @@ class TankRepositoryTest extends TestCase
         self::assertEquals($type, $result->pressure_type);
     }
 
-
     public function testItUpdatesANewTank()
     {
         $volume = $this->faker->numberBetween(7, 12);
@@ -79,6 +78,4 @@ class TankRepositoryTest extends TestCase
         self::assertEquals($end, $tank->pressure_end);
         self::assertEquals($type, $tank->pressure_type);
     }
-
-
 }

@@ -10,7 +10,7 @@ use App\Services\Repositories\ComputerRepository;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery\MockInterface;
-use \Tests\TestCase;
+use Tests\TestCase;
 
 class ComputerRepositoryTest extends TestCase
 {
@@ -78,13 +78,14 @@ class ComputerRepositoryTest extends TestCase
 
         $computer = new Computer();
         $computer->last_read = $date->clone()->subDays($this->faker->numberBetween(1, 300));
-        $computer->last_fingerprint = "xx";
+        $computer->last_fingerprint = 'xx';
 
         $this->repository->expects('save')
             ->withArgs(function ($savedComp) use ($date, $fingerprint, &$computer) {
                 self::assertSame($computer, $savedComp);
                 self::assertEquals($date, $savedComp->last_read);
                 self::assertEquals($fingerprint, $savedComp->last_fingerprint);
+
                 return true;
             });
 
@@ -95,14 +96,12 @@ class ComputerRepositoryTest extends TestCase
 
     public function testItDoesNotUpdateLastReadWithOlderDate()
     {
-
         $date = new Carbon($this->faker->dateTimeThisYear);
         $fingerprint = $this->faker->word;
 
         $computer = new Computer();
         $computer->last_read = $date->clone()->addDays($this->faker->numberBetween(1, 300));
-        $computer->last_fingerprint = "xx";
-
+        $computer->last_fingerprint = 'xx';
 
         $this->repository->expects('save')->never();
 

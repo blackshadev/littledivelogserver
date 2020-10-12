@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class BuddyRepository
 {
-
     public function findOrCreate(BuddyData $data, User $user): Buddy
     {
         if ($data->getId()) {
@@ -55,13 +54,15 @@ class BuddyRepository
         ]);
         $buddy->user()->associate($user);
         $this->save($buddy);
+
         return $buddy;
     }
 
-     public function find(int $id, User $user): ?Buddy
+    public function find(int $id, User $user): ?Buddy
     {
         /** @var Buddy|null $buddy */
         $buddy = $user->buddies()->find($id);
+
         return $buddy;
     }
 
@@ -69,8 +70,9 @@ class BuddyRepository
     {
         /** @var Buddy|null $buddy */
         $buddy = $user->buddies()->find([
-            'name' => $name
+            'name' => $name,
         ]);
+
         return $buddy;
     }
 

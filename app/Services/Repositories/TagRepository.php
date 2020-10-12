@@ -13,7 +13,6 @@ class TagRepository
 {
     public function findOrCreate(TagData $data, User $user)
     {
-
         if ($data->getId()) {
             $tag = $this->find($data->getId(), $user);
 
@@ -55,6 +54,7 @@ class TagRepository
         ]);
         $tag->user()->associate($user);
         $this->save($tag);
+
         return $tag;
     }
 
@@ -62,6 +62,7 @@ class TagRepository
     {
         /** @var Tag|null $tag */
         $tag = $user->tags()->find($id);
+
         return $tag;
     }
 
@@ -69,7 +70,7 @@ class TagRepository
     {
         /** @var Tag|null $tag */
         $tag = $user->tags()->find([
-            'text' => $text
+            'text' => $text,
         ]);
 
         return $tag;

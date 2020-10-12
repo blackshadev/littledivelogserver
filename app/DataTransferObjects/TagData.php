@@ -4,9 +4,9 @@ namespace App\DataTransferObjects;
 
 class TagData
 {
-    private ?int $id;
-    private ?string $text;
-    private ?string $color;
+    private ?int $id = null;
+    private ?string $text = null;
+    private ?string $color = null;
 
     public static function fromArray(array $data): self
     {
@@ -31,5 +31,20 @@ class TagData
     public function getColor(): ?string
     {
         return $this->color;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function setText(?string $text): void
+    {
+        $this->text = $text;
+    }
+
+    public function setColor(?string $color): void
+    {
+        $this->color = $color;
     }
 }

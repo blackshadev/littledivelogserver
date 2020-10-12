@@ -4,9 +4,9 @@ namespace App\DataTransferObjects;
 
 class BuddyData
 {
-    private ?int $id;
-    private ?string $name;
-    private ?string $color;
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?string $color = null;
 
     public static function fromArray(array $data): self
     {
@@ -31,5 +31,20 @@ class BuddyData
     public function getColor(): ?string
     {
         return $this->color;
+    }
+
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function setColor(?string $color): void
+    {
+        $this->color = $color;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
     }
 }

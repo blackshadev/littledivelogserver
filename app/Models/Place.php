@@ -25,4 +25,10 @@ class Place extends Model
     {
         return $this->belongsTo(Country::class);
     }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
 }

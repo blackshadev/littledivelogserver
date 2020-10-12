@@ -46,4 +46,29 @@ class ComputerData
     {
         return $this->serial;
     }
+
+    public function setSerial(int $serial): void
+    {
+        $this->serial = $serial;
+    }
+
+    public function setVendor(string $vendor): void
+    {
+        $this->vendor = $vendor;
+    }
+
+    public function setModel(int $model): void
+    {
+        $this->model = $model;
+    }
+
+    public function setType(int $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 }

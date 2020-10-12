@@ -99,11 +99,11 @@ class DiveRepositoryTest extends TestCase
         $dive = new Dive();
         $data = new DiveData();
 
-        $this->placeRepository->shouldNotReceive('findOrMake');
-        $this->tagRepository->shouldNotReceive('findOrMake');
-        $this->buddyRepository->shouldNotReceive('findOrMake');
-        $this->tankRepository->shouldNotReceive('findOrMake');
-        $this->computerRepository->shouldNotReceive('findOrMake');
+        $this->placeRepository->shouldNotReceive('findOrCreate');
+        $this->tagRepository->shouldNotReceive('findOrCreate');
+        $this->buddyRepository->shouldNotReceive('findOrCreate');
+        $this->tankRepository->shouldNotReceive('findOrCreate');
+        $this->computerRepository->shouldNotReceive('findOrCreate');
 
         $this->diveRepository->update($dive, $data);
     }
@@ -112,12 +112,18 @@ class DiveRepositoryTest extends TestCase
     {
         $place = new Place();
 
+        $user = new User();
         $dive = new Dive();
+        $dive->user = $user;
+
         $data = new DiveData();
         $data->getPlace()->setName($this->faker->word);
         $data->getPlace()->setCountryCode($this->faker->countryCode);
 
-        $this->placeRepository->expects('findOrMake')->with($data->getPlace())->andReturn($place);
+        $this->placeRepository->expects('findOrCreate')->with(
+            $data->getPlace(),
+            $user
+        )->andReturn($place);
 
         $this->diveRepository->update($dive, $data);
 
@@ -135,7 +141,7 @@ class DiveRepositoryTest extends TestCase
         $data = new DiveData();
         $data->setTags([$tagData]);
 
-        $this->tagRepository->expects('findOrMake')
+        $this->tagRepository->expects('findOrCreate')
             ->with($tagData, $user)
             ->andReturn($tag);
 
@@ -155,7 +161,7 @@ class DiveRepositoryTest extends TestCase
         $data = new DiveData();
         $data->setBuddies([$buddyData]);
 
-        $this->buddyRepository->expects('findOrMake')
+        $this->buddyRepository->expects('findOrCreate')
             ->with($buddyData, $user)
             ->andReturn($buddy);
 

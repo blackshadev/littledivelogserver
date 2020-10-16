@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\DataTransferObjects\TagData;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TagCreateRequest;
 use App\Http\Requests\TagUpdateRequest;
 use App\Models\Tag;
 use App\Models\User;
@@ -33,5 +34,14 @@ class TagController extends Controller
     public function update(Tag $tag, TagUpdateRequest $request)
     {
         $this->repository->update($tag, TagData::fromArray($request->all()));
+        return new TagViewModel($tag);
+    }
+
+    public function store(User $user, TagCreateRequest $request)
+    {
+        $tag = new Tag();
+        $tag->user()->associate($user);
+        $this->repository->update($tag, TagData::fromArray($request->all()));
+        return new TagViewModel($tag);
     }
 }

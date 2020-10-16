@@ -7,6 +7,7 @@ use App\Error\TagNotFound;
 use App\Helpers\Color;
 use App\Models\Tag;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use PhpParser\Builder;
 
 class TagRepository

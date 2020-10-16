@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Integration\Api;
 
 use App\Models\Buddy;
 use App\Models\Dive;

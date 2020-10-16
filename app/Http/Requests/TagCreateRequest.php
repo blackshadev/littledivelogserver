@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\HexColor;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TagUpdateRequest extends FormRequest
+class TagCreateRequest extends FormRequest
 {
     public function rules()
     {

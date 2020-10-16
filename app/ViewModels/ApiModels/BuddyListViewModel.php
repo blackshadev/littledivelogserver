@@ -26,7 +26,7 @@ class BuddyListViewModel extends ViewModel
 
     public function getText()
     {
-        return $this->buddy->text;
+        return $this->buddy->name;
     }
 
     public function getColor()

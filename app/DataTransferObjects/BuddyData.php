@@ -12,7 +12,7 @@ class BuddyData
     {
         $buddy = new self();
         $buddy->id = $data['buddy_id'] ?? null;
-        $buddy->name = $data['name'] ?? null;
+        $buddy->name = $data['name'] ??  $data['text'] ?? null;
         $buddy->color = $data['color'] ?? null;
 
         return $buddy;

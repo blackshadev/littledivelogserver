@@ -5,12 +5,13 @@ namespace App\Http\Requests;
 use App\Rules\HexColor;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TagUpdateRequest extends FormRequest
+class BuddyCreateRequest extends FormRequest
 {
     public function rules()
     {
         return [
-            'text' => 'required|string',
+            'text' => 'required_without:name|string',
+            'name' => 'required_without:text|string',
             'color' => ['required', new HexColor()],
         ];
     }

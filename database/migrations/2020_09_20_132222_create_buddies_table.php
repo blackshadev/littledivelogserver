@@ -17,7 +17,7 @@ class CreateBuddiesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained();
-            $table->string('text');
+            $table->string('name');
             $table->string('color');
             $table->foreignId('buddy_user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->text('email')->nullable();

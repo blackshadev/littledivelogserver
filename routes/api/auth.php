@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\Api\AuthController;
 
 Route::get('/sessions', [AuthController::class, 'listSessions']);
 Route::post('/sessions', [AuthController::class, 'login']);

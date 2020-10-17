@@ -10,7 +10,7 @@ class BuddyUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'text' => 'required|string',
             'color' => ['required', new HexColor()],
         ];
     }

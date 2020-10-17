@@ -4,11 +4,8 @@ namespace App\Services\Repositories;
 
 use App\DataTransferObjects\BuddyData;
 use App\Error\BuddyNotFound;
-use App\Helpers\Color;
 use App\Models\Buddy;
 use App\Models\User;
-use App\Rules\HexColor;
-use Illuminate\Database\Eloquent\Builder;
 
 class BuddyRepository
 {

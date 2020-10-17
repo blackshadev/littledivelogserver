@@ -24,4 +24,9 @@ class TagPolicy
     {
         return $user->is($tag->user);
     }
+
+    public function create(User $user)
+    {
+        return true;
+    }
 }

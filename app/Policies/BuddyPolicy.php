@@ -25,4 +25,9 @@ class BuddyPolicy
     {
         return $user->is($buddy->user);
     }
+
+    public function create(User $user)
+    {
+        return true;
+    }
 }

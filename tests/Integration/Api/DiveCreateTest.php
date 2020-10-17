@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Integration\Api;
 
 use App\Http\Controllers\Api\DiveController;
 use App\Models\Dive;

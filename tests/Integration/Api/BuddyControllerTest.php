@@ -24,7 +24,7 @@ class BuddyControllerTest extends TestCase
 
     public function testItCreatesABuddy()
     {
-         /** @var User $user */
+        /** @var User $user */
         $user = User::factory()->createOne();
         $this->fakeAccessTokenFor($user);
 
@@ -34,7 +34,7 @@ class BuddyControllerTest extends TestCase
 
         $data = [
             'text' => $buddy->name,
-            'color' => $buddy->color
+            'color' => $buddy->color,
         ];
         $this->post(action([BuddyController::class, 'store']), $data)
            ->assertStatus(200)
@@ -44,13 +44,13 @@ class BuddyControllerTest extends TestCase
         $this->assertDatabaseHas('buddies', [
             'user_id' => $user->id,
             'name' => $buddy->name,
-            'color' => $buddy->color
+            'color' => $buddy->color,
         ]);
     }
 
     public function testItUpdatesABuddy()
     {
-         /** @var User $user */
+        /** @var User $user */
         $user = User::factory()
             ->has(Buddy::factory()->count(2))
             ->createOne();
@@ -65,7 +65,7 @@ class BuddyControllerTest extends TestCase
 
         $data = [
             'text' => $newBuddy->name,
-            'color' => $newBuddy->color
+            'color' => $newBuddy->color,
         ];
 
         $this->put(action([BuddyController::class, 'update'], [$buddy->id]), $data)
@@ -76,13 +76,13 @@ class BuddyControllerTest extends TestCase
         $this->assertDatabaseHas('buddies', [
             'user_id' => $user->id,
             'name' => $data['text'],
-            'color' => $data['color']
+            'color' => $data['color'],
         ]);
 
         $this->assertDatabaseMissing('buddies', [
             'user_id' => $user->id,
             'name' => $buddy->name,
-            'color' => $buddy->color
+            'color' => $buddy->color,
         ]);
     }
 
@@ -120,7 +120,7 @@ class BuddyControllerTest extends TestCase
 
         $this->fakeAccessTokenFor($user);
 
-        /** @var User $user */
+        /* @var User $user */
         $this->get(action([BuddyController::class, 'show'], $buddy->id))
            ->assertStatus(200)
            ->assertJsonStructure(['buddy_id', 'text', 'color']);

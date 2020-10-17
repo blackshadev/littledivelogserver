@@ -24,7 +24,7 @@ class TagsControllerTest extends TestCase
 
     public function testItCreatesATag()
     {
-         /** @var User $user */
+        /** @var User $user */
         $user = User::factory()->createOne();
         $this->fakeAccessTokenFor($user);
 
@@ -34,7 +34,7 @@ class TagsControllerTest extends TestCase
 
         $data = [
             'text' => $tag->text,
-            'color' => $tag->color
+            'color' => $tag->color,
         ];
 
         $this->post(action([TagController::class, 'store']), $data)
@@ -45,13 +45,13 @@ class TagsControllerTest extends TestCase
         $this->assertDatabaseHas('tags', [
             'user_id' => $user->id,
             'text' => $tag->text,
-            'color' => $tag->color
+            'color' => $tag->color,
         ]);
     }
 
     public function testItUpdatesATag()
     {
-         /** @var User $user */
+        /** @var User $user */
         $user = User::factory()
             ->has(Tag::factory()->count(2))
             ->createOne();
@@ -65,7 +65,7 @@ class TagsControllerTest extends TestCase
 
         $data = [
             'text' => $newTag->text,
-            'color' => $newTag->color
+            'color' => $newTag->color,
         ];
 
         $this->put(action([TagController::class, 'update'], [$tag->id]), $data)
@@ -76,12 +76,12 @@ class TagsControllerTest extends TestCase
         $this->assertDatabaseHas('tags', [
             'user_id' => $user->id,
             'text' => $data['text'],
-            'color' => $data['color']
+            'color' => $data['color'],
         ]);
         $this->assertDatabaseMissing('tags', [
             'user_id' => $user->id,
             'text' => $tag->text,
-            'color' => $tag->color
+            'color' => $tag->color,
         ]);
     }
 
@@ -119,7 +119,7 @@ class TagsControllerTest extends TestCase
 
         $this->fakeAccessTokenFor($user);
 
-        /** @var User $user */
+        /* @var User $user */
         $this->get(action([TagController::class, 'show'], $tag->id))
            ->assertStatus(200)
            ->assertJsonStructure(['tag_id', 'text', 'color']);

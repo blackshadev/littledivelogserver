@@ -35,6 +35,7 @@ class BuddyController extends Controller
     public function update(Buddy $buddy, BuddyUpdateRequest $request)
     {
         $this->repository->update($buddy, BuddyData::fromArray($request->all()));
+
         return new BuddyDetailViewModel($buddy);
     }
 
@@ -43,6 +44,7 @@ class BuddyController extends Controller
         $buddy = new Buddy();
         $buddy->user()->associate($user);
         $this->repository->update($buddy, BuddyData::fromArray($request->all()));
+
         return new BuddyDetailViewModel($buddy);
     }
 }

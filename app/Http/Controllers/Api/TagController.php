@@ -34,6 +34,7 @@ class TagController extends Controller
     public function update(Tag $tag, TagUpdateRequest $request)
     {
         $this->repository->update($tag, TagData::fromArray($request->all()));
+
         return new TagViewModel($tag);
     }
 
@@ -42,6 +43,7 @@ class TagController extends Controller
         $tag = new Tag();
         $tag->user()->associate($user);
         $this->repository->update($tag, TagData::fromArray($request->all()));
+
         return new TagViewModel($tag);
     }
 }

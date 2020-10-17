@@ -44,5 +44,4 @@ class ComputerControllerTest extends TestCase
         self::assertArrayHasKey('last_read', $data[0]);
         self::assertArrayHasKey('last_fingerprint', $data[0]);
     }
-
 }

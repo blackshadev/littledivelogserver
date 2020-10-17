@@ -24,7 +24,9 @@ class DiveController extends Controller
 
     public function index(User $user)
     {
-        return DiveListViewModel::fromCollection($user->dives);
+        return DiveListViewModel::fromCollection(
+            $user->dives()->orderBy('id', 'desc')->get()
+        );
     }
 
     public function show(Dive $dive)

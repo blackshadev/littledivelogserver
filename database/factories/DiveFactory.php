@@ -2,7 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Dive;
+use App\Models\Place;
+use App\Models\Tag;
 use App\Models\User;
+use Faker\Generator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DiveFactory extends Factory
@@ -17,5 +21,45 @@ class DiveFactory extends Factory
             'place_id' => null,
             'country_code' => null,
         ];
+    }
+
+    public function filled()
+    {
+        $newFactory = $this->state(function () {
+            $place = Place::inRandomOrder()->firstOrFail();
+
+            return [
+                'place_id' => $place->id,
+                'country_code' => $place->country_code,
+            ];
+        });
+
+        $newFactory->afterMaking(function (Dive $dive, Generator $faker) {
+            /** @var User $user */
+            $user = $dive->user;
+
+            $dive->buddies()->attach(
+                $user->buddies()
+                    ->inRandomOrder()
+                    ->take(random_int(0, 5))
+                    ->get('id')
+            );
+
+            $dive->buddies()->attach(
+                $user->buddies()
+                    ->inRandomOrder()
+                    ->take(random_int(0, 5))
+                    ->get('id')
+            );
+
+            $dive->tags()->attach(
+                $user->tags()
+                    ->inRandomOrder()
+                    ->take(random_int(0, 5))
+                    ->get('id')
+            );
+        });
+
+        return $newFactory;
     }
 }

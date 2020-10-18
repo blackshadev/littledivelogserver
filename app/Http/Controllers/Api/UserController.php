@@ -22,6 +22,7 @@ class UserController extends Controller
     public function profile(User $user)
     {
         $this->authorize('profile', $user);
+
         return new UserProfileViewModel($user);
     }
 }

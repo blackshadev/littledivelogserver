@@ -10,7 +10,7 @@ class UserProfileViewModel extends ViewModel
     protected array $visible = [
         'user_id', 'name', 'email',
         'inserted', 'dive_count', 'computer_count',
-        'buddy_count', 'tag_count'
+        'buddy_count', 'tag_count',
     ];
 
     protected User $user;

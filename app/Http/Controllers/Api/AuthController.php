@@ -36,7 +36,7 @@ class AuthController extends TauthController
     {
         $user = $this->authenticationService->getUser();
         if (! $user instanceof User) {
-            throw new \UnexpectedValueException('Expected user model got '.get_class($user));
+            throw new \UnexpectedValueException('Expected user model got ' . get_class($user));
         }
 
         return $user->sessions()->get();

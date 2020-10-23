@@ -9,3 +9,4 @@ Route::prefix('tags')->middleware('auth.tuath.access')->group(base_path('routes/
 Route::prefix('buddies')->middleware('auth.tuath.access')->group(base_path('routes/api/buddies.php'));
 Route::prefix('computers')->middleware('auth.tuath.access')->group(base_path('routes/api/computers.php'));
 Route::prefix('user')->middleware('auth.tuath.access')->group(base_path('routes/api/users.php'));
+Route::prefix('uploader')->group(base_path('routes/api/uploader.php'));

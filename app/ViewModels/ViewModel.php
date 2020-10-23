@@ -13,13 +13,13 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
 
     private static function getMethodName(string $property)
     {
-        return 'get'.implode('', array_map('ucfirst', explode('_', $property)));
+        return 'get' . implode('', array_map('ucfirst', explode('_', $property)));
     }
 
     public function __get(string $name)
     {
         if (! isset($name)) {
-            throw new \BadMethodCallException('No getter method in view for '.$name);
+            throw new \BadMethodCallException('No getter method in view for ' . $name);
         }
 
         $methodName = self::getMethodName($name);
@@ -27,7 +27,7 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
             return $this->$methodName();
         }
 
-        throw new \RuntimeException('Unexpected code path for '.$name);
+        throw new \RuntimeException('Unexpected code path for ' . $name);
     }
 
     public function __set(string $name, $value)

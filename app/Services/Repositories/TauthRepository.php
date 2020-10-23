@@ -52,7 +52,7 @@ class TauthRepository implements TauthRepositoryInterface
         $user = Auth::user();
 
         if ($user && ! $user instanceof TauthAuthenticatable) {
-            throw new \UnexpectedValueException('Found user of unexpected interface, '.get_class($user));
+            throw new \UnexpectedValueException('Found user of unexpected interface, ' . get_class($user));
         }
 
         return $user;

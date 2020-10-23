@@ -41,7 +41,7 @@ class RefreshToken extends Model implements RefreshTokenInterface
 
     public function getJWTSubject()
     {
-        return $this->user->id;
+        return (string) $this->user->id;
     }
 
     public function user(): BelongsTo
@@ -56,7 +56,7 @@ class RefreshToken extends Model implements RefreshTokenInterface
 
     public function getToken(): string
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     public function expire(): void

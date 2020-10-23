@@ -213,9 +213,8 @@ class DiveRepositoryTest extends TestCase
         $tankData->setVolume($this->faker->randomElement([7, 9, 10, 12]));
         $tankData->getPressures()->setType($this->faker->randomElement(['bar', 'psi']));
         $tankData->getPressures()->setBegin($this->faker->numberBetween(110, 210));
-        $tankData->getPressures()->setType(
-            $this->faker->numberBetween(40, $tankData->getPressures()->getBegin())
-        );
+        $tankData->getPressures()->setEnd($this->faker->numberBetween(40, $tankData->getPressures()->getBegin()));
+        $tankData->getPressures()->setType('bar');
 
         $tank = new DiveTank();
 

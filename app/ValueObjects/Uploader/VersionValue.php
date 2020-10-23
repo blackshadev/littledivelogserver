@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\ValueObjects;
+namespace App\ValueObjects\Uploader;
 
+use App\Helpers\Equality\Equality;
 
-class VersionValue
+class VersionValue implements Equality
 {
     private int $major;
     private int $minor;
@@ -19,7 +20,7 @@ class VersionValue
 
     public static function fromString(string $value): self
     {
-        preg_match('/v?(\d+)\.(\d+)\.(\d+)/', $value, $matches, PREG_OFFSET_CAPTURE);
+        preg_match('/v?(\d+)\.(\d+)\.(\d+)/', $value, $matches);
 
         return new self((int)$matches[1], (int)$matches[2], (int)$matches[3]);
     }
@@ -42,5 +43,26 @@ class VersionValue
     public function __toString()
     {
         return 'v' . $this->major . '.' . $this->minor . '.' . $this->patch;
+    }
+
+    public function compare(self $value): int
+    {
+        if ($this->major !== $value->major) {
+            return $this->major - $value->major;
+        }
+        if ($this->minor !== $value->minor) {
+            return $this->minor - $value->minor;
+        }
+
+        return $this->patch - $value->patch;
+    }
+
+    public function isEqualTo($other): bool
+    {
+        return $other instanceof VersionValue &&
+            $this->major === $other->major &&
+            $this->minor === $other->minor &&
+            $this->patch === $other->patch;
+
     }
 }

@@ -21,4 +21,13 @@ class PackageData
         return $package;
     }
 
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
+    public function getPlatform(): ?string
+    {
+        return $this->platform;
+    }
 }

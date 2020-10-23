@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Helpers;
 
 class Color
 {
     public static function randomHex(): string
     {
-        return '#'.self::randomHexPart().self::randomHexPart().self::randomHexPart();
+        return '#' . self::randomHexPart() . self::randomHexPart() . self::randomHexPart();
     }
 
     private static function randomHexPart(): string

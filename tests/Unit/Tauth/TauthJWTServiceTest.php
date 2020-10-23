@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Tauth;
 
 use App\Models\RefreshToken;
@@ -16,6 +18,7 @@ class TauthJWTServiceTest extends TestCase
     use WithFaker;
 
     private JWTServiceInterface $jwtService;
+
     /** @var Mock|JWTConfiguration */
     private $configuration;
 

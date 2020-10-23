@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Services\Repositories;
 
 use App\DataTransferObjects\PlaceData;
@@ -125,7 +127,7 @@ class PlaceRepositoryTest extends TestCase
 
         $this->repository->expects('save')
             ->withArgs(function ($arg) use ($placeData, $user) {
-                /* @var Place $arg */
+                /** @var Place $arg */
                 self::assertInstanceOf(Place::class, $arg);
                 self::assertEquals($placeData->getCountryCode(), $arg->country_code);
                 self::assertEquals($placeData->getName(), $arg->name);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels\ApiModels;
 
 use App\Models\Country;
@@ -21,7 +23,7 @@ final class TranslatedCountryViewModel extends ViewModel
 
     public function getName()
     {
-        return __('countries.'.$this->country->iso2);
+        return __('countries.' . $this->country->iso2);
     }
 
     public function getIso2()

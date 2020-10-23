@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 
 namespace Littledev\Tauth\Http\Middleware;
-
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -12,7 +13,6 @@ use Littledev\Tauth\Services\TauthServiceInterface;
 
 final class AuthenticateWithRefreshToken
 {
-
     /**
      * @var TauthRepositoryInterface
      */
@@ -33,7 +33,7 @@ final class AuthenticateWithRefreshToken
         return $next($request);
     }
 
-    protected function authenticate(Request $request, bool $optional = false): void
+    private function authenticate(Request $request, bool $optional = false): void
     {
         $token = $request->bearerToken();
         $isValidToken = $this->tauthRepository->isRefreshTokenId($token);
@@ -49,7 +49,5 @@ final class AuthenticateWithRefreshToken
         if (!$this->authenticationService->validateRefreshToken($token)) {
             throw new AuthorizationException('Invalid refresh token');
         }
-
     }
-
 }

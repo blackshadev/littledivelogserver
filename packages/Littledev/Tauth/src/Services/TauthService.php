@@ -1,19 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Littledev\Tauth\Services;
 
 use Illuminate\Support\Facades\Auth;
 use Lcobucci\JWT\Token;
-use Littledev\Tauth\Contracts\TauthAuthenticatable;
 use Littledev\Tauth\Contracts\RefreshTokenInterface;
+use Littledev\Tauth\Contracts\TauthAuthenticatable;
 use Littledev\Tauth\Errors\InvalidJWTException;
 use Littledev\Tauth\Errors\NoSuchUserException;
 
 class TauthService implements TauthServiceInterface
 {
     private JWTServiceInterface $JWTFactory;
+
     private TauthRepositoryInterface $tauthRepository;
+
     private ?Token $token = null;
+
     private ?RefreshTokenInterface $refreshToken = null;
 
     public function __construct(
@@ -89,7 +94,7 @@ class TauthService implements TauthServiceInterface
 
     public function validateAccessToken(?string $jwtData): bool
     {
-        if(!$this->tauthRepository->isAccessToken($jwtData)) {
+        if (!$this->tauthRepository->isAccessToken($jwtData)) {
             throw new InvalidJWTException("Malformed JWT given");
         }
 
@@ -114,5 +119,4 @@ class TauthService implements TauthServiceInterface
             throw new InvalidJWTException($err->getMessage());
         }
     }
-
 }

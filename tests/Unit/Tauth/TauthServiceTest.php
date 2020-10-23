@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Tauth;
 
 use App\Models\RefreshToken;
@@ -17,7 +19,9 @@ use Tests\TestCase;
 class TauthServiceTest extends TestCase
 {
     private TauthRepositoryInterface $repository;
+
     private JWTServiceInterface $jwtService;
+
     private TauthServiceInterface $tauthService;
 
     protected function setUp(): void

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,13 @@ class RefreshToken extends Model implements RefreshTokenInterface
     use HasFactory;
 
     public $incrementing = false;
+
     protected $fillable = ['user'];
+
+    public function __toString(): string
+    {
+        return (string) $this->id;
+    }
 
     public static function boot()
     {
@@ -59,7 +66,7 @@ class RefreshToken extends Model implements RefreshTokenInterface
 
     public function isExpired(): bool
     {
-        return $this->expired_at != null && $this->expired_at < Carbon::now();
+        return $this->expired_at !== null && $this->expired_at < Carbon::now();
     }
 
     public function scopeExpired(Builder $query)
@@ -75,10 +82,5 @@ class RefreshToken extends Model implements RefreshTokenInterface
     public function setUserAttribute(TauthAuthenticatable $user)
     {
         $this->attributes['user_id'] = $user->getUserIdentifier();
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->id;
     }
 }

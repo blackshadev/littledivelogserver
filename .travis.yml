@@ -20,7 +20,7 @@ jobs:
         - composer self-update
         - composer install --prefer-source --no-interaction --dev
       script:
-        - ./vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --stop-on-violation --using-cache=no
+        - ./vendor/bin/ecs check --config=dev/ecs.php --no-interaction
     - stage: test
       before_install:
         - psql -c 'create database littledivelog;' -U postgres

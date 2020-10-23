@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Services\Repositories;
 
 use App\DataTransferObjects\TagData;
@@ -131,7 +133,7 @@ class TagRepositoryTest extends TestCase
 
         $this->repository->expects('save')
             ->withArgs(function ($arg) use ($tagData, $user) {
-                /* @var Tag $arg */
+                /** @var Tag $arg */
                 self::assertInstanceOf(Tag::class, $arg);
                 self::assertEquals($tagData->getText(), $arg->text);
                 self::assertEquals($tagData->getColor(), $arg->color);

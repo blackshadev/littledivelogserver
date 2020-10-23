@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Littledev\Tauth\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Validation\UnauthorizedException;
 use Littledev\Tauth\Errors\InvalidCredentialsException;
 use Littledev\Tauth\Services\TauthRepositoryInterface;
 use Littledev\Tauth\Services\TauthServiceInterface;
@@ -12,6 +13,7 @@ use Littledev\Tauth\Services\TauthServiceInterface;
 class TauthController extends Controller
 {
     protected TauthServiceInterface  $authenticationService;
+
     protected TauthRepositoryInterface $tauthRepository;
 
     public function __construct(

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Tauth;
 
 use App\Models\User;
@@ -16,6 +18,7 @@ class TauthRepositoryTest extends TestCase
     use WithFaker;
 
     private JWTServiceInterface $jwtService;
+
     private TauthRepositoryInterface $subject;
 
     protected function setUp(): void

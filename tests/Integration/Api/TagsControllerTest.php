@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Integration\Api;
 
 use App\Http\Controllers\Api\TagController;
@@ -119,7 +121,7 @@ class TagsControllerTest extends TestCase
 
         $this->fakeAccessTokenFor($user);
 
-        /* @var User $user */
+        /** @var User $user */
         $this->get(action([TagController::class, 'show'], $tag->id))
            ->assertStatus(200)
            ->assertJsonStructure(['tag_id', 'text', 'color']);

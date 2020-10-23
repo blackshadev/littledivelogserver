@@ -1,13 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataTransferObjects;
 
 class ComputerData
 {
     private int $serial;
+
     private string $vendor;
+
     private int $model;
+
     private int $type;
+
     private string $name;
 
     public static function fromArray(array $data): self

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataTransferObjects;
 
 use Carbon\Carbon;
@@ -7,13 +9,21 @@ use Carbon\Carbon;
 class DiveData
 {
     private ?Carbon $date = null;
+
     private ?int $divetime = null;
+
     private ?float $maxDepth = null;
+
     private ?int $computerId = null;
+
     private ?string $fingerprint = null;
+
     private PlaceData $place;
+
     private ?array $tanks = null;
+
     private ?array $tags = null;
+
     private ?array $buddies = null;
 
     public function __construct()

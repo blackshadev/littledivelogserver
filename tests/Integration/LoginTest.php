@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Integration;
 
 use App\Models\User;
@@ -12,7 +14,7 @@ class LoginTest extends TestCase
     use WithFaker;
     use DatabaseTransactions;
 
-    const LOGIN_URL = '/api/auth/sessions/';
+    public const LOGIN_URL = '/api/auth/sessions/';
 
     public function testInvalidRequest()
     {

@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Repositories;
 
 use App\DataTransferObjects\TagData;
 use App\Error\TagNotFound;
-use App\Helpers\Color;
 use App\Models\Tag;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use PhpParser\Builder;
 
 class TagRepository
 {
@@ -62,19 +61,15 @@ class TagRepository
     public function find(int $id, User $user): ?Tag
     {
         /** @var Tag|null $tag */
-        $tag = $user->tags()->find($id);
-
-        return $tag;
+        return $user->tags()->find($id);
     }
 
     public function findByText(string $text, User $user): ?Tag
     {
         /** @var Tag|null $tag */
-        $tag = $user->tags()->find([
+        return $user->tags()->find([
             'text' => $text,
         ]);
-
-        return $tag;
     }
 
     public function save(Tag $tag)

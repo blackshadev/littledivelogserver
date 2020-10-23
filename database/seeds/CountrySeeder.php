@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -12,6 +14,6 @@ class CountrySeeder extends Seeder
     {
         DB::table('countries')->truncate();
 
-        Artisan::call('import:translations:countries --locale=en --header '.base_path('imports/countries_en.csv'));
+        Artisan::call('import:translations:countries --locale=en --header ' . base_path('imports/countries_en.csv'));
     }
 }

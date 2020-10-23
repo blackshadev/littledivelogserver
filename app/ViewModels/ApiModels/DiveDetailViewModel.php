@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels\ApiModels;
 
 use App\Models\Dive;
@@ -14,6 +16,7 @@ class DiveDetailViewModel extends ViewModel
         'max_depth', 'place', 'buddies',
         'tags', 'tanks',
     ];
+
     private Dive $dive;
 
     public function __construct(Dive $dive)

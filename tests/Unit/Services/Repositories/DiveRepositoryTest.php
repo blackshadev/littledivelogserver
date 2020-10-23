@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Repositories;
+declare(strict_types=1);
+
+namespace Tests\Unit\Services\Repositories;
 
 use App\DataTransferObjects\BuddyData;
 use App\DataTransferObjects\DiveData;
@@ -33,22 +35,27 @@ class DiveRepositoryTest extends TestCase
      * @var DiveRepository|MockInterface
      */
     private $diveRepository;
+
     /**
      * @var PlaceRepository|MockInterface
      */
     private $placeRepository;
+
     /**
      * @var MockInterface
      */
     private $tagRepository;
+
     /**
      * @var BuddyRepository|MockInterface
      */
     private $buddyRepository;
+
     /**
      * @var TankRepository|MockInterface
      */
     private $tankRepository;
+
     /**
      * @var ComputerRepository|MockInterface
      */

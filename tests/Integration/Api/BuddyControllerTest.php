@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Integration\Api;
 
 use App\Http\Controllers\Api\BuddyController;
@@ -120,7 +122,7 @@ class BuddyControllerTest extends TestCase
 
         $this->fakeAccessTokenFor($user);
 
-        /* @var User $user */
+        /** @var User $user */
         $this->get(action([BuddyController::class, 'show'], $buddy->id))
            ->assertStatus(200)
            ->assertJsonStructure(['buddy_id', 'text', 'color']);

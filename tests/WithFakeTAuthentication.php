@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use App\Models\User;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Littledev\Tauth\Services\TauthServiceInterface;
 use Mockery\Mock;

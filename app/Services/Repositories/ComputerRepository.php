@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Repositories;
 
 use App\DataTransferObjects\ComputerData;
@@ -32,9 +34,7 @@ class ComputerRepository
     public function findBySerial(int $serial, User $user): ?Computer
     {
         /** @var Computer|null $computer */
-        $computer = $user->computers()->find(['serial' => $serial]);
-
-        return $computer;
+        return $user->computers()->find(['serial' => $serial]);
     }
 
     public function updateLastRead(Computer $computer, Carbon $date, string $fingerprint)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\LoginRequest;
@@ -35,8 +37,8 @@ class AuthController extends TauthController
     public function listSessions()
     {
         $user = $this->authenticationService->getUser();
-        if (! $user instanceof User) {
-            throw new \UnexpectedValueException('Expected user model got '.get_class($user));
+        if (!$user instanceof User) {
+            throw new \UnexpectedValueException('Expected user model got ' . get_class($user));
         }
 
         return $user->sessions()->get();

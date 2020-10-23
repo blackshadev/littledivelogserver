@@ -1,12 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataTransferObjects;
 
 class TankPressureData
 {
     private ?int $begin;
+
     private ?int $end;
+
     private string $type;
+
+    public function __construct()
+    {
+        $this->type = 'bar';
+    }
 
     public static function fromArray(array $data): self
     {
@@ -16,11 +25,6 @@ class TankPressureData
         $pressures->type = $data['type'] ?? 'bar';
 
         return $pressures;
-    }
-
-    public function __construct()
-    {
-        $this->type = 'bar';
     }
 
     public function getBegin(): ?int

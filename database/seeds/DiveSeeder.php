@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use App\Models\Buddy;
 use App\Models\Dive;
 use App\Models\DiveTank;
 use App\Models\Place;
-use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 

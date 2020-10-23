@@ -10,10 +10,9 @@ use App\ValueObjects\Uploader\VersionValue;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
-
 class UploaderPackageRepository
 {
-    private const SOURCE_FILE_PREFIX = "dive-uploader-installer";
+    private const SOURCE_FILE_PREFIX = 'dive-uploader-installer';
     private Filesystem $filesystem;
 
     public function __construct(Filesystem $filesystem)
@@ -26,6 +25,7 @@ class UploaderPackageRepository
         $versions = $this->listVersionsValues();
 
         $version = $versions[0];
+
         return $this->find($version, $platform);
     }
 
@@ -52,7 +52,7 @@ class UploaderPackageRepository
     {
         $platforms = $this->getAvailablePlatforms($version);
 
-        if (!EqualityHelpers::in_array($platforms, $platform)) {
+        if (! EqualityHelpers::in_array($platforms, $platform)) {
             return null;
         }
 
@@ -101,21 +101,20 @@ class UploaderPackageRepository
     private function getSourceFilePath(VersionValue $version, PlatformValue $platform): string
     {
         $dir = $this->getPackageDirectory($version);
-        $exe = self::SOURCE_FILE_PREFIX . UploaderPackageValue::getPlatformFileSuffix($platform);
+        $exe = self::SOURCE_FILE_PREFIX.UploaderPackageValue::getPlatformFileSuffix($platform);
+
         return "{$dir}/{$exe}";
     }
 
     private function getPlatformFromExecutableName(string $executableName): ?PlatformValue
     {
-
-        if (Str::endsWith($executableName, UploaderPackageValue::SUFFIX_UNIX) ) {
+        if (Str::endsWith($executableName, UploaderPackageValue::SUFFIX_UNIX)) {
             return PlatformValue::unix();
         }
-        if (Str::endsWith($executableName, UploaderPackageValue::SUFFIX_WIN32) ) {
+        if (Str::endsWith($executableName, UploaderPackageValue::SUFFIX_WIN32)) {
             return PlatformValue::win32();
         }
 
         return null;
     }
-
 }

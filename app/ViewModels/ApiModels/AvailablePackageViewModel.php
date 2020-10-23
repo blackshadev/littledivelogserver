@@ -23,23 +23,23 @@ class AvailablePackageViewModel extends ViewModel
 
     public function getVersion(): string
     {
-        return (string)$this->package->getVersion();
+        return (string) $this->package->getVersion();
     }
 
     public function getPlatforms(): array
     {
-        return array_map(fn ($platform) => (string)$platform, $this->package->getPlatforms());
+        return array_map(fn ($platform) => (string) $platform, $this->package->getPlatforms());
     }
 
     public function getDownloads(): array
     {
         return array_map(
             fn ($platform) => [
-                'platform' => (string)$platform,
+                'platform' => (string) $platform,
                 'downloadLink' => action(
                     [UploaderPackageController::class, 'download'],
-                    [(string)$this->package->getVersion(), (string)$platform]
-                )
+                    [(string) $this->package->getVersion(), (string) $platform]
+                ),
             ],
             $this->package->getPlatforms()
         );

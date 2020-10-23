@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers\Api;
-
 
 use App\Http\Controllers\Controller;
 use App\Services\Repositories\UploaderPackageRepository;
@@ -55,7 +53,7 @@ class UploaderPackageController extends Controller
     private function downloadUploader(?UploaderPackageValue $uploader)
     {
         if ($uploader === null) {
-            throw new NotFoundHttpException("Unable to find package");
+            throw new NotFoundHttpException('Unable to find package');
         }
 
         return $this->downloadService->getDownloadResponse($uploader);

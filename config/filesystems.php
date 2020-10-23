@@ -57,8 +57,8 @@ return [
 
         'uploader' => [
             'driver' => 'local',
-            'root' => storage_path('uploader')
-        ]
+            'root' => storage_path('uploader'),
+        ],
     ],
 
     /*

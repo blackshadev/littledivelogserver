@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\DataTransferObjects;
-
 
 use App\ValueObjects\PlatformValue;
 

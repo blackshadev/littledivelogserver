@@ -16,7 +16,7 @@ class UploaderServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $uploaderDiskName = env("UPLOADER_DISK_NAME", "uploader");
+        $uploaderDiskName = env('UPLOADER_DISK_NAME', 'uploader');
         $this->app->bind(UploaderPackageRepository::class, function () use ($uploaderDiskName) {
             return new UploaderPackageRepository(Storage::disk($uploaderDiskName));
         });

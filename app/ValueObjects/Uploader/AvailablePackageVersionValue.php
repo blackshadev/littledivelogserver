@@ -4,9 +4,8 @@ namespace App\ValueObjects\Uploader;
 
 class AvailablePackageVersionValue
 {
-
     private VersionValue $version;
-    /** @var PlatformValue[]  */
+    /** @var PlatformValue[] */
     private array $platforms;
 
     /**
@@ -32,5 +31,4 @@ class AvailablePackageVersionValue
     {
         $this->platforms[] = $platform;
     }
-
 }

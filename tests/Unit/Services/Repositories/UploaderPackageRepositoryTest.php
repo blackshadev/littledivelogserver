@@ -9,17 +9,17 @@ use App\ValueObjects\Uploader\PlatformValue;
 use App\ValueObjects\Uploader\VersionValue;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\WithFaker;
+use Mockery;
 use Mockery\MockInterface;
-use \Tests\TestCase;
-use \Mockery;
+use Tests\TestCase;
 
 class UploaderPackageRepositoryTest extends TestCase
 {
     const AVAILABLE_VERSIONS = [
-        "v0.4.1" => ['dive-uploader-installer-unix', 'dive-uploader-installer-win32.exe'],
-        "v0.0.2" => ['dive-uploader-installer-win32.exe', "nop.exe"],
-        "v1.2.3" => ['dive-uploader-installer-unix'],
-        "v0.1.0" => ['.nop']
+        'v0.4.1' => ['dive-uploader-installer-unix', 'dive-uploader-installer-win32.exe'],
+        'v0.0.2' => ['dive-uploader-installer-win32.exe', 'nop.exe'],
+        'v1.2.3' => ['dive-uploader-installer-unix'],
+        'v0.1.0' => ['.nop'],
     ];
 
     use WithFaker;
@@ -43,12 +43,12 @@ class UploaderPackageRepositoryTest extends TestCase
 
         foreach (self::AVAILABLE_VERSIONS as $dir => $fileFiles) {
             $this->filesystem->expects('files')
-                ->with((string)$dir)
+                ->with((string) $dir)
                 ->andReturn($fileFiles);
         }
 
         $availableVersions = $this->subject->listVersions();
-        $versionOrder = array_map(fn ($v) => (string)$v->getVersion(), $availableVersions);
+        $versionOrder = array_map(fn ($v) => (string) $v->getVersion(), $availableVersions);
 
         self::assertSame(['v1.2.3', 'v0.4.1', 'v0.0.2'], $versionOrder);
         self::assertArrayEquality([PlatformValue::unix()], $availableVersions[0]->getPlatforms());
@@ -65,7 +65,7 @@ class UploaderPackageRepositoryTest extends TestCase
 
         $latest = $this->subject->getLatest(PlatformValue::unix());
 
-        self::assertEquality(VersionValue::fromString("v1.2.3"), $latest->getVersion());
+        self::assertEquality(VersionValue::fromString('v1.2.3'), $latest->getVersion());
         self::assertEquality(PlatformValue::unix(), $latest->getPlatform());
     }
 
@@ -115,7 +115,6 @@ class UploaderPackageRepositoryTest extends TestCase
         $this->filesystem->expects('directories')
             ->withNoArgs()
             ->andReturn(array_keys(self::AVAILABLE_VERSIONS));
-
     }
 
     /**
@@ -132,8 +131,7 @@ class UploaderPackageRepositoryTest extends TestCase
     private static function assertEquality(Equality $expected, Equality $actual)
     {
         self::assertTrue(
-            $expected->isEqualTo($actual),((string)$expected) . ' does not equal to ' . ((string)$actual)
+            $expected->isEqualTo($actual), ((string) $expected).' does not equal to '.((string) $actual)
         );
     }
 }
-

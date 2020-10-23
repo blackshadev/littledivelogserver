@@ -131,7 +131,7 @@ class UploaderPackageRepositoryTest extends TestCase
     private static function assertEquality(Equality $expected, Equality $actual)
     {
         self::assertTrue(
-            $expected->isEqualTo($actual), ((string) $expected).' does not equal to '.((string) $actual)
+            $expected->isEqualTo($actual), ((string) $expected) . ' does not equal to ' . ((string) $actual)
         );
     }
 }

@@ -26,7 +26,7 @@ class UploaderPackageValue
             case (string) PlatformValue::win32(): return self::SUFFIX_WIN32;
         }
 
-        throw new \UnexpectedValueException('Unexpected platform value '.$platformValue);
+        throw new \UnexpectedValueException('Unexpected platform value ' . $platformValue);
     }
 
     public function getVersion(): VersionValue
@@ -41,7 +41,7 @@ class UploaderPackageValue
 
     public function getExecutableFileName(): string
     {
-        return self::BASE_FILENAME.self::getPlatformFileSuffix($this->platform);
+        return self::BASE_FILENAME . self::getPlatformFileSuffix($this->platform);
     }
 
     public function getSourcePath(): string

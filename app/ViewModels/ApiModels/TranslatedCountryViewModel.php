@@ -21,7 +21,7 @@ final class TranslatedCountryViewModel extends ViewModel
 
     public function getName()
     {
-        return __('countries.'.$this->country->iso2);
+        return __('countries.' . $this->country->iso2);
     }
 
     public function getIso2()

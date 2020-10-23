@@ -101,7 +101,7 @@ class UploaderPackageRepository
     private function getSourceFilePath(VersionValue $version, PlatformValue $platform): string
     {
         $dir = $this->getPackageDirectory($version);
-        $exe = self::SOURCE_FILE_PREFIX.UploaderPackageValue::getPlatformFileSuffix($platform);
+        $exe = self::SOURCE_FILE_PREFIX . UploaderPackageValue::getPlatformFileSuffix($platform);
 
         return "{$dir}/{$exe}";
     }

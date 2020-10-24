@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels\ApiModels;
 
 use App\Models\Tag;
@@ -11,6 +13,7 @@ class DiveTagsViewModel extends ViewModel
     use FromEloquentCollection;
 
     protected array $visible = ['tag_id', 'color', 'text'];
+
     private Tag $tag;
 
     public function __construct(Tag $tag)

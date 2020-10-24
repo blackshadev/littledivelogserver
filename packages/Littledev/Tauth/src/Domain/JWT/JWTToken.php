@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 
 namespace Littledev\Tauth\Domain\JWT;
 
@@ -11,14 +13,20 @@ use Lcobucci\JWT\Token;
 
 class JWTToken
 {
-
     private string $subject;
+
     private string $issuer;
+
     private string $audience;
+
     private Carbon $expiresAt;
+
     private Carbon $issuedAt;
+
     private \stdClass $claims;
+
     private Key $key;
+
     private Signer $signer;
 
     public function __construct(Key $key, Signer $signer)
@@ -90,22 +98,25 @@ class JWTToken
         return $this;
     }
 
-    public function setClaim(string $claim, $value): self {
+    public function setClaim(string $claim, $value): self
+    {
         $this->claims->$claim = $value;
         return $this;
     }
 
-    public function getClaim(string $claim) {
+    public function getClaim(string $claim)
+    {
         return $this->claims->$claim ?? null;
     }
 
-    public function getClaims(): \stdClass {
+    public function getClaims(): \stdClass
+    {
         return clone $this->claims;
     }
 
     public function toToken(): Token
     {
-        $builder = (new Builder)
+        $builder = (new Builder())
             ->issuedAt($this->getIssuedAt()->getTimestamp())
             ->issuedBy($this->issuer)
             ->expiresAt($this->getExpiresAt()->getTimestamp())
@@ -118,5 +129,4 @@ class JWTToken
 
         return $builder->getToken($this->signer, $this->key);
     }
-
 }

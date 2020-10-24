@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -9,7 +11,6 @@ use App\ValueObjects\Uploader\PlatformValue;
 use App\ValueObjects\Uploader\UploaderPackageValue;
 use App\ValueObjects\Uploader\VersionValue;
 use App\ViewModels\ApiModels\AvailablePackageViewModel;
-use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UploaderPackageController extends Controller

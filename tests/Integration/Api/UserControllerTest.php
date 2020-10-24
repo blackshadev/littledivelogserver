@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Integration\Api;
 
 use App\Http\Controllers\Api\UserController;

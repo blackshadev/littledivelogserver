@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataTransferObjects;
 
 use App\ValueObjects\PlatformValue;
@@ -7,6 +9,7 @@ use App\ValueObjects\PlatformValue;
 class PackageData
 {
     private ?string $version;
+
     private ?string $platform;
 
     public static function fromArray(array $data): self

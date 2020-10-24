@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ValueObjects\Uploader;
 
 use App\Helpers\Equality\Equality;
@@ -7,7 +9,9 @@ use App\Helpers\Equality\Equality;
 class VersionValue implements Equality
 {
     private ?int $major;
+
     private ?int $minor;
+
     private ?int $patch;
 
     private function __construct(?int $major, ?int $minor, ?int $patch)
@@ -15,6 +19,11 @@ class VersionValue implements Equality
         $this->major = $major;
         $this->minor = $minor;
         $this->patch = $patch;
+    }
+
+    public function __toString()
+    {
+        return 'v' . $this->major . '.' . $this->minor . '.' . $this->patch;
     }
 
     public static function empty()
@@ -53,11 +62,6 @@ class VersionValue implements Equality
         return $this->patch === null || $this->minor === null || $this->major === null;
     }
 
-    public function __toString()
-    {
-        return 'v' . $this->major . '.' . $this->minor . '.' . $this->patch;
-    }
-
     public function compare(self $value): int
     {
         if ($this->major !== $value->major) {
@@ -73,7 +77,7 @@ class VersionValue implements Equality
     public function isEqualTo($other): bool
     {
         return $other instanceof self &&
-            ! $this->isUnknown() &&
+            !$this->isUnknown() &&
             $this->major === $other->major &&
             $this->minor === $other->minor &&
             $this->patch === $other->patch;

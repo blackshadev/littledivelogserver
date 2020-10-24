@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
             'AF' => 'Afghanistan',
             'AX' => "\u00c5land Islands",

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Models\Country;
@@ -24,7 +26,8 @@ class ImportTranslationsCountries extends Command
 
         $iX = 0;
         $countries = [];
-        if (($handle = fopen($file, 'rb')) !== false) {
+        $handle = fopen($file, 'rb');
+        if ($handle !== false) {
             while (($data = fgetcsv($handle)) !== false) {
                 if ($hasHeader && $iX++ === 0) {
                     continue;

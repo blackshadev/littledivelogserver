@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Services\Repositories;
 
 use App\DataTransferObjects\BuddyData;
@@ -131,7 +133,7 @@ class BuddyRepositoryTest extends TestCase
 
         $this->repository->expects('save')
             ->withArgs(function ($arg) use ($buddyData, $user) {
-                /* @var Buddy $arg */
+                /** @var Buddy $arg */
                 self::assertInstanceOf(Buddy::class, $arg);
                 self::assertEquals($buddyData->getName(), $arg->name);
                 self::assertEquals($buddyData->getColor(), $arg->color);

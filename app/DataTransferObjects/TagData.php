@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataTransferObjects;
 
 class TagData
 {
     private ?int $id = null;
+
     private ?string $text = null;
+
     private ?string $color = null;
 
     public static function fromArray(array $data): self

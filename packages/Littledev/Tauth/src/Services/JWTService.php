@@ -1,20 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 
 namespace Littledev\Tauth\Services;
 
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\ValidationData;
-use Littledev\Tauth\Domain\JWT\JWTToken;
 use Littledev\Tauth\Contracts\RefreshTokenInterface;
+use Littledev\Tauth\Domain\JWT\JWTToken;
 use Littledev\Tauth\Errors\TokenExpiredException;
 use Littledev\Tauth\Support\JWTConfiguration;
 
 class JWTService implements JWTServiceInterface
 {
-    const TOKEN_CLAIM = 'tok';
-    const SUBJECT_CLAIM = 'sub';
+    public const TOKEN_CLAIM = 'tok';
+
+    public const SUBJECT_CLAIM = 'sub';
 
     private JWTConfiguration $configuration;
 
@@ -54,14 +57,6 @@ class JWTService implements JWTServiceInterface
         return (new Parser())->parse($jwt);
     }
 
-    protected function getValidator(): ValidationData
-    {
-        $validationData = new ValidationData();
-        $validationData->setAudience($this->configuration->getAudience());
-        $validationData->setIssuer($this->configuration->getIssuer());
-        return $validationData;
-    }
-
     public function getRefreshToken(Token $token): string
     {
         return $token->getClaim(self::TOKEN_CLAIM);
@@ -76,10 +71,18 @@ class JWTService implements JWTServiceInterface
     {
         try {
             (new Parser())->parse($jwt);
-        } catch(\Throwable $err) {
+        } catch (\Throwable $err) {
             return false;
         }
 
         return true;
+    }
+
+    protected function getValidator(): ValidationData
+    {
+        $validationData = new ValidationData();
+        $validationData->setAudience($this->configuration->getAudience());
+        $validationData->setIssuer($this->configuration->getIssuer());
+        return $validationData;
     }
 }

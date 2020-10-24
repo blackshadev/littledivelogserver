@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ValueObjects\Uploader;
 
 class AvailablePackageVersionValue
 {
     private VersionValue $version;
+
     /** @var PlatformValue[] */
     private array $platforms;
 

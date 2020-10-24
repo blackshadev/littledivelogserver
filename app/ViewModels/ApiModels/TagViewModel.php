@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels\ApiModels;
 
-use App\Models\Buddy;
 use App\Models\Tag;
 use App\ViewModels\FromEloquentCollection;
 use App\ViewModels\ViewModel;

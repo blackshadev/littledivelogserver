@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Repositories;
 
 use App\DataTransferObjects\BuddyData;
@@ -8,7 +10,6 @@ use App\DataTransferObjects\TagData;
 use App\DataTransferObjects\TankData;
 use App\Error\ComputerNotFound;
 use App\Models\Buddy;
-use App\Models\Computer;
 use App\Models\Dive;
 use App\Models\DiveTank;
 use App\Models\Tag;
@@ -17,9 +18,13 @@ use Illuminate\Support\Facades\DB;
 class DiveRepository
 {
     private PlaceRepository $placeRepository;
+
     private BuddyRepository $buddyRepository;
+
     private TagRepository $tagRepository;
+
     private TankRepository $tankRepository;
+
     private ComputerRepository $computerRepository;
 
     public function __construct(
@@ -43,7 +48,7 @@ class DiveRepository
             $dive->max_depth = $data->getMaxDepth();
             $dive->divetime = $data->getDivetime();
 
-            if (! $data->getPlace()->isEmpty()) {
+            if (!$data->getPlace()->isEmpty()) {
                 $place = $this->placeRepository->findOrCreate($data->getPlace(), $dive->user);
                 $dive->place()->associate($place);
             } else {
@@ -89,6 +94,33 @@ class DiveRepository
         });
     }
 
+    public function save(Dive $dive)
+    {
+        $dive->save();
+    }
+
+    /** @param Tag[] $tags */
+    public function attachTags(Dive $dive, array $tags)
+    {
+        $dive->tags()->sync(array_map(fn ($tag) => $tag->id, $tags));
+    }
+
+    /** @param Buddy[] $dive */
+    public function attachBuddies(Dive $dive, array $buddies)
+    {
+        $dive->buddies()->sync(array_map(fn ($buddy) => $buddy->id, $buddies));
+    }
+
+    public function appendTank(Dive $dive, DiveTank $tank)
+    {
+        $dive->tanks()->save($tank);
+    }
+
+    public function removeTank(Dive $dive, DiveTank $tank)
+    {
+        $this->tankRepository->delete($tank);
+    }
+
     /** @param TankData[] $tanks */
     protected function updateDiveTanks(Dive $dive, array $tanks)
     {
@@ -109,32 +141,5 @@ class DiveRepository
             $this->appendTank($dive, $tank);
         }
         $dive->unsetRelation('tanks');
-    }
-
-    public function save(Dive $dive)
-    {
-        $dive->save();
-    }
-
-    /** @param Tag[] $tags */
-    public function attachTags(Dive $dive, array $tags)
-    {
-        $dive->tags()->sync(array_map(fn ($tag) => $tag->id, $tags));
-    }
-
-    /** @param Buddy[] $tags */
-    public function attachBuddies(Dive $dive, array $buddies)
-    {
-        $dive->buddies()->sync(array_map(fn ($buddy) => $buddy->id, $buddies));
-    }
-
-    public function appendTank(Dive $dive, DiveTank $tank)
-    {
-        $dive->tanks()->save($tank);
-    }
-
-    public function removeTank(Dive $dive, DiveTank $tank)
-    {
-        $this->tankRepository->delete($tank);
     }
 }

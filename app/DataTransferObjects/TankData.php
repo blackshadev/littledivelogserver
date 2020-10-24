@@ -1,12 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataTransferObjects;
 
 class TankData
 {
     private ?int $volume;
+
     private ?int $oxygen;
+
     private TankPressureData $pressures;
+
+    public function __construct()
+    {
+        $this->pressures = new TankPressureData();
+    }
 
     public static function fromArray(array $data): self
     {
@@ -16,11 +25,6 @@ class TankData
         $tankData->pressures = TankPressureData::fromArray($data['pressure']);
 
         return $tankData;
-    }
-
-    public function __construct()
-    {
-        $this->pressures = new TankPressureData();
     }
 
     public function setVolume(?int $volume): void

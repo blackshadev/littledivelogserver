@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Repositories;
 
 use App\Helpers\Equality\EqualityHelpers;
@@ -13,6 +15,7 @@ use Illuminate\Support\Str;
 class UploaderPackageRepository
 {
     private const SOURCE_FILE_PREFIX = 'dive-uploader-installer';
+
     private Filesystem $filesystem;
 
     public function __construct(Filesystem $filesystem)
@@ -52,7 +55,7 @@ class UploaderPackageRepository
     {
         $platforms = $this->getAvailablePlatforms($version);
 
-        if (! EqualityHelpers::in_array($platforms, $platform)) {
+        if (!EqualityHelpers::inArray($platforms, $platform, true)) {
             return null;
         }
 

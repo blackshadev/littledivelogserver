@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Integration\Api;
 
 use App\Http\Controllers\Api\UploaderPackageController;
@@ -59,7 +61,7 @@ class UploaderPackageControllerTest extends TestCase
 
     public function testIt404OnUnsupportedVersion()
     {
-        $resp = $this->get(action([UploaderPackageController::class, 'download'], ['v0.0.0', 'unix']))
+        $this->get(action([UploaderPackageController::class, 'download'], ['v0.0.0', 'unix']))
             ->assertStatus(404);
     }
 }

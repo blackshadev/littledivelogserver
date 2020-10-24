@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Dive;
 use App\Models\Place;
-use App\Models\Tag;
 use App\Models\User;
 use Faker\Generator;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -15,7 +16,7 @@ class DiveFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'max_depth'=> $this->faker->randomFloat(3, 1, 30),
+            'max_depth' => $this->faker->randomFloat(3, 1, 30),
             'date' => $this->faker->dateTimeThisDecade,
             'divetime' => $this->faker->numberBetween(0, 3900),
             'place_id' => null,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Services;
 
 use App\ValueObjects\Uploader\UploaderPackageValue;

@@ -1,15 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ValueObjects\Uploader;
 
 class UploaderPackageValue
 {
     public const BASE_FILENAME = 'dive-uploader-installer';
+
     public const SUFFIX_UNIX = '-unix';
+
     public const SUFFIX_WIN32 = '-win32.exe';
 
     private VersionValue $version;
+
     private PlatformValue $platform;
+
     private string $sourcePath;
 
     public function __construct(VersionValue $version, PlatformValue $platform, string $sourcePath)

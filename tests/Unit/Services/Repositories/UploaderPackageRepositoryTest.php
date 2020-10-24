@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Services\Repositories;
 
 use App\Helpers\Equality\Equality;
 use App\Services\Repositories\UploaderPackageRepository;
-use App\ValueObjects\Uploader\AvailablePackageVersionValue;
 use App\ValueObjects\Uploader\PlatformValue;
 use App\ValueObjects\Uploader\VersionValue;
 use Illuminate\Contracts\Filesystem\Filesystem;
@@ -15,14 +16,14 @@ use Tests\TestCase;
 
 class UploaderPackageRepositoryTest extends TestCase
 {
-    const AVAILABLE_VERSIONS = [
+    use WithFaker;
+
+    public const AVAILABLE_VERSIONS = [
         'v0.4.1' => ['dive-uploader-installer-unix', 'dive-uploader-installer-win32.exe'],
         'v0.0.2' => ['dive-uploader-installer-win32.exe', 'nop.exe'],
         'v1.2.3' => ['dive-uploader-installer-unix'],
         'v0.1.0' => ['.nop'],
     ];
-
-    use WithFaker;
 
     /** @var MockInterface|Filesystem */
     private $filesystem;
@@ -118,8 +119,8 @@ class UploaderPackageRepositoryTest extends TestCase
     }
 
     /**
-     * @param Equality[] $a
-     * @param Equality[] $b
+     * @param Equality[] $expected
+     * @param Equality[] $actual
      */
     private static function assertArrayEquality(array $expected, array $actual)
     {
@@ -131,7 +132,8 @@ class UploaderPackageRepositoryTest extends TestCase
     private static function assertEquality(Equality $expected, Equality $actual)
     {
         self::assertTrue(
-            $expected->isEqualTo($actual), ((string) $expected) . ' does not equal to ' . ((string) $actual)
+            $expected->isEqualTo($actual),
+            ((string) $expected) . ' does not equal to ' . ((string) $actual)
         );
     }
 }

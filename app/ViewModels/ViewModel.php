@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels;
 
 use Illuminate\Contracts\Support\Arrayable;
@@ -11,14 +13,9 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
 {
     protected array $visible = [];
 
-    private static function getMethodName(string $property)
-    {
-        return 'get' . implode('', array_map('ucfirst', explode('_', $property)));
-    }
-
     public function __get(string $name)
     {
-        if (! isset($name)) {
+        if (!isset($name)) {
             throw new \BadMethodCallException('No getter method in view for ' . $name);
         }
 
@@ -37,7 +34,7 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
 
     public function __isset(string $name): bool
     {
-        if (! contains($this->visible, $name)) {
+        if (!contains($this->visible, $name)) {
             return false;
         }
 
@@ -47,6 +44,11 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
         }
 
         return false;
+    }
+
+    public function __toString()
+    {
+        return $this->toJson();
     }
 
     public function toArray()
@@ -75,8 +77,8 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
         return $json;
     }
 
-    public function __toString()
+    private static function getMethodName(string $property)
     {
-        return $this->toJson();
+        return 'get' . implode('', array_map('ucfirst', explode('_', $property)));
     }
 }

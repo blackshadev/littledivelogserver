@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels\ApiModels;
 
 use App\Models\Place;
@@ -8,6 +10,7 @@ use App\ViewModels\ViewModel;
 class PlaceViewModel extends ViewModel
 {
     protected array $visible = ['country_code', 'place_id', 'name'];
+
     protected Place $place;
 
     public function __construct(Place $place)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 
 namespace Littledev\Tauth\Support;
 
@@ -8,16 +10,19 @@ use Lcobucci\JWT\Signer\Key;
 
 class JWTConfiguration
 {
-
     private Key $key;
+
     private Signer $signer;
+
     private string $issuer;
+
     private \DateInterval $validFor;
+
     private string $audience;
 
     public static function createSigner(string $signer): Signer
     {
-        switch (strtolower($signer)) {
+        switch (mb_strtolower($signer)) {
             case 'hs256':
             case 'hmac-sha256':
                 return new \Lcobucci\JWT\Signer\Hmac\Sha256();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Repositories;
 
 use App\DataTransferObjects\BuddyData;
@@ -58,19 +60,15 @@ class BuddyRepository
     public function find(int $id, User $user): ?Buddy
     {
         /** @var Buddy|null $buddy */
-        $buddy = $user->buddies()->find($id);
-
-        return $buddy;
+        return $user->buddies()->find($id);
     }
 
     public function findByName(string $name, User $user): ?Buddy
     {
         /** @var Buddy|null $buddy */
-        $buddy = $user->buddies()->find([
+        return $user->buddies()->find([
             'name' => $name,
         ]);
-
-        return $buddy;
     }
 
     public function save(Buddy $buddy)

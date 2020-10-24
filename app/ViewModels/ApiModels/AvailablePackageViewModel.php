@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels\ApiModels;
 
 use App\Http\Controllers\Api\UploaderPackageController;
@@ -9,16 +11,17 @@ use App\ViewModels\ViewModel;
 class AvailablePackageViewModel extends ViewModel
 {
     protected array $visible = ['version', 'platforms', 'downloads'];
-    private AvailableVersionValue $package;
 
-    public static function fromArray(array $arr)
-    {
-        return array_map(fn ($item) => new self($item), $arr);
-    }
+    private AvailableVersionValue $package;
 
     public function __construct(AvailableVersionValue $package)
     {
         $this->package = $package;
+    }
+
+    public static function fromArray(array $arr)
+    {
+        return array_map(fn ($item) => new self($item), $arr);
     }
 
     public function getVersion(): string

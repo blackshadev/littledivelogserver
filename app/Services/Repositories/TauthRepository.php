@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Repositories;
 
 use App\Models\RefreshToken;
@@ -24,7 +26,7 @@ class TauthRepository implements TauthRepositoryInterface
 
     public function createRefreshToken(TauthAuthenticatable $user): RefreshTokenInterface
     {
-        if (! $user instanceof User) {
+        if (!$user instanceof User) {
             throw new \InvalidArgumentException('Expected user for refresh token');
         }
 
@@ -34,7 +36,7 @@ class TauthRepository implements TauthRepositoryInterface
     public function findValidRefreshToken(string $uuid): ?RefreshTokenInterface
     {
         $token = RefreshToken::valid()->where('id', $uuid)->first();
-        if ($token != null && ! $token instanceof RefreshTokenInterface) {
+        if ($token !== null && !$token instanceof RefreshTokenInterface) {
             throw new \RuntimeException('Unexpected instance');
         }
 
@@ -51,7 +53,7 @@ class TauthRepository implements TauthRepositoryInterface
         Auth::once($credentials);
         $user = Auth::user();
 
-        if ($user && ! $user instanceof TauthAuthenticatable) {
+        if ($user && !$user instanceof TauthAuthenticatable) {
             throw new \UnexpectedValueException('Found user of unexpected interface, ' . get_class($user));
         }
 

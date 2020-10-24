@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ValueObjects\Uploader;
 
 use App\Helpers\Equality\Equality;
@@ -7,7 +9,9 @@ use App\Helpers\Equality\Equality;
 class PlatformValue implements Equality
 {
     private const WIN32 = 'win32';
+
     private const UNIX = 'unix';
+
     private const UNKNOWN = 'unknown';
 
     private string $value;
@@ -15,6 +19,11 @@ class PlatformValue implements Equality
     private function __construct($value)
     {
         $this->value = $value;
+    }
+
+    public function __toString()
+    {
+        return $this->value;
     }
 
     public static function unix(): self
@@ -34,7 +43,7 @@ class PlatformValue implements Equality
 
     public static function fromString(string $value): self
     {
-        switch (strtolower($value)) {
+        switch (mb_strtolower($value)) {
             case 'win32': return self::win32();
             case 'unix': return self::unix();
             default: return self::unknown();
@@ -48,17 +57,12 @@ class PlatformValue implements Equality
     public function isEqualTo($other): bool
     {
         return $other instanceof self &&
-            ! $this->isUnknown() &&
+            !$this->isUnknown() &&
             $this->value === $other->value;
     }
 
     public function isUnknown(): bool
     {
         return $this->value === self::UNKNOWN;
-    }
-
-    public function __toString()
-    {
-        return $this->value;
     }
 }

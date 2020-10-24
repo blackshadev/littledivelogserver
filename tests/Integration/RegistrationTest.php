@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Integration;
 
 use App\Models\User;
@@ -9,9 +11,10 @@ use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
-    const REGISTRATION_URL = '/api/auth/register';
     use DatabaseTransactions;
     use WithFaker;
+
+    public const REGISTRATION_URL = '/api/auth/register';
 
     public function testFailsWithNoData()
     {
@@ -68,7 +71,9 @@ class RegistrationTest extends TestCase
             'name' => $this->faker->name,
         ];
 
-        $this->json('post', self::REGISTRATION_URL,
+        $this->json(
+            'post',
+            self::REGISTRATION_URL,
             array_merge($data, ['password' => $this->faker->password])
         )
             ->assertStatus(201);

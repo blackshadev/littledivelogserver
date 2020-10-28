@@ -6,6 +6,7 @@ namespace App\Services\Repositories;
 
 use App\DataTransferObjects\BuddyData;
 use App\DataTransferObjects\DiveData;
+use App\DataTransferObjects\NewDiveData;
 use App\DataTransferObjects\TagData;
 use App\DataTransferObjects\TankData;
 use App\Error\ComputerNotFound;
@@ -48,11 +49,34 @@ class DiveRepository
             $dive->max_depth = $data->getMaxDepth();
             $dive->divetime = $data->getDivetime();
 
+            if ($data->getSamples()) {
+                $dive->samples = json_encode($data->getSamples());
+            }
+
             if (!$data->getPlace()->isEmpty()) {
                 $place = $this->placeRepository->findOrCreate($data->getPlace(), $dive->user);
                 $dive->place()->associate($place);
             } else {
                 $dive->place()->dissociate();
+            }
+
+            if ($data->getComputerId() !== null) {
+                $computer = $this->computerRepository->find($data->getComputerId());
+                if ($computer === null) {
+                    throw new ComputerNotFound();
+                }
+
+                $dive->computer()->associate($computer);
+
+                if ($data->getFingerprint() !== null) {
+                    $this->computerRepository->updateLastRead($computer, $data->getDate(), $data->getFingerprint());
+                }
+            }
+
+            // Ensures dive exists before we attach other relations to it
+            if ($data instanceof NewDiveData) {
+                $dive->user()->associate($data->getUser()->id);
+                $this->save($dive);
             }
 
             if ($data->getTags() !== null) {
@@ -77,17 +101,6 @@ class DiveRepository
 
             if ($data->getTanks() !== null) {
                 $this->updateDiveTanks($dive, $data->getTanks());
-            }
-
-            if ($data->getComputerId() !== null) {
-                $computer = $this->computerRepository->find($data->getComputerId());
-                if ($computer === null) {
-                    throw new ComputerNotFound();
-                }
-
-                $dive->computer()->associate($computer);
-
-                $this->computerRepository->updateLastRead($computer, $data->getDate(), $data->getFingerprint());
             }
 
             $this->save($dive);

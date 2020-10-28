@@ -26,6 +26,8 @@ class DiveData
 
     private ?array $buddies = null;
 
+    private ?array $samples = null;
+
     public function __construct()
     {
         $this->place = new PlaceData();
@@ -33,18 +35,8 @@ class DiveData
 
     public static function fromArray(array $data): self
     {
-        $diveData = new self();
-
-        $diveData->date = Carbon::parse($data['date']) ?? null;
-        $diveData->divetime = $data['divetime'] ?? null;
-        $diveData->maxDepth = $data['max_depth'] ?? null;
-        $diveData->computerId = $data['computer_id'] ?? null;
-        $diveData->fingerprint = $data['fingerprint'] ?? null;
-        $diveData->place = PlaceData::fromArray($data['place'] ?? []);
-        $diveData->tags = array_map(fn ($tagData) => TagData::fromArray($tagData), $data['tags'] ?? []);
-        $diveData->buddies = array_map(fn ($buddyData) => BuddyData::fromArray($buddyData), $data['buddies'] ?? []);
-        $diveData->tanks = array_map(fn ($tank) => TankData::fromArray($tank), $data['tanks'] ?? []);
-
+        $diveData = new static();
+        $diveData->setData($data);
         return $diveData;
     }
 
@@ -131,6 +123,16 @@ class DiveData
         $this->tanks = $tanks;
     }
 
+    public function getSamples(): ?array
+    {
+        return $this->samples;
+    }
+
+    public function setSamples(?array $samples): void
+    {
+        $this->samples = $samples;
+    }
+
     public function setTags(?array $tags): void
     {
         $this->tags = $tags;
@@ -139,5 +141,19 @@ class DiveData
     public function setBuddies(?array $buddies): void
     {
         $this->buddies = $buddies;
+    }
+
+    protected function setData(array $data): void
+    {
+        $this->date = Carbon::parse($data['date']) ?? null;
+        $this->divetime = $data['divetime'] ?? null;
+        $this->maxDepth = $data['max_depth'] ?? null;
+        $this->computerId = $data['computer_id'] ?? null;
+        $this->fingerprint = $data['fingerprint'] ?? null;
+        $this->samples = $data['samples'] ?? null;
+        $this->place = PlaceData::fromArray($data['place'] ?? []);
+        $this->tags = array_map(fn ($tagData) => TagData::fromArray($tagData), $data['tags'] ?? []);
+        $this->buddies = array_map(fn ($buddyData) => BuddyData::fromArray($buddyData), $data['buddies'] ?? []);
+        $this->tanks = array_map(fn ($tank) => TankData::fromArray($tank), $data['tanks'] ?? []);
     }
 }

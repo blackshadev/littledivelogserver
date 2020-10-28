@@ -15,6 +15,10 @@ class Computer extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['vendor', 'model', 'name', 'serial', 'type', 'last_fingerprint', 'last_read'];
+
+    protected $dates = [Model::CREATED_AT, Model::UPDATED_AT, 'last_read'];
+
     public function dives()
     {
         return $this->hasMany(Dive::class);

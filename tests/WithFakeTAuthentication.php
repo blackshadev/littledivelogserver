@@ -7,11 +7,11 @@ namespace Tests;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Littledev\Tauth\Services\TauthServiceInterface;
-use Mockery\Mock;
+use Mockery\MockInterface;
 
 trait WithFakeTAuthentication
 {
-    /** @var TauthServiceInterface|Mock */
+    /** @var TauthServiceInterface|MockInterface */
     private TauthServiceInterface $tauthService;
 
     private function fakedTauth()

@@ -25,7 +25,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer::class);
     $services->set(PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer::class);
 
-
     // B. full sets
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::SETS, [SetList::CLEAN_CODE, SetList::PSR_12]);

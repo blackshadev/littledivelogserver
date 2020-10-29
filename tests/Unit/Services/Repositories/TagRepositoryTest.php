@@ -16,7 +16,7 @@ class TagRepositoryTest extends TestCase
 {
     use WithFaker;
 
-    /** @var \Mockery\Mock|TagRepository */
+    /** @var \Mockery\MockInterface|TagRepository */
     private $repository;
 
     protected function setUp(): void

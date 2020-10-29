@@ -18,8 +18,10 @@ use Tests\TestCase;
 
 class TauthServiceTest extends TestCase
 {
+    /** @var TauthRepositoryInterface|\Mockery\MockInterface  */
     private TauthRepositoryInterface $repository;
 
+    /** @var JWTServiceInterface|\Mockery\MockInterface  */
     private JWTServiceInterface $jwtService;
 
     private TauthServiceInterface $tauthService;

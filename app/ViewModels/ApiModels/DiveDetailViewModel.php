@@ -41,7 +41,7 @@ class DiveDetailViewModel extends ViewModel
 
     public function getMaxDepth(): ?float
     {
-        return $this->dive->max_depth;
+        return (float)$this->dive->max_depth;
     }
 
     public function getTags(): Collection

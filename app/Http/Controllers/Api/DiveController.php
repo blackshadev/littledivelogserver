@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\DataTransferObjects\DiveData;
+use App\DataTransferObjects\NewDiveData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DiveCreateRequest;
 use App\Http\Requests\DiveUpdateRequest;
@@ -45,16 +46,21 @@ class DiveController extends Controller
 
     public function update(Dive $dive, DiveUpdateRequest $request)
     {
-        $this->repository->update($dive, DiveData::fromArray($request->all()));
+        $diveData = DiveData::fromArray($request->all());
+        DiveData::fromArray($request->all());
+
+        $this->repository->update($dive, $diveData);
 
         return new DiveDetailViewModel($dive);
     }
 
     public function store(DiveCreateRequest $request, User $user)
     {
+        $diveData = NewDiveData::fromArray($request->all());
+        $diveData->setUser($user);
+
         $dive = new Dive();
-        $dive->user()->associate($user);
-        $this->repository->update($dive, DiveData::fromArray($request->all()));
+        $this->repository->update($dive, $diveData);
 
         return new DiveDetailViewModel($dive);
     }

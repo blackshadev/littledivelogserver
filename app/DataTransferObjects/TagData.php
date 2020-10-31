@@ -22,6 +22,13 @@ class TagData
         return $tagData;
     }
 
+    public static function fromId(int $id)
+    {
+        $tag = new self();
+        $tag->setId($id);
+        return $tag;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

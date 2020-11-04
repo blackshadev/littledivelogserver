@@ -15,6 +15,8 @@ class TankPressureData
     public function __construct()
     {
         $this->type = 'bar';
+        $this->begin = null;
+        $this->end = null;
     }
 
     public static function fromArray(array $data): self

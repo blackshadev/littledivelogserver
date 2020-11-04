@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\Repositories\UploaderPackageRepository;
-use App\Services\Services\UploaderPackageDownloadService;
+use App\Services\UploaderPackage\UploaderPackageDownloadService;
 use App\ValueObjects\Uploader\PlatformValue;
 use App\ValueObjects\Uploader\UploaderPackageValue;
 use App\ValueObjects\Uploader\VersionValue;

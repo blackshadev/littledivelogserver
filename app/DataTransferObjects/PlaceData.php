@@ -22,6 +22,13 @@ class PlaceData
         return $place;
     }
 
+    public static function fromId(?int $id): self
+    {
+        $place = new PlaceData();
+        $place->setId($id);
+        return $place;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

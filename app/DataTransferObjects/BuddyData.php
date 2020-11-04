@@ -22,6 +22,13 @@ class BuddyData
         return $buddy;
     }
 
+    public static function fromId(int $id)
+    {
+        $buddy = new self();
+        $buddy->setId($id);
+        return $buddy;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

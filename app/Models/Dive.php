@@ -11,7 +11,13 @@ class Dive extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['date', 'max_depth', 'divetime'];
+
     protected $dates = ['created_at', 'updated_at', 'date'];
+
+    protected $casts = [
+        'max_depth' => 'float'
+    ];
 
     public function buddies()
     {

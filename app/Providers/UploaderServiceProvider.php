@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Services\Repositories\UploaderPackageRepository;
-use App\Services\Services\UploaderPackageDownloadService;
+
+use App\Services\UploaderPackage\UploaderPackageDownloadService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Services;
+namespace App\Services\UploaderPackage;
 
 use App\ValueObjects\Uploader\UploaderPackageValue;
 use Illuminate\Contracts\Filesystem\Filesystem;

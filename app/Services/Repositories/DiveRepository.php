@@ -10,6 +10,7 @@ use App\DataTransferObjects\NewDiveData;
 use App\DataTransferObjects\TagData;
 use App\DataTransferObjects\TankData;
 use App\Error\ComputerNotFound;
+use App\Helpers\Arrg;
 use App\Models\Buddy;
 use App\Models\Dive;
 use App\Models\DiveTank;
@@ -132,6 +133,14 @@ class DiveRepository
     public function removeTank(Dive $dive, DiveTank $tank)
     {
         $this->tankRepository->delete($tank);
+    }
+
+    /**
+     * @param Dive[] $dives
+     */
+    public function removeMany(array $dives)
+    {
+        Dive::destroy(Arrg::map($dives, fn ($dive) => $dive->id));
     }
 
     /** @param TankData[] $tanks */

@@ -6,9 +6,9 @@ namespace App\DataTransferObjects;
 
 class TankData
 {
-    private ?int $volume;
+    private ?int $volume = null;
 
-    private ?int $oxygen;
+    private ?int $oxygen = null;
 
     private TankPressureData $pressures;
 

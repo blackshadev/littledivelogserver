@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Services\Merger;
+namespace App\Services\DiveMerger;
 
 use App\DataTransferObjects\BuddyData;
 use App\DataTransferObjects\NewDiveData;
@@ -10,9 +10,9 @@ use App\DataTransferObjects\PlaceData;
 use App\DataTransferObjects\TagData;
 use App\DataTransferObjects\TankData;
 use App\Helpers\Arrg;
+use App\Helpers\Math;
 use App\Models\Dive;
 use App\Models\DiveTank;
-use App\Services\Repositories\DiveRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 
@@ -20,15 +20,8 @@ class DiveMergerService
 {
     private const MAX_TIME_DISTANCE_IN_HOURS = 2;
 
-    private DiveRepository $diveRepository;
-
-    public function __construct(DiveRepository $diveRepository)
-    {
-        $this->diveRepository = $diveRepository;
-    }
-
     /** @var Dive[] $dives */
-    public function mergeDives(array $dives)
+    public function mergeDives(array $dives): NewDiveData
     {
         $exception = $this->canMergeDives($dives);
         if ($exception !== null) {
@@ -40,8 +33,8 @@ class DiveMergerService
 
         $divesWithComputerPreferred = $this->preferDivesWithComputer($dives);
 
-        $target->setDate(min(...Arr::get($divesWithComputerPreferred, 'date')));
-        $target->setMaxDepth(max(...Arr::get($divesWithComputerPreferred, 'max_depth')));
+        $target->setDate(min(...Arrg::get($divesWithComputerPreferred, 'date')));
+        $target->setMaxDepth(max(...Arrg::get($divesWithComputerPreferred, 'max_depth')));
         $target->setPlace(PlaceData::fromId(Arrg::firstNotNull($dives, 'place_id')));
         $target->setComputerId(Arrg::firstNotNull($dives, 'computer_id'));
 
@@ -51,7 +44,7 @@ class DiveMergerService
 
         $target->setSamples($this->mergeSamples($dives));
 
-        $this->diveRepository->update(new Dive(), $target);
+        return $target;
     }
 
     /**
@@ -59,29 +52,29 @@ class DiveMergerService
      */
     private function canMergeDives(array $dives): ?CannotMergeDivesException
     {
-        if (count($dives) < 1) {
+        if (count($dives) < 2) {
             return CannotMergeDivesException::tooFewDives();
         }
 
         /** @var Carbon $minDate */
-        $minDate = min(...Arr::get($dives, 'date'));
-        $maxDate = max(...Arr::get($dives, 'date'));
+        $minDate = min(...Arrg::get($dives, 'date'));
+        $maxDate = max(...Arrg::get($dives, 'date'));
 
         if ($minDate->diffInHours($maxDate) > self::MAX_TIME_DISTANCE_IN_HOURS) {
             return CannotMergeDivesException::timeDifferenceToBig();
         }
 
-        $places = array_unique($this->notNull(Arr::get($dives, 'place_id')));
+        $places = array_unique(Arrg::notNull(Arrg::get($dives, 'place_id')));
         if (count($places) > 1) {
             return CannotMergeDivesException::placesDifference();
         }
 
-        $computers = array_unique($this->notNull(Arr::get($dives, 'computer_id')));
+        $computers = array_unique(Arrg::notNull(Arrg::get($dives, 'computer_id')));
         if (count($computers) > 1) {
             return CannotMergeDivesException::computerDifference();
         }
 
-        $users = array_unique($this->notNull(Arr::get($dives, 'user_id')));
+        $users = array_unique(Arrg::notNull(Arrg::get($dives, 'user_id')));
         if (count($users) > 1) {
             return CannotMergeDivesException::userDifference();
         }
@@ -129,8 +122,8 @@ class DiveMergerService
             $tank->setOxygen($diveTank->oxygen);
 
             $pressures = $tank->getPressures();
-            $pressures->setBegin(min($pressures->getBegin(), $diveTank->pressure_begin));
-            $pressures->setEnd(max($pressures->getEnd(), $diveTank->pressure_end));
+            $pressures->setBegin(Math::max($pressures->getBegin(), $diveTank->pressure_begin));
+            $pressures->setEnd(Math::min($pressures->getEnd(), $diveTank->pressure_end));
             $pressures->setType($diveTank->pressure_type);
         }
 
@@ -141,31 +134,34 @@ class DiveMergerService
      * @param Dive[] $dives
      * @return BuddyData[]
      */
-    private function mergeBuddies(array $dives): array
+    private function mergeBuddies(array $dives): ?array
     {
         $allBuddies = Arr::flatten(array_map(fn ($dive) => $dive->buddies, $dives));
         $ids = Arrg::unique($allBuddies, "id");
-        return array_map(fn ($id) => BuddyData::fromId($id), $ids);
+        return Arrg::map($ids, fn ($id) => BuddyData::fromId($id));
     }
 
     /**
      * @param Dive[] $dives
      * @return TagData[]
      */
-    private function mergeTags(array $dives): array
+    private function mergeTags(array $dives): ?array
     {
         $allTags = Arr::flatten(array_map(fn ($dive) => $dive->tags, $dives));
         $ids = Arrg::unique($allTags, "id");
-        return array_map(fn ($id) => TagData::fromId($id), $ids);
+        return Arrg::map($ids, fn ($id) => TagData::fromId($id));
     }
 
     /**
      * @param Dive[] $dives
      * @return array
      */
-    private function mergeSamples(array $dives): array
+    private function mergeSamples(array $dives): ?array
     {
-        $orderedDives = array_merge([], $dives);
+        $orderedDives = Arrg::filter(
+            $dives,
+            fn ($dive) => $dive->samples !== null && count($dive->samples) > 0
+        );
 
         usort(
             $orderedDives,
@@ -182,10 +178,11 @@ class DiveMergerService
             }
         );
 
+
         $prevDive = array_shift($dives);
         $samples = Arrg::copy($prevDive->samples);
 
-        foreach ($dives as $dive) {
+        foreach ($orderedDives as $dive) {
             $prevSample = Arr::last($samples);
 
             $timeDiff = $dive->date->getTimestamp() - $prevDive->date->getTimestamp();

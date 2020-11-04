@@ -16,7 +16,7 @@ class UploaderPackageControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->filesystem = Storage::fake('uploader');
+        $this->filesystem = Storage::fake(env('UPLOADER_DISK_NAME', 'uploader'));
 
         $this->filesystem->makeDirectory('v0.1.0');
         $this->filesystem->makeDirectory('v1.2.3');

@@ -8,9 +8,11 @@ use App\DataTransferObjects\DiveData;
 use App\DataTransferObjects\NewDiveData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DiveCreateRequest;
+use App\Http\Requests\DiveMergeRequest;
 use App\Http\Requests\DiveUpdateRequest;
 use App\Models\Dive;
 use App\Models\User;
+use App\Services\DiveMerger\DiveMergerService;
 use App\Services\Repositories\DiveRepository;
 use App\ViewModels\ApiModels\DiveDetailViewModel;
 use App\ViewModels\ApiModels\DiveListViewModel;
@@ -63,5 +65,19 @@ class DiveController extends Controller
         $this->repository->update($dive, $diveData);
 
         return new DiveDetailViewModel($dive);
+    }
+
+    public function merge(
+        DiveMergeRequest $request,
+        User $user,
+        DiveMergerService $diveMergerService
+    ) {
+        $dives = Dive::find([$request->get('dives')]);
+        if (count($dives) !== 0 && $dives[0]->user_id === $user->id) {
+            abort(403);
+        }
+        $newDive = $diveMergerService->mergeDives($dives);
+        $this->repository->update(new Dive(), $newDive);
+        $this->repository->removeMany($dives);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Repositories;
 
+use App\CommandObjects\FindDivesCommand;
 use App\DataTransferObjects\BuddyData;
 use App\DataTransferObjects\DiveData;
 use App\DataTransferObjects\NewDiveData;
@@ -15,7 +16,12 @@ use App\Models\Buddy;
 use App\Models\Dive;
 use App\Models\DiveTank;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use JeroenG\Explorer\Domain\Syntax\Nested;
+use JeroenG\Explorer\Domain\Syntax\Range;
+use JeroenG\Explorer\Domain\Syntax\Sort;
+use JeroenG\Explorer\Domain\Syntax\Term;
 
 class DiveRepository
 {
@@ -141,6 +147,35 @@ class DiveRepository
     public function removeMany(array $dives)
     {
         Dive::destroy(Arrg::map($dives, fn ($dive) => $dive->id));
+    }
+
+    /** @return Dive[] */
+    public function find(FindDivesCommand $findDivesCommand): Collection
+    {
+        $search = Dive::search($findDivesCommand->getKeyword() ?? '');
+        $search->filter(new Term('user_id', $findDivesCommand->getUserId(), null));
+        if ($findDivesCommand->getAfter() !== null) {
+            $search->must(new Range('date', [
+                'gt' => $findDivesCommand->getAfter()
+            ]));
+        }
+        if ($findDivesCommand->getBefore() !== null) {
+            $search->must(new Range('date', [
+                'lt' => $findDivesCommand->getBefore()
+            ]));
+        }
+        if ($findDivesCommand->getPlaceId() !== null) {
+            $search->must(new Nested('place', new Term('place.id', $findDivesCommand->getPlaceId())));
+        }
+        if ($findDivesCommand->getBuddies() !== null) {
+            $search->must(new Nested('buddies', new Term('buddies.id', $findDivesCommand->getBuddies())));
+        }
+        if ($findDivesCommand->getTags() !== null) {
+            $search->must(new Nested('tags', new Term('tags.id', $findDivesCommand->getTags())));
+        }
+        $search->sort(new Sort('date', 'desc'));
+
+        return $search->get();
     }
 
     /** @param TankData[] $tanks */

@@ -1,0 +1,9 @@
+{
+  "mappings": {
+    "properties": {
+      "user": {
+        "type": "nested" 
+      }
+    }
+  }
+}

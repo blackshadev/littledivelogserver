@@ -4,17 +4,23 @@ declare(strict_types=1);
 
 namespace App\Services\Repositories;
 
+use App\CommandObjects\FindPlaceCommand;
 use App\DataTransferObjects\PlaceData;
 use App\Error\PlaceNotFound;
 use App\Models\Place;
 use App\Models\User;
+use Illuminate\Support\Collection;
+use JeroenG\Explorer\Domain\QueryBuilders\BoolQuery;
+use JeroenG\Explorer\Domain\Syntax\Matching;
+use JeroenG\Explorer\Domain\Syntax\Term;
+use Laravel\Scout\Builder;
 
 class PlaceRepository
 {
     public function findOrCreate(PlaceData $data, User $user): Place
     {
         if ($data->getId()) {
-            $place = $this->find($data->getId());
+            $place = $this->findById($data->getId());
 
             if ($place === null) {
                 throw new PlaceNotFound();
@@ -36,7 +42,32 @@ class PlaceRepository
         throw new \RuntimeException('Place data encountered without id or name');
     }
 
-    public function find(int $id): ?Place
+    public function search(Builder $search): Collection
+    {
+        if (!$search->model instanceof Place) {
+            throw new \RuntimeException('Invalid search builder, expected search for model Place. Got ' . get_class($search->model));
+        }
+
+        return $search->get();
+    }
+
+    public function find(FindPlaceCommand $command): Collection
+    {
+        $search = Place::search();
+        if ($command->getCountry()) {
+            $search->filter(new Term('country_code', $command->getCountry(), null));
+        }
+        if ($command->getKeywords()) {
+            $query = new BoolQuery();
+            $query->should(new Matching('name', $command->getKeywords()));
+            $query->should(new Matching('country', $command->getKeywords()));
+            $search->must($query);
+        }
+
+        return $this->search($search);
+    }
+
+    public function findById(int $id): ?Place
     {
         return Place::find($id);
     }

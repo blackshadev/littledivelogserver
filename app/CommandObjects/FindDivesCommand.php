@@ -12,7 +12,7 @@ class FindDivesCommand
 
     private int $limit = 50;
 
-    private ?string $keyword = null;
+    private ?string $keywords = null;
 
     private ?Carbon $before = null;
 
@@ -26,7 +26,11 @@ class FindDivesCommand
 
     private ?int $placeId = null;
 
-    public static function forUser(int $userId, array $data): self
+    private function __construct()
+    {
+    }
+
+    public static function forUser(int $userId, array $data = []): self
     {
         $cmd = self::fromArray($data);
         $cmd->userId = $userId;
@@ -38,7 +42,7 @@ class FindDivesCommand
     {
         $cmd = new self();
 
-        $cmd->setKeyword($data['keyword'] ?? null);
+        $cmd->setKeywords($data['keywords'] ?? null);
         $cmd->setAfter($data['date_after'] ?? null);
         $cmd->setBefore($data['date_before'] ?? null);
         $cmd->setPlaceId($data['place'] ?? null);
@@ -109,14 +113,14 @@ class FindDivesCommand
         return $this->userId;
     }
 
-    public function getKeyword(): ?string
+    public function getKeywords(): ?string
     {
-        return $this->keyword;
+        return $this->keywords;
     }
 
-    public function setKeyword(?string $keyword): void
+    public function setKeywords(?string $keywords): void
     {
-        $this->keyword = $keyword;
+        $this->keywords = $keywords;
     }
 
     public function getPlaceId(): ?int

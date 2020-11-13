@@ -42,7 +42,6 @@ class DiveController extends Controller
 
         $collection = $this->repository->find($search);
 
-
         return DiveListViewModel::fromCollection($collection);
     }
 

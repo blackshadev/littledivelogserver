@@ -5,7 +5,7 @@ start:
 
 .PHONY: test
 test:
-	vagrant ssh -c 'cd code && php artisan test'
+	vagrant ssh -c 'cd code && php artisan test --env=unit-tests'
 
 cs-fix:
 	vagrant ssh -c 'cd code && vendor/bin/ecs check --fix --config=dev/ecs.php'

@@ -64,6 +64,7 @@ class Dive extends Model implements Explored
 
     public function toSearchableArray(): array
     {
+        $place = $this->place;
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
@@ -72,10 +73,10 @@ class Dive extends Model implements Explored
             'created_at' => $this->created_at,
             'tags' => $this->tags()->getQuery()->select(['tags.id', 'tags.text'])->get()->toArray(),
             'buddies' => $this->buddies()->getQuery()->select(['buddies.id', 'buddies.name'])->get()->toArray(),
-            'place' => $this->place !== null ? [
-                'id' => $this->place->id,
-                'name' => $this->place->name,
-                'country_code' => $this->place->country_code,
+            'place' => $place !== null ? [
+                'id' => $place->id,
+                'name' => $place->name,
+                'country_code' => $place->country_code,
             ] : null
         ];
     }

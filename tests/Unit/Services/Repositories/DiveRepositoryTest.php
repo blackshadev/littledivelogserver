@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\Repositories;
 
+use App\CommandObjects\FindDivesCommand;
 use App\DataTransferObjects\BuddyData;
 use App\DataTransferObjects\DiveData;
 use App\DataTransferObjects\TagData;
 use App\DataTransferObjects\TankData;
+use App\Helpers\Explorer\Utilities;
 use App\Models\Buddy;
 use App\Models\Computer;
 use App\Models\Dive;
@@ -22,7 +24,10 @@ use App\Services\Repositories\PlaceRepository;
 use App\Services\Repositories\TagRepository;
 use App\Services\Repositories\TankRepository;
 use Carbon\Carbon;
+use DMS\PHPUnitExtensions\ArraySubset\Assert;
 use Illuminate\Foundation\Testing\WithFaker;
+use JeroenG\Explorer\Application\BuildCommand;
+use Laravel\Scout\Builder;
 use Mockery;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -80,6 +85,7 @@ class DiveRepositoryTest extends TestCase
         ])->makePartial();
 
         $this->diveRepository->shouldReceive('save')->byDefault();
+        $this->diveRepository->shouldReceive('search')->byDefault();
         $this->diveRepository->shouldReceive('attachTags')->byDefault();
         $this->diveRepository->shouldReceive('attachBuddies')->byDefault();
         $this->diveRepository->shouldReceive('removeTank')->byDefault();
@@ -153,7 +159,6 @@ class DiveRepositoryTest extends TestCase
             ->andReturn($tag);
 
         $this->diveRepository->expects('attachTags')->with($dive, [$tag]);
-
         $this->diveRepository->update($dive, $data);
     }
 
@@ -173,7 +178,6 @@ class DiveRepositoryTest extends TestCase
             ->andReturn($buddy);
 
         $this->diveRepository->expects('attachBuddies')->with($dive, [$buddy]);
-
         $this->diveRepository->update($dive, $data);
     }
 
@@ -249,5 +253,46 @@ class DiveRepositoryTest extends TestCase
             ->with($computer, $data->getDate(), $data->getFingerprint());
 
         $this->diveRepository->update($dive, $data);
+    }
+
+    public function testItFindsDivesByDetails()
+    {
+        $lastYear = Carbon::now()->subYear();
+        $now = Carbon::now();
+        $searchCmd = FindDivesCommand::forUser(-1);
+        $searchCmd->setBuddies([1, 2]);
+        $searchCmd->setTags([3, 4]);
+        $searchCmd->setPlaceId(4);
+        $searchCmd->setAfter($lastYear);
+        $searchCmd->setBefore($now);
+
+        $this->diveRepository->expects('search')->withArgs(
+            function ($arg) use ($lastYear, $now) {
+                /** @var Builder $arg */
+                $cmd = BuildCommand::wrap($arg);
+                $filter = Utilities::toArray($cmd->getFilter());
+                self::assertEquals([[
+                    'term' => [ 'user_id' => -1, 'boost' => null ]
+                ]], $filter);
+
+                $must = Utilities::toArray($cmd->getMust());
+
+                Assert::assertArraySubset([[
+                    'range' => [ 'date' => ['gt' => $lastYear]]
+                ], [
+                    'range' => [ 'date' => ['lt' => $now]]
+                ], [
+                    'nested' => [ 'path' => 'place', 'query' => ['term' => ['place.id' => 4 ]]]
+                ], [
+                    'nested' => [ 'path' => 'buddies', 'query' => ['term' => ['buddies.id' => [1, 2] ]]]
+                ], [
+                    'nested' => [ 'path' => 'tags', 'query' => ['term' => ['tags.id' => [3, 4] ]]]
+                ]], $must);
+
+                return true;
+            }
+        );
+
+        $this->diveRepository->find($searchCmd);
     }
 }

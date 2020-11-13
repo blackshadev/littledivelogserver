@@ -18,10 +18,13 @@ use App\Models\DiveTank;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use JeroenG\Explorer\Domain\QueryBuilders\BoolQuery;
+use JeroenG\Explorer\Domain\Syntax\Matching;
 use JeroenG\Explorer\Domain\Syntax\Nested;
 use JeroenG\Explorer\Domain\Syntax\Range;
 use JeroenG\Explorer\Domain\Syntax\Sort;
 use JeroenG\Explorer\Domain\Syntax\Term;
+use Laravel\Scout\Builder;
 
 class DiveRepository
 {
@@ -114,6 +117,14 @@ class DiveRepository
         });
     }
 
+    public function search(Builder $search): Collection
+    {
+        if (!$search->model instanceof Dive) {
+            throw new \RuntimeException('Invalid search builder, expected search for model Dive. Got ' . get_class($search->model));
+        }
+        return $search->get();
+    }
+
     public function save(Dive $dive)
     {
         $dive->save();
@@ -152,8 +163,18 @@ class DiveRepository
     /** @return Dive[] */
     public function find(FindDivesCommand $findDivesCommand): Collection
     {
-        $search = Dive::search($findDivesCommand->getKeyword() ?? '');
+        $search = Dive::search();
+
         $search->filter(new Term('user_id', $findDivesCommand->getUserId(), null));
+
+        if ($findDivesCommand->getKeywords()) {
+            $query = new BoolQuery();
+            $query->should(new Nested('place', new Matching('place.name', $findDivesCommand->getKeywords())));
+            $query->should(new Nested('buddies', new Matching('buddies.name', $findDivesCommand->getKeywords())));
+            $query->should(new Nested('tags', new Matching('tags.text', $findDivesCommand->getKeywords())));
+            $search->must($query);
+        }
+
         if ($findDivesCommand->getAfter() !== null) {
             $search->must(new Range('date', [
                 'gt' => $findDivesCommand->getAfter()
@@ -175,7 +196,7 @@ class DiveRepository
         }
         $search->sort(new Sort('date', 'desc'));
 
-        return $search->get();
+        return $this->search($search);
     }
 
     /** @param TankData[] $tanks */

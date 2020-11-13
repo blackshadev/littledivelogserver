@@ -20,6 +20,6 @@ return [
      */
     'indexes' => [
          \App\Models\Dive::class,
-//         \App\Models\Place::class
+         \App\Models\Place::class
     ],
 ];

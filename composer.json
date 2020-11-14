@@ -21,6 +21,7 @@
         "lcobucci/jwt": "^3.3"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-master",
         "facade/ignition": "^2.3.6",
         "fzaninotto/faker": "^1.9.1",
         "laravel/homestead": "^11.1",
@@ -33,6 +34,7 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
+        "discard-changes": true,
         "platform": {
             "php": "7.4"
         }

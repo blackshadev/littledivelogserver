@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  app:
+    build: .
+    image: blackshadev/littledivelogserver:next
+    restart: unless-stopped
+    volumes:
+      - .:/www
+
+  db:
+    image: postgres:alpine
+    restart: always
+    ports:
+    - 5432:5432
+    volumes:
+    - pg-data:/var/lib/postgresql/data
+
+  es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - es-data:/usr/share/elasticsearch/data:rw
+
+  redis:
+    image: redis:5-alpine
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - .:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+
+volumes:
+  pg-data:
+  es-data:
+
+networks:
+  default:
+    name: littledivelog
+    driver: bridge

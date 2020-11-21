@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b40ad642d065b6104a6ef61b3b987ae",
+    "content-hash": "467e4969404c6640eb443b85d01dbf21",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1181,16 +1181,16 @@
         },
         {
             "name": "jeroen-g/explorer",
-            "version": "v1.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jeroen-G/Explorer.git",
-                "reference": "01c1ed61947a65623c82f594551ab8ecc991fd1a"
+                "reference": "f49263ab2c926b41c223e325975c39b6e18aad98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jeroen-G/Explorer/zipball/01c1ed61947a65623c82f594551ab8ecc991fd1a",
-                "reference": "01c1ed61947a65623c82f594551ab8ecc991fd1a",
+                "url": "https://api.github.com/repos/Jeroen-G/Explorer/zipball/f49263ab2c926b41c223e325975c39b6e18aad98",
+                "reference": "f49263ab2c926b41c223e325975c39b6e18aad98",
                 "shasum": ""
             },
             "require": {
@@ -1207,6 +1207,7 @@
                 "phpunit/phpunit": "~9.0",
                 "symplify/easy-coding-standard": "^8.3"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -1243,9 +1244,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Jeroen-G/Explorer/issues",
-                "source": "https://github.com/Jeroen-G/Explorer/tree/v1.1.0"
+                "source": "https://github.com/Jeroen-G/Explorer/tree/master"
             },
-            "time": "2020-11-11T20:35:34+00:00"
+            "time": "2020-11-18T21:02:59+00:00"
         },
         {
             "name": "laravel/framework",
@@ -10406,6 +10407,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "jeroen-g/explorer": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,

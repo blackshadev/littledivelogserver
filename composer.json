@@ -14,7 +14,7 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.01",
-        "jeroen-g/explorer": "^1.0",
+        "jeroen-g/explorer": "dev-master",
         "laravel/framework": "^8.0",
         "laravel/scout": "^8.4",
         "laravel/tinker": "^2.0",

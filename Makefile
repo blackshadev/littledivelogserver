@@ -3,7 +3,7 @@ set-ids = USERID=$$(id -u) GROUPID=$$(id -g)
 
 .PHONY: test
 test:
-	@${set-ids} docker-compose exec  app 'cd code && php artisan test --env=unit-tests'
+	@${set-ids} docker-compose exec app sh -c 'php artisan test --env=unit-tests'
 
 .PHONY: start
 start:

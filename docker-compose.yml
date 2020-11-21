@@ -6,11 +6,15 @@ services:
     image: blackshadev/littledivelogserver:next
     restart: unless-stopped
     volumes:
-      - .:/www
+      - .:/var/www
 
   db:
     image: postgres:alpine
     restart: always
+    environment:
+    - POSTGRES_USER=littledivelog
+    - POSTGRES_DB=littledivelog
+    - POSTGRES_PASSWORD=secret
     ports:
     - 5432:5432
     volumes:
@@ -18,6 +22,9 @@ services:
 
   es:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    ports:
+    - 9200:9200
+    - 9300:9300
     environment:
       - discovery.type=single-node
     volumes:

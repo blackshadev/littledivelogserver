@@ -18,7 +18,7 @@ use App\Models\DiveTank;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use JeroenG\Explorer\Domain\QueryBuilders\BoolQuery;
+use JeroenG\Explorer\Domain\Compound\BoolQuery;
 use JeroenG\Explorer\Domain\Syntax\Matching;
 use JeroenG\Explorer\Domain\Syntax\Nested;
 use JeroenG\Explorer\Domain\Syntax\Range;

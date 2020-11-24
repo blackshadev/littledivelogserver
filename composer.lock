@@ -446,26 +446,29 @@
         },
         {
             "name": "dragonmantank/cron-expression",
-            "version": "v3.0.2",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dragonmantank/cron-expression.git",
-                "reference": "48212cdc0a79051d50d7fc2f0645c5a321caf926"
+                "reference": "7a8c6e56ab3ffcc538d05e8155bb42269abf1a0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/48212cdc0a79051d50d7fc2f0645c5a321caf926",
-                "reference": "48212cdc0a79051d50d7fc2f0645c5a321caf926",
+                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/7a8c6e56ab3ffcc538d05e8155bb42269abf1a0c",
+                "reference": "7a8c6e56ab3ffcc538d05e8155bb42269abf1a0c",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1|^8.0"
+                "php": "^7.2|^8.0",
+                "webmozart/assert": "^1.7.0"
             },
             "replace": {
                 "mtdowling/cron-expression": "^1.0"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.11|^0.12",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-webmozart-assert": "^0.12.7",
                 "phpunit/phpunit": "^7.0|^8.0|^9.0"
             },
             "type": "library",
@@ -492,7 +495,7 @@
             ],
             "support": {
                 "issues": "https://github.com/dragonmantank/cron-expression/issues",
-                "source": "https://github.com/dragonmantank/cron-expression/tree/v3.0.2"
+                "source": "https://github.com/dragonmantank/cron-expression/tree/v3.1.0"
             },
             "funding": [
                 {
@@ -500,7 +503,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-13T01:26:01+00:00"
+            "time": "2020-11-24T19:55:57+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -1185,12 +1188,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jeroen-G/Explorer.git",
-                "reference": "f49263ab2c926b41c223e325975c39b6e18aad98"
+                "reference": "7966d7c1f19f1a4f194aadc43bf96767d6c283e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jeroen-G/Explorer/zipball/f49263ab2c926b41c223e325975c39b6e18aad98",
-                "reference": "f49263ab2c926b41c223e325975c39b6e18aad98",
+                "url": "https://api.github.com/repos/Jeroen-G/Explorer/zipball/7966d7c1f19f1a4f194aadc43bf96767d6c283e0",
+                "reference": "7966d7c1f19f1a4f194aadc43bf96767d6c283e0",
                 "shasum": ""
             },
             "require": {
@@ -1246,20 +1249,20 @@
                 "issues": "https://github.com/Jeroen-G/Explorer/issues",
                 "source": "https://github.com/Jeroen-G/Explorer/tree/master"
             },
-            "time": "2020-11-18T21:02:59+00:00"
+            "time": "2020-11-22T19:56:10+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v8.15.0",
+            "version": "v8.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "22e4182fa0885dea3772106c3b6df705b7c7363e"
+                "reference": "0be6761601feb3cc1f51ac04b5cc5fbdde7928c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/22e4182fa0885dea3772106c3b6df705b7c7363e",
-                "reference": "22e4182fa0885dea3772106c3b6df705b7c7363e",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0be6761601feb3cc1f51ac04b5cc5fbdde7928c1",
+                "reference": "0be6761601feb3cc1f51ac04b5cc5fbdde7928c1",
                 "shasum": ""
             },
             "require": {
@@ -1332,7 +1335,7 @@
                 "illuminate/view": "self.version"
             },
             "require-dev": {
-                "aws/aws-sdk-php": "^3.0",
+                "aws/aws-sdk-php": "^3.155",
                 "doctrine/dbal": "^2.6|^3.0",
                 "filp/whoops": "^2.8",
                 "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
@@ -1345,7 +1348,7 @@
                 "symfony/cache": "^5.1"
             },
             "suggest": {
-                "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage and SES mail driver (^3.0).",
+                "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage and SES mail driver (^3.155).",
                 "doctrine/dbal": "Required to rename columns and drop SQLite columns (^2.6|^3.0).",
                 "ext-ftp": "Required to use the Flysystem FTP driver.",
                 "ext-gd": "Required to use Illuminate\\Http\\Testing\\FileFactory::image().",
@@ -1413,7 +1416,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2020-11-17T14:53:20+00:00"
+            "time": "2020-11-24T16:13:01+00:00"
         },
         {
             "name": "laravel/scout",
@@ -8093,20 +8096,20 @@
         },
         {
             "name": "laravel/homestead",
-            "version": "v11.3.3",
+            "version": "v11.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/homestead.git",
-                "reference": "fbd5bbe090362478eef802622a1451a823ea5cab"
+                "reference": "41a628deed9b601ee80689cf3ae0815195b5040f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/homestead/zipball/fbd5bbe090362478eef802622a1451a823ea5cab",
-                "reference": "fbd5bbe090362478eef802622a1451a823ea5cab",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/41a628deed9b601ee80689cf3ae0815195b5040f",
+                "reference": "41a628deed9b601ee80689cf3ae0815195b5040f",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4",
+                "php": "^7.4 || ^8.0",
                 "symfony/console": "~5.1",
                 "symfony/process": "~5.1",
                 "symfony/yaml": "~5.1"
@@ -8137,9 +8140,9 @@
             "description": "A virtual machine for web artisans.",
             "support": {
                 "issues": "https://github.com/laravel/homestead/issues",
-                "source": "https://github.com/laravel/homestead/tree/v11.3.3"
+                "source": "https://github.com/laravel/homestead/tree/v11.4.0"
             },
-            "time": "2020-11-01T14:03:48+00:00"
+            "time": "2020-11-24T17:59:52+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -8740,12 +8743,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "44d202bbcf2339adf2941bf629cecfde4f58c35d"
+                "reference": "563faed0e5e24a5b639fbd30d8f3921bb11fccc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/44d202bbcf2339adf2941bf629cecfde4f58c35d",
-                "reference": "44d202bbcf2339adf2941bf629cecfde4f58c35d",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/563faed0e5e24a5b639fbd30d8f3921bb11fccc0",
+                "reference": "563faed0e5e24a5b639fbd30d8f3921bb11fccc0",
                 "shasum": ""
             },
             "conflict": {
@@ -8853,8 +8856,8 @@
                 "nette/nette": ">=2,<2.0.19|>=2.1,<2.1.13",
                 "nystudio107/craft-seomatic": "<3.3",
                 "nzo/url-encryptor-bundle": ">=4,<4.3.2|>=5,<5.0.1",
-                "october/backend": ">=1.0.319,<1.0.467",
-                "october/cms": ">=1.0.319,<1.0.466",
+                "october/backend": ">=1.0.319,<1.0.470",
+                "october/cms": "= 1.0.469|>=1.0.319,<1.0.469",
                 "october/october": ">=1.0.319,<1.0.466",
                 "october/rain": ">=1.0.319,<1.0.468",
                 "onelogin/php-saml": "<2.10.4",
@@ -8867,6 +8870,7 @@
                 "padraic/humbug_get_contents": "<1.1.2",
                 "pagarme/pagarme-php": ">=0,<3",
                 "paragonie/random_compat": "<2",
+                "passbolt/passbolt_api": "<2.11",
                 "paypal/merchant-sdk-php": "<3.12",
                 "pear/archive_tar": "<1.4.4",
                 "personnummer/personnummer": "<3.0.2",
@@ -8970,8 +8974,8 @@
                 "titon/framework": ">=0,<9.9.99",
                 "truckersmp/phpwhois": "<=4.3.1",
                 "twig/twig": "<1.38|>=2,<2.7",
-                "typo3/cms": ">=6.2,<6.2.30|>=7,<7.6.32|>=8,<8.7.30|>=9,<9.5.20|>=10,<10.4.6",
-                "typo3/cms-core": ">=8,<8.7.30|>=9,<9.5.20|>=10,<10.4.6",
+                "typo3/cms": ">=6.2,<6.2.30|>=7,<7.6.32|>=8,<8.7.38|>=9,<9.5.23|>=10,<10.4.10",
+                "typo3/cms-core": ">=8,<8.7.38|>=9,<9.5.23|>=10,<10.4.10",
                 "typo3/flow": ">=1,<1.0.4|>=1.1,<1.1.1|>=2,<2.0.1|>=2.3,<2.3.16|>=3,<3.0.10|>=3.1,<3.1.7|>=3.2,<3.2.7|>=3.3,<3.3.5",
                 "typo3/neos": ">=1.1,<1.1.3|>=1.2,<1.2.13|>=2,<2.0.4",
                 "typo3/phar-stream-wrapper": ">=1,<2.1.1|>=3,<3.1.1",
@@ -9049,7 +9053,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-20T09:02:03+00:00"
+            "time": "2020-11-23T21:01:44+00:00"
         },
         {
             "name": "slevomat/coding-standard",

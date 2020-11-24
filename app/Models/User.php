@@ -64,4 +64,9 @@ class User extends AuthUser implements TauthAuthenticatable
     {
         return $this->hasMany(Computer::class);
     }
+
+    public function equipment()
+    {
+        return $this->hasOne(Equipment::class);
+    }
 }

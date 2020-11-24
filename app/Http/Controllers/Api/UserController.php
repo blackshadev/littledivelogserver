@@ -21,4 +21,9 @@ class UserController extends Controller
 
         return new UserProfileViewModel($user);
     }
+
+    public function equipment(User $user)
+    {
+        return new UserEquipmentViewModel($user->equipment);
+    }
 }

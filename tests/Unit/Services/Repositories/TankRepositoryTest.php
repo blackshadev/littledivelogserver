@@ -6,7 +6,7 @@ namespace Tests\Unit\Services\Repositories;
 
 use App\DataTransferObjects\TankData;
 use App\Models\DiveTank;
-use App\Services\Repositories\TankRepository;
+use App\Services\Repositories\DiveTankRepository;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -15,13 +15,13 @@ class TankRepositoryTest extends TestCase
 {
     use WithFaker;
 
-    /** @var TankRepository|MockInterface */
+    /** @var DiveTankRepository|MockInterface */
     protected $repository;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->repository = \Mockery::mock(TankRepository::class)
+        $this->repository = \Mockery::mock(DiveTankRepository::class)
             ->makePartial();
 
         $this->repository->shouldReceive('save')->byDefault();

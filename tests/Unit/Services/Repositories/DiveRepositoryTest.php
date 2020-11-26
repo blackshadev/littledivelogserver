@@ -18,9 +18,9 @@ use App\Models\User;
 use App\Services\Repositories\BuddyRepository;
 use App\Services\Repositories\ComputerRepository;
 use App\Services\Repositories\DiveRepository;
+use App\Services\Repositories\DiveTankRepository;
 use App\Services\Repositories\PlaceRepository;
 use App\Services\Repositories\TagRepository;
-use App\Services\Repositories\TankRepository;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery;
@@ -52,7 +52,7 @@ class DiveRepositoryTest extends TestCase
     private $buddyRepository;
 
     /**
-     * @var TankRepository|MockInterface
+     * @var DiveTankRepository|MockInterface
      */
     private $tankRepository;
 
@@ -68,7 +68,7 @@ class DiveRepositoryTest extends TestCase
         $this->placeRepository = Mockery::mock(PlaceRepository::class);
         $this->tagRepository = Mockery::mock(TagRepository::class);
         $this->buddyRepository = Mockery::mock(BuddyRepository::class);
-        $this->tankRepository = Mockery::mock(TankRepository::class);
+        $this->tankRepository = Mockery::mock(DiveTankRepository::class);
         $this->computerRepository = Mockery::mock(ComputerRepository::class);
 
         $this->diveRepository = Mockery::mock(DiveRepository::class, [

@@ -7,7 +7,7 @@ namespace App\Services\Repositories;
 use App\DataTransferObjects\TankData;
 use App\Models\DiveTank;
 
-class TankRepository
+class DiveTankRepository
 {
     public function make(TankData $tankData): DiveTank
     {

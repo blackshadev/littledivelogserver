@@ -10,14 +10,18 @@
     "require": {
         "php": "^7.4",
         "ext-json": "*",
+        "dms/phpunit-arraysubset-asserts": "^0.2.1",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.01",
+        "jeroen-g/explorer": "dev-master",
         "laravel/framework": "^8.0",
+        "laravel/scout": "^8.4",
         "laravel/tinker": "^2.0",
-        "lcobucci/jwt": "^3.3"
+        "lcobucci/jwt": "3.3.3"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-master",
         "facade/ignition": "^2.3.6",
         "fzaninotto/faker": "^1.9.1",
         "laravel/homestead": "^11.1",
@@ -30,6 +34,7 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
+        "discard-changes": true,
         "platform": {
             "php": "7.4"
         }

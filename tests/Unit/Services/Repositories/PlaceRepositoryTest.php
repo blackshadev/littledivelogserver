@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\Repositories;
 
+use App\CommandObjects\FindPlaceCommand;
 use App\DataTransferObjects\PlaceData;
 use App\Error\PlaceNotFound;
+use App\Helpers\Explorer\Utilities;
 use App\Models\Place;
 use App\Models\User;
 use App\Services\Repositories\PlaceRepository;
+use DMS\PHPUnitExtensions\ArraySubset\Assert;
 use Illuminate\Foundation\Testing\WithFaker;
+use JeroenG\Explorer\Application\BuildCommand;
 use Mockery\MockInterface;
+use PhpParser\Builder;
 use Tests\TestCase;
 
 class PlaceRepositoryTest extends TestCase
@@ -37,7 +42,7 @@ class PlaceRepositoryTest extends TestCase
         $placeData = new PlaceData();
         $placeData->setId($id);
 
-        $this->repository->expects('find')
+        $this->repository->expects('findById')
             ->with($id)
             ->andReturnNull();
 
@@ -57,7 +62,7 @@ class PlaceRepositoryTest extends TestCase
 
         $place = new Place();
 
-        $this->repository->expects('find')
+        $this->repository->expects('findById')
             ->with($id)
             ->andReturn($place);
 
@@ -142,5 +147,38 @@ class PlaceRepositoryTest extends TestCase
         self::assertEquals($placeData->getCountryCode(), $result->country_code);
         self::assertEquals($placeData->getName(), $result->name);
         self::assertEquals($user->id, $result->created_by);
+    }
+
+    public function testItFindsDivesByDetails()
+    {
+        $searchCmd = new FindPlaceCommand();
+        $searchCmd->setCountry('UK');
+        $searchCmd->setKeywords('test');
+
+        $this->repository->expects('search')->withArgs(
+            function ($arg) {
+                /** @var Builder $arg */
+                $cmd = BuildCommand::wrap($arg);
+                $filter = Utilities::toArray($cmd->getFilter());
+                self::assertEquals([[
+                    'term' => [ 'country_code' => 'UK', 'boost' => null ]
+                ]], $filter);
+
+                $must = Utilities::toArray($cmd->getMust());
+
+                Assert::assertArraySubset([[
+                    'bool' => [
+                        'should' => [[
+                        'match' => [ 'name' => 'test']
+                    ], [
+                        'match' => [ 'country' => 'test']
+                    ]]
+                ]]], $must);
+
+                return true;
+            }
+        );
+
+        $this->repository->find($searchCmd);
     }
 }

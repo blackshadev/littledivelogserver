@@ -10,7 +10,7 @@ use App\Error\PlaceNotFound;
 use App\Models\Place;
 use App\Models\User;
 use Illuminate\Support\Collection;
-use JeroenG\Explorer\Domain\QueryBuilders\BoolQuery;
+use JeroenG\Explorer\Domain\Compound\BoolQuery;
 use JeroenG\Explorer\Domain\Syntax\Matching;
 use JeroenG\Explorer\Domain\Syntax\Term;
 use Laravel\Scout\Builder;

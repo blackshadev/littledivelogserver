@@ -1,0 +1,1 @@
+{"query":{"bool":{"must":[{"nested":{"path":"place","query":{"term":{"place.id":5}}}}],"should":[],"filter":[{"term":{"user_id":1}}]}}}

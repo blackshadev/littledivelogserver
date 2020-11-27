@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\CommandObjects\FindDivesCommand;
 use App\DataTransferObjects\DiveData;
 use App\DataTransferObjects\NewDiveData;
 use App\Http\Controllers\Controller;
@@ -16,15 +17,16 @@ use App\Services\DiveMerger\DiveMergerService;
 use App\Services\Repositories\DiveRepository;
 use App\ViewModels\ApiModels\DiveDetailViewModel;
 use App\ViewModels\ApiModels\DiveListViewModel;
+use Illuminate\Http\Request;
 
 class DiveController extends Controller
 {
     private DiveRepository $repository;
 
-    public function __construct(DiveRepository $updater)
+    public function __construct(DiveRepository $diveRepository)
     {
         $this->authorizeResource(Dive::class, 'dive');
-        $this->repository = $updater;
+        $this->repository = $diveRepository;
     }
 
     public function index(User $user)
@@ -32,6 +34,15 @@ class DiveController extends Controller
         return DiveListViewModel::fromCollection(
             $user->dives()->orderBy('id', 'desc')->get()
         );
+    }
+
+    public function search(User $user, Request $request)
+    {
+        $search = FindDivesCommand::forUser($user->id, $request->query());
+
+        $collection = $this->repository->find($search);
+
+        return DiveListViewModel::fromCollection($collection);
     }
 
     public function show(Dive $dive)

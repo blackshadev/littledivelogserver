@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
-class TankRepositoryTest extends TestCase
+class DiveTankRepositoryTest extends TestCase
 {
     use WithFaker;
 

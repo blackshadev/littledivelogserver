@@ -28,8 +28,19 @@ class EquipmentData
         return $this->tanks;
     }
 
+    /** @param TankData[] $tanks */
+    public function setTanks(array $tanks): void
+    {
+        $this->tanks = $tanks;
+    }
+
     public function getUserId(): int
     {
         return $this->userId;
+    }
+
+    public function setUserId(int $userid): void
+    {
+        $this->userId = $userid;
     }
 }

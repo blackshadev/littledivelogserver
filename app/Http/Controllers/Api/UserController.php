@@ -40,6 +40,6 @@ class UserController extends Controller
         $equipment = $this->equipmentRepository->findOrCreateForUser($user);
         $this->equipmentRepository->update($equipment, $equipmentData);
 
-        return $this->equipment($user);
+        return new UserEquipmentViewModel($equipment);
     }
 }

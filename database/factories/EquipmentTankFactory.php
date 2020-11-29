@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Equipment;
-use App\Models\EquipmentTank;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EquipmentTankFactory extends Factory
 {
-    protected $model = EquipmentTank::class;
-
     public function definition()
     {
         return [

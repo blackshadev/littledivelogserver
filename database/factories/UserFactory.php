@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Dive;
-use App\Models\Equipment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -31,16 +30,6 @@ class UserFactory extends Factory
             Dive::factory()->filled()->count($this->faker->numberBetween(1, 50))
         );
 
-        return $this;
-    }
-
-    public function equipped(): self
-    {
-//        return $this->afterMaking(function($user)  {
-//            $equipment = Equipment::factory()->makeOne();
-//            dd($equipment);
-//            $user->equipment = $equipment;
-//        });
         return $this;
     }
 }

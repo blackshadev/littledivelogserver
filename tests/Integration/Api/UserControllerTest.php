@@ -74,14 +74,14 @@ class UserControllerTest extends TestCase
 
     public function testItGetsUsersEquipment()
     {
-        $user = User::factory()
-            ->equipped()
+        /** @var Equipment $equipment */
+        $equipment = Equipment::factory()
+            ->forUser()
+            ->filled()
             ->createOne();
+        /** @var $user */
+        $user = $equipment->user;
         $this->fakeAccessTokenFor($user);
-
-        $equipment = Equipment::factory()->filled()->makeOne();
-        dd($equipment->tanks[0]);
-        dd($user->equipment);
 
         $tank = $user->equipment->tanks[0];
 
@@ -92,7 +92,7 @@ class UserControllerTest extends TestCase
                     'volume' => $tank->volume,
                     'oxygen' => $tank->oxygen,
                     'pressure' => [
-                        'begin' => $tank->pressure_end,
+                        'begin' => $tank->pressure_begin,
                         'end' => $tank->pressure_end,
                         'type' => $tank->pressure_type
                     ]

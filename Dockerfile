@@ -44,7 +44,7 @@ RUN apk update \
     && adduser -S -G php php \
     && rm -rf /var/cache/apk/*
 
-    RUN usermod -u ${USERID} php \
+RUN usermod -u ${USERID} php \
  && groupmod -o -g ${GROUPID} php
 
 # Set working directory
@@ -52,6 +52,8 @@ RUN mkdir -p /var/www \
    chown php:php /var/www
 
 COPY docker-compose/php-fpm /etc/php7/php-fpm.d/
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 

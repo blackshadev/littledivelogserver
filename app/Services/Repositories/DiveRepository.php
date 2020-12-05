@@ -34,7 +34,7 @@ class DiveRepository
 
     private TagRepository $tagRepository;
 
-    private TankRepository $tankRepository;
+    private DiveTankRepository $tankRepository;
 
     private ComputerRepository $computerRepository;
 
@@ -42,7 +42,7 @@ class DiveRepository
         PlaceRepository $placeRepository,
         BuddyRepository $buddyRepository,
         TagRepository $tagRepository,
-        TankRepository $tankRepository,
+        DiveTankRepository $tankRepository,
         ComputerRepository $computerRepository
     ) {
         $this->placeRepository = $placeRepository;

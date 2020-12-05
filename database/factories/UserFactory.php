@@ -24,7 +24,7 @@ class UserFactory extends Factory
         ];
     }
 
-    public function filled()
+    public function filled(): self
     {
         $this->has(
             Dive::factory()->filled()->count($this->faker->numberBetween(1, 50))

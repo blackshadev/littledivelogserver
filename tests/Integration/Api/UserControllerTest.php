@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\Api;
 
 use App\Http\Controllers\Api\UserController;
+use App\Models\Equipment;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -69,5 +70,33 @@ class UserControllerTest extends TestCase
     {
         $this->get(action([UserController::class, 'profile']))
             ->assertStatus(403);
+    }
+
+    public function testItGetsUsersEquipment()
+    {
+        /** @var Equipment $equipment */
+        $equipment = Equipment::factory()
+            ->forUser()
+            ->filled()
+            ->createOne();
+        /** @var $user */
+        $user = $equipment->user;
+        $this->fakeAccessTokenFor($user);
+
+        $tank = $user->equipment->tanks[0];
+
+        $this->get(action([UserController::class, 'equipment']))
+            ->assertStatus(200)
+            ->assertJson([
+                'tanks' => [[
+                    'volume' => $tank->volume,
+                    'oxygen' => $tank->oxygen,
+                    'pressure' => [
+                        'begin' => $tank->pressure_begin,
+                        'end' => $tank->pressure_end,
+                        'type' => $tank->pressure_type
+                    ]
+                ]]
+            ]);
     }
 }

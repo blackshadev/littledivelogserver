@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Littledev\Tauth\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Littledev\Tauth\Errors\InvalidCredentialsException;
@@ -12,6 +15,8 @@ use Littledev\Tauth\Services\TauthServiceInterface;
 
 class TauthController extends Controller
 {
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
     protected TauthServiceInterface  $authenticationService;
 
     protected TauthRepositoryInterface $tauthRepository;

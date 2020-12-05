@@ -6,7 +6,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
+use App\Models\RefreshToken;
 use App\Models\User;
+use App\ViewModels\ApiModels\UserSessionViewModel;
 use Littledev\Tauth\Http\Controllers\TauthController;
 use Littledev\Tauth\Services\TauthRepositoryInterface;
 use Littledev\Tauth\Services\TauthServiceInterface;
@@ -19,7 +21,7 @@ class AuthController extends TauthController
         TauthRepositoryInterface $tauthRepository
     ) {
         parent::__construct($authenticationService, $tauthRepository);
-        $this->middleware('auth.tuath.access')->only(['listSessions']);
+        $this->middleware('auth.tuath.access')->only(['listSessions', 'deleteSession']);
     }
 
     public function login(LoginRequest $request)
@@ -34,6 +36,13 @@ class AuthController extends TauthController
         return response()->noContent(Response::HTTP_CREATED);
     }
 
+    public function deleteSession(RefreshToken $refreshToken)
+    {
+        $this->authorize('delete', $refreshToken);
+
+        $refreshToken->delete();
+    }
+
     public function listSessions()
     {
         $user = $this->authenticationService->getUser();
@@ -41,6 +50,6 @@ class AuthController extends TauthController
             throw new \UnexpectedValueException('Expected user model got ' . get_class($user));
         }
 
-        return $user->sessions()->get();
+        return UserSessionViewModel::fromCollection($user->sessions);
     }
 }

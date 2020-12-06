@@ -27,8 +27,6 @@ services:
     - 9300:9300
     environment:
       - discovery.type=single-node
-    volumes:
-      - es-data:/usr/share/elasticsearch/data:rw
 
   redis:
     image: redis:5-alpine
@@ -44,7 +42,6 @@ services:
 
 volumes:
   pg-data:
-  es-data:
 
 networks:
   default:

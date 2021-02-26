@@ -66,9 +66,7 @@ class BuddyRepository
     public function findByName(string $name, User $user): ?Buddy
     {
         /** @var Buddy|null $buddy */
-        return $user->buddies()->find([
-            'name' => $name,
-        ]);
+        return $user->buddies()->where('name', $name)->first();
     }
 
     public function save(Buddy $buddy)

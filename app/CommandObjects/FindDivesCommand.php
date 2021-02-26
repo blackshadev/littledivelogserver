@@ -128,8 +128,12 @@ class FindDivesCommand
         return $this->placeId;
     }
 
-    public function setPlaceId(?int $placeId): void
+    public function setPlaceId($placeId): void
     {
+        if (is_string($placeId)) {
+            $placeId = (int)$placeId;
+        }
+
         $this->placeId = $placeId;
     }
 }

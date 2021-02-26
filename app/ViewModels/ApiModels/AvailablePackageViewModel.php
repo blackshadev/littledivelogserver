@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\ViewModels\ApiModels;
 
 use App\Http\Controllers\Api\UploaderPackageController;
-use App\ValueObjects\AvailableVersionValue;
+use App\ValueObjects\Uploader\AvailablePackageVersionValue;
 use App\ViewModels\ViewModel;
 
 class AvailablePackageViewModel extends ViewModel
 {
     protected array $visible = ['version', 'platforms', 'downloads'];
 
-    private AvailableVersionValue $package;
+    private AvailablePackageVersionValue $package;
 
-    public function __construct(AvailableVersionValue $package)
+    public function __construct(AvailablePackageVersionValue $package)
     {
         $this->package = $package;
     }

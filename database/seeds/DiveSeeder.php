@@ -35,13 +35,6 @@ class DiveSeeder extends Seeder
                             ->get('id')
                     );
 
-                    $dive->buddies()->attach(
-                        $user->buddies()
-                            ->inRandomOrder()
-                            ->take(random_int(0, 5))
-                            ->get('id')
-                    );
-
                     $dive->tags()->attach(
                         $user->tags()
                             ->inRandomOrder()

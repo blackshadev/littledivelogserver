@@ -17,9 +17,13 @@ stop:
 shell:
 	@${set-ids} docker-compose exec app /bin/sh
 
-.PHONY: build
+.PHONY: build build
 build:
 	@${set-ids} docker-compose build --build-arg USERID=$$(id -u) --build-arg GROUPID=$$(id -g)
+
+build-clean:
+	@${set-ids} docker-compose build --build-arg USERID=$$(id -u) --build-arg GROUPID=$$(id -g) --no-cache
+
 
 cs-fix:
 	vagrant ssh -c 'cd code && vendor/bin/ecs check --fix --config=dev/ecs.php'

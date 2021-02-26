@@ -67,9 +67,7 @@ class TagRepository
     public function findByText(string $text, User $user): ?Tag
     {
         /** @var Tag|null $tag */
-        return $user->tags()->find([
-            'text' => $text,
-        ]);
+        return $user->tags()->where('text', $text)->first();
     }
 
     public function save(Tag $tag)

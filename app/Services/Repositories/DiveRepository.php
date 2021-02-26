@@ -186,13 +186,13 @@ class DiveRepository
             ]));
         }
         if ($findDivesCommand->getPlaceId() !== null) {
-            $search->must(new Nested('place', new Term('place.id', $findDivesCommand->getPlaceId())));
+            $search->must(new Nested('place', new Term('place.id', $findDivesCommand->getPlaceId(), null)));
         }
         if ($findDivesCommand->getBuddies() !== null) {
-            $search->must(new Nested('buddies', new Term('buddies.id', $findDivesCommand->getBuddies())));
+            $search->must(new Nested('buddies', new Term('buddies.id', $findDivesCommand->getBuddies(), null)));
         }
         if ($findDivesCommand->getTags() !== null) {
-            $search->must(new Nested('tags', new Term('tags.id', $findDivesCommand->getTags())));
+            $search->must(new Nested('tags', new Term('tags.id', $findDivesCommand->getTags(), null)));
         }
         $search->sort(new Sort('date', 'desc'));
 

@@ -43,8 +43,8 @@ class DiveListViewModel extends ViewModel
         return DiveTagsViewModel::fromCollection($this->dive->tags);
     }
 
-    public function getPlace(): PlaceViewModel
+    public function getPlace(): ?PlaceViewModel
     {
-        return new PlaceViewModel($this->dive->place);
+        return $this->dive->place ? new PlaceViewModel($this->dive->place) : null;
     }
 }

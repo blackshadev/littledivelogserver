@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM alpine:3.11 AS base
 
 ARG USERID
 ARG GROUPID
@@ -61,3 +61,10 @@ STOPSIGNAL SIGQUIT
 EXPOSE 9000
 
 CMD ["php-fpm"]
+
+FROM base AS dev
+
+FROM base AS prod
+
+COPY --chown=php:php . /var/www
+RUN composer install

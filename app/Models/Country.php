@@ -27,6 +27,6 @@ class Country extends Model
 
     public function places()
     {
-        return $this->hasMany(Place::class, 'iso2', 'country_code');
+        return $this->hasMany(Place::class, 'country_code', 'iso2');
     }
 }

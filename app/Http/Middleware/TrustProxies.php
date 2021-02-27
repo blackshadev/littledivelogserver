@@ -20,7 +20,7 @@ class TrustProxies extends Middleware
 
         $trustedProxies = env('TRUSTED_PROXIES');
         if (!empty($trustedProxies)) {
-            $this->proxies = explode($trustedProxies, ',');
+            $this->proxies = explode(',', $trustedProxies);
         }
     }
 }

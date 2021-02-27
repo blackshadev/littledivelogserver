@@ -1,0 +1,9 @@
+.git/
+.idea/
+.vagrant/
+vendor/
+node_modules/
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/framework/testing/

@@ -1,23 +1,13 @@
-FROM alpine:3.11 AS base
+FROM existenz/webstack:7.4 AS base
 
-ARG USERID
-ARG GROUPID
-
-ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
-
-RUN apk --update-cache add ca-certificates && \
-    echo "https://dl.bintray.com/php-alpine/v3.11/php-7.4" >> /etc/apk/repositories
-
-RUN apk update \
- && export PHP_VERSION=$(apk search php7-common | sed 's/php7-common-//') \
- && apk add --update-cache \
+RUN apk add --no-cache \
     argon2 \
     curl \
     shadow \
     icu \
     php7-common \
-    php7=$PHP_VERSION \
-    php7-fpm=$PHP_VERSION \
+    php7 \
+    php7-fpm \
     php7-sodium \
     php7-ctype \
     php7-curl  \
@@ -25,7 +15,7 @@ RUN apk update \
     php7-dom  \
     php7-gd \
     php7-iconv \
-    php7-intl=$PHP_VERSION \
+    php7-intl \
     php7-json \
     php7-mbstring \
     php7-opcache \
@@ -33,38 +23,29 @@ RUN apk update \
     php7-pdo \
     php7-pdo_pgsql \
     php7-pdo_pgsql \
-    php7-phar=$PHP_VERSION \
+    php7-phar \
     php7-session \
+    php7-tokenizer \
+    php7-xmlwriter \
+    php7-xmlreader \
+    php7-simplexml \
+    php7-fileinfo \
     php7-xml \
     php7-zip \
-    php7-zlib \
-    && ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm \
-    && ln -s /usr/bin/php7 /usr/bin/php \
-    && addgroup -S php \
-    && adduser -S -G php php \
-    && rm -rf /var/cache/apk/*
-
-RUN usermod -u ${USERID} php \
- && groupmod -o -g ${GROUPID} php
-
-# Set working directory
-RUN mkdir -p /var/www \
-   chown php:php /var/www
-
-COPY docker-compose/php-fpm /etc/php7/php-fpm.d/
+    php7-zlib
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www
-
-STOPSIGNAL SIGQUIT
-EXPOSE 9000
-
-CMD ["php-fpm"]
-
 FROM base AS dev
+ARG USERID
+ARG GROUPID
+
+RUN usermod -u ${USERID} php \
+ && groupmod -o -g ${GROUPID} php \
+ && chown -R php:php /www
 
 FROM base AS prod
 
-COPY --chown=php:php . /var/www
-RUN composer install
+COPY --chown=php:php . /www
+RUN composer install \
+ && chown -R php:php /www/vendor

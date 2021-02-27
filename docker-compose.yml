@@ -2,11 +2,14 @@ version: '3.7'
 
 services:
   app:
-    build: .
-    image: blackshadev/littledivelogserver:next
+    build:
+      context: .
+      target: dev
     restart: unless-stopped
+    ports:
+      - "8000:80"
     volumes:
-      - .:/var/www
+      - .:/www
 
   db:
     image: postgres:alpine
@@ -30,15 +33,6 @@ services:
 
   redis:
     image: redis:5-alpine
-
-  nginx:
-    image: nginx:alpine
-    restart: unless-stopped
-    ports:
-      - 8000:80
-    volumes:
-      - .:/var/www
-      - ./docker-compose/nginx:/etc/nginx/conf.d
 
 volumes:
   pg-data:

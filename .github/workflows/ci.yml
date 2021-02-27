@@ -1,21 +1,9 @@
 name: CI
 
 on:
-  - push
   - pull_request
 
 jobs:
-  checks:
-    name: Checks
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-
-      - name: Easy Coding Standard Action
-        uses: zingimmick/ecs-action@0.0.4
-        with:
-          args: --config=dev/ecs.php
 
   tests:
     name: Tests ${{ matrix.php }}
@@ -24,6 +12,7 @@ jobs:
       matrix:
         php: [ 7.4, 8.0 ]
         experimental: [ false ]
+
     services:
       # Label used to access the service container
       postgres:
@@ -31,15 +20,18 @@ jobs:
         image: postgres
         # Provide the password for postgres
         env:
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: secret
           POSTGRES_DB: littledivelog
-          POSTGRES_USER: postgres
+          POSTGRES_USER: littledivelog
+        ports:
+          - 5432:5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
@@ -51,6 +43,9 @@ jobs:
 
       - name: Install composer dependencies
         run: composer install --prefer-dist --ignore-platform-reqs
+
+      - name: Codestyle check
+        run: ./vendor/bin/ecs check --config=dev/ecs.php --no-interaction
 
       - name: Prepare Env
         run: |

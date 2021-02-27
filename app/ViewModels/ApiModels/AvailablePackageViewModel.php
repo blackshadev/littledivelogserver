@@ -41,7 +41,8 @@ class AvailablePackageViewModel extends ViewModel
                 'platform' => (string) $platform,
                 'downloadLink' => action(
                     [UploaderPackageController::class, 'download'],
-                    [(string) $this->package->getVersion(), (string) $platform]
+                    [(string) $this->package->getVersion(), (string) $platform],
+                    true,
                 ),
             ],
             $this->package->getPlatforms()

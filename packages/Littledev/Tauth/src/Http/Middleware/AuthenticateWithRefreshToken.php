@@ -7,7 +7,6 @@ namespace Littledev\Tauth\Http\Middleware;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
-use Illuminate\Validation\UnauthorizedException;
 use Littledev\Tauth\Services\TauthRepositoryInterface;
 use Littledev\Tauth\Services\TauthServiceInterface;
 
@@ -43,7 +42,7 @@ final class AuthenticateWithRefreshToken
         }
 
         if (!$isValidToken) {
-            throw new UnauthorizedException('Refresh token required');
+            throw new AuthorizationException('Refresh token invalid');
         }
 
         if (!$this->authenticationService->validateRefreshToken($token)) {

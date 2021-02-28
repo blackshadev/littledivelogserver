@@ -16,6 +16,7 @@
 !storage/framework/views/.gitignore
 !storage/logs/.gitignore
 !routes/**
+!resources/**
 
 !artisan
 !aliases

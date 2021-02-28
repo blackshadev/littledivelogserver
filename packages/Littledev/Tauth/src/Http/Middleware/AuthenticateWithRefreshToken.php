@@ -5,8 +5,8 @@ declare(strict_types=1);
 
 namespace Littledev\Tauth\Http\Middleware;
 
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Littledev\Tauth\Errors\RefreshTokenException;
 use Littledev\Tauth\Services\TauthRepositoryInterface;
 use Littledev\Tauth\Services\TauthServiceInterface;
 
@@ -42,11 +42,11 @@ final class AuthenticateWithRefreshToken
         }
 
         if (!$isValidToken) {
-            throw new AuthorizationException('Refresh token invalid', 401);
+            throw RefreshTokenException::invalidRefreshToken();
         }
 
         if (!$this->authenticationService->validateRefreshToken($token)) {
-            throw new AuthorizationException('Invalid refresh token', 401);
+            throw RefreshTokenException::invalidRefreshToken();
         }
     }
 }

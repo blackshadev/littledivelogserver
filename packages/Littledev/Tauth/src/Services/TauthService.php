@@ -95,13 +95,13 @@ class TauthService implements TauthServiceInterface
     public function validateAccessToken(?string $jwtData): bool
     {
         if (!$this->tauthRepository->isAccessToken($jwtData)) {
-            throw new InvalidJWTException("Malformed JWT given");
+            throw InvalidJWTException::malformed();
         }
 
         $token = $this->parseAccessToken($jwtData);
 
         if (!$this->JWTFactory->isValid($token)) {
-            throw new InvalidJWTException();
+            throw InvalidJWTException::invalid();
         }
 
         $this->token = $token;

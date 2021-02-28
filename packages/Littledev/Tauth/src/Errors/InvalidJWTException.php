@@ -8,8 +8,18 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class InvalidJWTException extends HttpException
 {
-    public function __construct($message = "Invalid JWT.")
+    public function __construct(string $message)
     {
         parent::__construct(401, $message);
+    }
+
+    public static function malformed(): self
+    {
+        return new self('malformed JWT given');
+    }
+
+    public static function invalid(): self
+    {
+        return new self('Invalid JWT given');
     }
 }

@@ -22,7 +22,7 @@ RUN apk add --no-cache \
     php7-openssl \
     php7-pdo \
     php7-pdo_pgsql \
-    php7-pdo_pgsql \
+    php7-pgsql \
     php7-phar \
     php7-session \
     php7-tokenizer \

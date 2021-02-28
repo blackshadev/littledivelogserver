@@ -42,11 +42,11 @@ final class AuthenticateWithRefreshToken
         }
 
         if (!$isValidToken) {
-            throw new AuthorizationException('Refresh token invalid');
+            throw new AuthorizationException('Refresh token invalid', 401);
         }
 
         if (!$this->authenticationService->validateRefreshToken($token)) {
-            throw new AuthorizationException('Invalid refresh token');
+            throw new AuthorizationException('Invalid refresh token', 401);
         }
     }
 }

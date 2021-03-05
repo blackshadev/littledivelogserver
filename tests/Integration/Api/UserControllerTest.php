@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Api;
 
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\UserProfileController;
 use App\Models\Equipment;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -30,7 +30,7 @@ class UserControllerTest extends TestCase
         $user = User::factory()->createOne();
         $this->fakeAccessTokenFor($user);
 
-        $this->get(action([UserController::class, 'profile']))
+        $this->get(action([UserProfileController::class, 'profile']))
             ->assertStatus(200)
             ->assertJson([
                 'user_id' => $user->id,
@@ -52,7 +52,7 @@ class UserControllerTest extends TestCase
             ->createOne();
         $this->fakeAccessTokenFor($user);
 
-        $this->get(action([UserController::class, 'profile']))
+        $this->get(action([UserProfileController::class, 'profile']))
             ->assertStatus(200)
             ->assertJson([
                 'user_id' => $user->id,
@@ -68,7 +68,7 @@ class UserControllerTest extends TestCase
 
     public function testItErrorsOnNonUser()
     {
-        $this->get(action([UserController::class, 'profile']))
+        $this->get(action([UserProfileController::class, 'profile']))
             ->assertStatus(403);
     }
 
@@ -85,7 +85,7 @@ class UserControllerTest extends TestCase
 
         $tank = $user->equipment->tanks[0];
 
-        $this->get(action([UserController::class, 'equipment']))
+        $this->get(action([UserProfileController::class, 'equipment']))
             ->assertStatus(200)
             ->assertJson([
                 'tanks' => [[

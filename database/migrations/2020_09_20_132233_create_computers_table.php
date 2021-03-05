@@ -25,8 +25,8 @@ class CreateComputersTable extends Migration
             $table->integer('model');
             $table->integer('type');
             $table->text('name');
-            $table->timestamp('last_read');
-            $table->string('last_fingerprint');
+            $table->timestamp('last_read')->nullable();
+            $table->string('last_fingerprint')->nullable();
 
             $table->unique(['user_id', 'serial']);
         });

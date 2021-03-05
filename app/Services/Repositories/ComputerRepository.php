@@ -33,8 +33,7 @@ class ComputerRepository
 
     public function findBySerial(int $serial, User $user): ?Computer
     {
-        /** @var Computer|null $computer */
-        return $user->computers()->find(['serial' => $serial]);
+        return $user->computers()->where('serial', $serial)->first();
     }
 
     public function updateLastRead(Computer $computer, Carbon $date, string $fingerprint)
@@ -53,14 +52,16 @@ class ComputerRepository
 
     public function make(ComputerData $computerData, User $user): Computer
     {
-        return Computer::make([
+        $computer = Computer::make([
             'serial' => $computerData->getSerial(),
             'name' => $computerData->getName(),
             'model' => $computerData->getModel(),
             'vendor' => $computerData->getVendor(),
             'type' => $computerData->getType(),
-            'user_id' => $user->id,
         ]);
+        $computer->user_id = $user->id;
+
+        return $computer;
     }
 
     public function save(Computer $computer)

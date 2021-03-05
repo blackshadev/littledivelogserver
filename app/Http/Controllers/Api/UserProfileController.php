@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Services\Repositories\EquipmentRepository;
 use App\ViewModels\ApiModels\UserEquipmentViewModel;
 use App\ViewModels\ApiModels\UserProfileViewModel;
+use Illuminate\Support\Facades\Hash;
 
 class UserProfileController extends Controller
 {
@@ -37,9 +38,11 @@ class UserProfileController extends Controller
 
     public function updatePassword(User $user, UpdatePasswordRequest $request)
     {
-        $this->authorize('passwordUpdate', $user);
+        if (!Hash::check($request->input('old'), $user->password)) {
+            abort(403, 'Invalid old password');
+        }
 
-        $user->password = $request->input('password');
+        $user->password = $request->input('new');
 
         return response(null, 201);
     }

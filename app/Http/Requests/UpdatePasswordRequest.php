@@ -11,7 +11,8 @@ class UpdatePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => 'required',
+            'old' => 'required',
+            'new' => 'required|min:5',
         ];
     }
 }

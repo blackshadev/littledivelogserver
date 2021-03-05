@@ -19,11 +19,11 @@ class TankPressureData
         $this->end = null;
     }
 
-    public static function fromArray(array $data): self
+    public static function fromArray(array $data = []): self
     {
         $pressures = new self();
-        $pressures->begin = $data['begin'] ?? null;
-        $pressures->end = $data['end'] ?? null;
+        $pressures->begin = isset($data['begin']) ? (int)$data['begin'] : null;
+        $pressures->end = isset($data['end']) ? (int)$data['end'] : null;
         $pressures->type = $data['type'] ?? 'bar';
 
         return $pressures;

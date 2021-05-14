@@ -15,9 +15,23 @@ class ComputerRepository
     public function create(ComputerData $computerData, User $user)
     {
         $serial = $computerData->getSerial();
-        $hasComputer = $serial !== null ? $this->findBySerial($computerData->getSerial(), $user) : null;
+        $hasComputer = $serial !== null ? $this->findBySerial($serial, $user) : null;
         if ($hasComputer) {
             throw new ComputerAlreadyExists($serial);
+        }
+
+        $computer = $this->make($computerData, $user);
+        $this->save($computer);
+
+        return $computer;
+    }
+
+    public function createOrFind(ComputerData $computerData, User $user)
+    {
+        $serial = $computerData->getSerial();
+        $computer = $this->findBySerial($serial, $user);
+        if ($computer !== null) {
+            return $computer;
         }
 
         $computer = $this->make($computerData, $user);

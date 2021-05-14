@@ -73,6 +73,48 @@ class ComputerRepositoryTest extends TestCase
         $this->repository->create($computerData, $user);
     }
 
+    public function testCreateOrFindCreatesNewComputer()
+    {
+        $serial = $this->faker->numberBetween();
+
+        $computer = new Computer();
+        $user = new User();
+
+        $computerData = new ComputerData();
+        $computerData->setSerial($serial);
+
+        $this->repository->expects('findBySerial')
+            ->with($serial, $user)
+            ->andReturn(null);
+
+        $this->repository->expects('make')
+            ->with($computerData, $user)
+            ->andReturn($computer);
+
+        $this->repository->expects('save')->with($computer);
+        $this->repository->createOrFind($computerData, $user);
+    }
+
+    public function testCreateOrFindFindsExisting()
+    {
+        $serial = $this->faker->numberBetween();
+
+        $computer = new Computer();
+        $user = new User();
+
+        $computerData = new ComputerData();
+        $computerData->setSerial($serial);
+
+        $this->repository->expects('findBySerial')
+            ->with($serial, $user)
+            ->andReturn($computer);
+
+        $this->repository->expects('make')->never();
+
+        $this->repository->expects('save')->never();
+        $this->repository->createOrFind($computerData, $user);
+    }
+
     public function testItUpdatesLastReadWithNewerDate()
     {
         $date = new Carbon($this->faker->dateTimeThisYear());

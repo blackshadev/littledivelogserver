@@ -30,7 +30,7 @@ class UserControllerTest extends TestCase
         $user = User::factory()->createOne();
         $this->fakeAccessTokenFor($user);
 
-        $this->get(action([UserProfileController::class, 'profile']))
+        $this->get(action([UserProfileController::class, 'show']))
             ->assertStatus(200)
             ->assertJson([
                 'user_id' => $user->id,
@@ -52,7 +52,7 @@ class UserControllerTest extends TestCase
             ->createOne();
         $this->fakeAccessTokenFor($user);
 
-        $this->get(action([UserProfileController::class, 'profile']))
+        $this->get(action([UserProfileController::class, 'show']))
             ->assertStatus(200)
             ->assertJson([
                 'user_id' => $user->id,
@@ -68,7 +68,7 @@ class UserControllerTest extends TestCase
 
     public function testItErrorsOnNonUser()
     {
-        $this->get(action([UserProfileController::class, 'profile']))
+        $this->get(action([UserProfileController::class, 'show']))
             ->assertStatus(403);
     }
 

@@ -13,7 +13,7 @@ class ComputerListViewModel extends ViewModel
     use FromEloquentCollection;
 
     protected array $visible = [
-        'computer_id', 'serial', 'vendor', 'model', 'type', 'type', 'dive_count', 'last_read', 'last_fingerprint',
+        'computer_id', 'serial', 'vendor', 'model', 'type', 'dive_count', 'last_read', 'last_fingerprint',
     ];
 
     private Computer $computer;

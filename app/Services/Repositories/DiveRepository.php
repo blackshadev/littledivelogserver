@@ -16,6 +16,7 @@ use App\Models\Buddy;
 use App\Models\Dive;
 use App\Models\DiveTank;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use JeroenG\Explorer\Domain\Compound\BoolQuery;
@@ -197,6 +198,20 @@ class DiveRepository
         $search->sort(new Sort('date', 'desc'));
 
         return $this->search($search);
+    }
+
+    public function findOrMake(User $user, ?string $fingerprint)
+    {
+        if ($fingerprint === null) {
+            return new Dive();
+        }
+
+        $dive = $user->dives()->where('fingerprint', $fingerprint)->first();
+        if ($dive !== null) {
+            return $dive;
+        }
+
+        return  new Dive();
     }
 
     /** @param TankData[] $tanks */

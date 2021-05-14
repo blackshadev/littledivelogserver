@@ -72,7 +72,7 @@ class DiveController extends Controller
         $diveData = NewDiveData::fromArray($request->all());
         $diveData->setUser($user);
 
-        $dive = new Dive();
+        $dive = $this->repository->findOrMake($user, $diveData->getFingerprint());
         $this->repository->update($dive, $diveData);
 
         return new DiveDetailViewModel($dive);

@@ -32,6 +32,7 @@ class UserProfileController extends Controller
     public function update(User $user, UpdateProfileRequest $request)
     {
         $user->name = $request->input('name');
+        $user->save();
 
         return $this->show($user);
     }
@@ -43,6 +44,7 @@ class UserProfileController extends Controller
         }
 
         $user->password = $request->input('new');
+        $user->save();
 
         return response(null, 201);
     }

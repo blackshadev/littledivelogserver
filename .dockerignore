@@ -17,6 +17,7 @@
 !storage/logs/.gitignore
 !routes/**
 !resources/**
+!docker/**
 
 !artisan
 !aliases

@@ -9,7 +9,6 @@ use App\DataTransferObjects\BuddyData;
 use App\DataTransferObjects\DiveData;
 use App\DataTransferObjects\TagData;
 use App\DataTransferObjects\TankData;
-use App\Helpers\Explorer\Utilities;
 use App\Models\Buddy;
 use App\Models\Computer;
 use App\Models\Dive;
@@ -26,8 +25,9 @@ use App\Services\Repositories\TagRepository;
 use Carbon\Carbon;
 use DMS\PHPUnitExtensions\ArraySubset\Assert;
 use Illuminate\Foundation\Testing\WithFaker;
-use JeroenG\Explorer\Application\BuildCommand;
-use Laravel\Scout\Builder;
+use JeroenG\Explorer\Application\IndexAdapterInterface;
+use JeroenG\Explorer\Application\Results;
+use JeroenG\Explorer\Application\SearchCommand;
 use Mockery;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -66,6 +66,11 @@ class DiveRepositoryTest extends TestCase
      */
     private $computerRepository;
 
+    /**
+     * @var IndexAdapterInterface|MockInterface
+     */
+    private $searchAdapter;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -75,6 +80,7 @@ class DiveRepositoryTest extends TestCase
         $this->buddyRepository = Mockery::mock(BuddyRepository::class);
         $this->tankRepository = Mockery::mock(DiveTankRepository::class);
         $this->computerRepository = Mockery::mock(ComputerRepository::class);
+        $this->searchAdapter = Mockery::mock(IndexAdapterInterface::class);
 
         $this->diveRepository = Mockery::mock(DiveRepository::class, [
             $this->placeRepository,
@@ -82,6 +88,7 @@ class DiveRepositoryTest extends TestCase
             $this->tagRepository,
             $this->tankRepository,
             $this->computerRepository,
+            $this->searchAdapter
         ])->makePartial();
 
         $this->diveRepository->shouldReceive('save')->byDefault();
@@ -266,32 +273,38 @@ class DiveRepositoryTest extends TestCase
         $searchCmd->setAfter($lastYear);
         $searchCmd->setBefore($now);
 
-        $this->diveRepository->expects('search')->withArgs(
-            function ($arg) use ($lastYear, $now) {
-                /** @var Builder $arg */
-                $cmd = BuildCommand::wrap($arg);
-                $filter = Utilities::toArray($cmd->getFilter());
-                self::assertEquals([[
-                    'term' => [ 'user_id' => -1, 'boost' => null ]
-                ]], $filter);
+        $result = new Results([
+            'hits' => [
+                'hits' => [],
+                'total' => 0,
+            ]
+        ]);
 
-                $must = Utilities::toArray($cmd->getMust());
+        $this->searchAdapter->expects('search')
+            ->withArgs(function (SearchCommand  $searchCommand) use ($lastYear, $now) {
+                $query = $searchCommand->buildQuery()['query']['bool'];
+                self::assertEquals([[
+                    'term' => [ 'user_id' => [ 'value' => -1, 'boost' => 1.0 ] ]
+                ]], $query['filter']);
 
                 Assert::assertArraySubset([[
                     'range' => [ 'date' => ['gt' => $lastYear]]
                 ], [
                     'range' => [ 'date' => ['lt' => $now]]
                 ], [
-                    'nested' => [ 'path' => 'place', 'query' => ['term' => ['place.id' => 4 ]]]
+                    'nested' => [ 'path' => 'place', 'query' => [ 'term' => [ 'place.id' => [ 'value' => 4, 'boost' => 1.0 ] ]]]
                 ], [
-                    'nested' => [ 'path' => 'buddies', 'query' => ['term' => ['buddies.id' => [1, 2] ]]]
+                    'nested' => [ 'path' => 'buddies', 'query' => [ 'term' => [ 'buddies.id' => [ 'value' => 1, 'boost' => 1.0 ] ]]]
                 ], [
-                    'nested' => [ 'path' => 'tags', 'query' => ['term' => ['tags.id' => [3, 4] ]]]
-                ]], $must);
+                    'nested' => [ 'path' => 'buddies', 'query' => [ 'term' => [ 'buddies.id' => [ 'value' => 2, 'boost' => 1.0 ] ]]]
+                ], [
+                    'nested' => [ 'path' => 'tags', 'query' => [ 'term' => [ 'tags.id' => [ 'value' => 3, 'boost' => 1.0 ] ]]]
+                ], [
+                    'nested' => [ 'path' => 'tags', 'query' => [ 'term' => [ 'tags.id' => [ 'value' => 4, 'boost' => 1.0 ] ]]]
+                ]], $query['must']);
 
                 return true;
-            }
-        );
+            })->andReturn($result);
 
         $this->diveRepository->find($searchCmd);
     }

@@ -13,9 +13,9 @@ use App\Models\User;
 use App\Services\Repositories\PlaceRepository;
 use DMS\PHPUnitExtensions\ArraySubset\Assert;
 use Illuminate\Foundation\Testing\WithFaker;
-use JeroenG\Explorer\Application\BuildCommand;
+use JeroenG\Explorer\Infrastructure\Scout\ScoutSearchCommandBuilder;
+use Laravel\Scout\Builder;
 use Mockery\MockInterface;
-use PhpParser\Builder;
 use Tests\TestCase;
 
 class PlaceRepositoryTest extends TestCase
@@ -158,10 +158,10 @@ class PlaceRepositoryTest extends TestCase
         $this->repository->expects('search')->withArgs(
             function ($arg) {
                 /** @var Builder $arg */
-                $cmd = BuildCommand::wrap($arg);
+                $cmd = ScoutSearchCommandBuilder::wrap($arg);
                 $filter = Utilities::toArray($cmd->getFilter());
                 self::assertEquals([[
-                    'term' => [ 'country_code' => 'UK', 'boost' => null ]
+                    'term' => [ 'country_code' => [ 'value' => 'UK', 'boost' => null ] ]
                 ]], $filter);
 
                 $must = Utilities::toArray($cmd->getMust());
@@ -169,9 +169,9 @@ class PlaceRepositoryTest extends TestCase
                 Assert::assertArraySubset([[
                     'bool' => [
                         'should' => [[
-                        'match' => [ 'name' => 'test']
+                        'match' => [ 'name' => [ 'query' => 'test', 'fuzziness' => 'auto' ] ]
                     ], [
-                        'match' => [ 'country' => 'test']
+                        'match' => [ 'country' => [ 'query' => 'test', 'fuzziness' => 'auto'] ]
                     ]]
                 ]]], $must);
 

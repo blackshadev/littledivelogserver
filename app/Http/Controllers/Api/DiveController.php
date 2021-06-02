@@ -10,6 +10,7 @@ use App\DataTransferObjects\NewDiveData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DiveCreateRequest;
 use App\Http\Requests\DiveMergeRequest;
+use App\Http\Requests\DiveSearchRequest;
 use App\Http\Requests\DiveUpdateRequest;
 use App\Models\Dive;
 use App\Models\User;
@@ -17,7 +18,6 @@ use App\Services\DiveMerger\DiveMergerService;
 use App\Services\Repositories\DiveRepository;
 use App\ViewModels\ApiModels\DiveDetailViewModel;
 use App\ViewModels\ApiModels\DiveListViewModel;
-use Illuminate\Http\Request;
 
 class DiveController extends Controller
 {
@@ -36,7 +36,7 @@ class DiveController extends Controller
         );
     }
 
-    public function search(User $user, Request $request)
+    public function search(User $user, DiveSearchRequest $request)
     {
         $search = FindDivesCommand::forUser($user->id, $request->query());
 

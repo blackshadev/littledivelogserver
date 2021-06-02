@@ -17,15 +17,18 @@ use App\Models\Dive;
 use App\Models\DiveTank;
 use App\Models\Tag;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use JeroenG\Explorer\Domain\Compound\BoolQuery;
+use JeroenG\Explorer\Application\IndexAdapterInterface;
+use JeroenG\Explorer\Application\Results;
+use JeroenG\Explorer\Application\SearchCommand;
+use JeroenG\Explorer\Domain\Query\Query;
+use JeroenG\Explorer\Domain\Syntax\Compound\BoolQuery;
 use JeroenG\Explorer\Domain\Syntax\Matching;
 use JeroenG\Explorer\Domain\Syntax\Nested;
 use JeroenG\Explorer\Domain\Syntax\Range;
 use JeroenG\Explorer\Domain\Syntax\Sort;
 use JeroenG\Explorer\Domain\Syntax\Term;
-use Laravel\Scout\Builder;
 
 class DiveRepository
 {
@@ -39,18 +42,22 @@ class DiveRepository
 
     private ComputerRepository $computerRepository;
 
+    private IndexAdapterInterface $searchAdapter;
+
     public function __construct(
         PlaceRepository $placeRepository,
         BuddyRepository $buddyRepository,
         TagRepository $tagRepository,
         DiveTankRepository $tankRepository,
-        ComputerRepository $computerRepository
+        ComputerRepository $computerRepository,
+        IndexAdapterInterface $searchAdapter
     ) {
         $this->placeRepository = $placeRepository;
         $this->buddyRepository = $buddyRepository;
         $this->tagRepository = $tagRepository;
         $this->tankRepository = $tankRepository;
         $this->computerRepository = $computerRepository;
+        $this->searchAdapter = $searchAdapter;
     }
 
     public function update(Dive $dive, DiveData $data)
@@ -118,14 +125,6 @@ class DiveRepository
         });
     }
 
-    public function search(Builder $search): Collection
-    {
-        if (!$search->model instanceof Dive) {
-            throw new \RuntimeException('Invalid search builder, expected search for model Dive. Got ' . get_class($search->model));
-        }
-        return $search->get();
-    }
-
     public function save(Dive $dive)
     {
         $dive->save();
@@ -164,40 +163,49 @@ class DiveRepository
     /** @return Dive[] */
     public function find(FindDivesCommand $findDivesCommand): Collection
     {
-        $search = Dive::search();
-
-        $search->filter(new Term('user_id', $findDivesCommand->getUserId(), null));
+        $toplevelQuery = new BoolQuery();
+        $toplevelQuery->filter(new Term('user_id', $findDivesCommand->getUserId()));
 
         if ($findDivesCommand->getKeywords()) {
-            $query = new BoolQuery();
-            $query->should(new Nested('place', new Matching('place.name', $findDivesCommand->getKeywords())));
-            $query->should(new Nested('buddies', new Matching('buddies.name', $findDivesCommand->getKeywords())));
-            $query->should(new Nested('tags', new Matching('tags.text', $findDivesCommand->getKeywords())));
-            $search->must($query);
+            $keywordQuery = new BoolQuery();
+            $keywordQuery->should(new Nested('place', new Matching('place.name', $findDivesCommand->getKeywords())));
+            $keywordQuery->should(new Nested('buddies', new Matching('buddies.name', $findDivesCommand->getKeywords())));
+            $keywordQuery->should(new Nested('tags', new Matching('tags.text', $findDivesCommand->getKeywords())));
+            $toplevelQuery->must($keywordQuery);
         }
 
         if ($findDivesCommand->getAfter() !== null) {
-            $search->must(new Range('date', [
+            $toplevelQuery->must(new Range('date', [
                 'gt' => $findDivesCommand->getAfter()
             ]));
         }
         if ($findDivesCommand->getBefore() !== null) {
-            $search->must(new Range('date', [
+            $toplevelQuery->must(new Range('date', [
                 'lt' => $findDivesCommand->getBefore()
             ]));
         }
         if ($findDivesCommand->getPlaceId() !== null) {
-            $search->must(new Nested('place', new Term('place.id', $findDivesCommand->getPlaceId(), null)));
+            $toplevelQuery->must(new Nested('place', new Term('place.id', $findDivesCommand->getPlaceId())));
         }
         if ($findDivesCommand->getBuddies() !== null) {
-            $search->must(new Nested('buddies', new Term('buddies.id', $findDivesCommand->getBuddies(), null)));
+            foreach ($findDivesCommand->getBuddies() as $buddyId) {
+                $toplevelQuery->must(new Nested('buddies', new Term('buddies.id', $buddyId)));
+            }
         }
         if ($findDivesCommand->getTags() !== null) {
-            $search->must(new Nested('tags', new Term('tags.id', $findDivesCommand->getTags(), null)));
+            foreach ($findDivesCommand->getTags() as $tagId) {
+                $toplevelQuery->must(new Nested('tags', new Term('tags.id', $tagId)));
+            }
         }
-        $search->sort(new Sort('date', 'desc'));
 
-        return $this->search($search);
+        $searchQuery = new Query();
+        $searchQuery->setQuery($toplevelQuery);
+        $searchQuery->setSort([new Sort('date', 'desc')]);
+        $index = (new Dive())->searchableAs();
+
+        $results = $this->searchAdapter->search(new SearchCommand($index, $searchQuery));
+
+        return $this->mapResultsResult($results);
     }
 
     public function findOrMake(User $user, ?string $fingerprint)
@@ -212,6 +220,15 @@ class DiveRepository
         }
 
         return  new Dive();
+    }
+
+    /**
+     * @param int[] $ids
+     * @return Collection
+     */
+    public function findByIds(Collection $ids): Collection
+    {
+        return Dive::whereIn('id', $ids)->get();
     }
 
     /** @param TankData[] $tanks */
@@ -234,5 +251,12 @@ class DiveRepository
             $this->appendTank($dive, $tank);
         }
         $dive->unsetRelation('tanks');
+    }
+
+    /** @return Collection */
+    private function mapResultsResult(Results $results): Collection
+    {
+        $ids = collect($results->hits())->pluck('_id')->values();
+        return $this->findByIds($ids);
     }
 }

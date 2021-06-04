@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\DataTransferObjects\EquipmentData;
+use App\Application\ViewModels\ApiModels\UserEquipmentViewModel;
+use App\Application\ViewModels\ApiModels\UserProfileViewModel;
+use App\Domain\DataTransferObjects\EquipmentData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EquipmentRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use App\Services\Repositories\EquipmentRepository;
-use App\ViewModels\ApiModels\UserEquipmentViewModel;
-use App\ViewModels\ApiModels\UserProfileViewModel;
 use Illuminate\Support\Facades\Hash;
 
 class UserProfileController extends Controller

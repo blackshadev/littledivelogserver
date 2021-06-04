@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Application\ViewModels\ApiModels\DiveDetailViewModel;
+use App\Application\ViewModels\ApiModels\DiveListViewModel;
 use App\CommandObjects\FindDivesCommand;
-use App\DataTransferObjects\DiveData;
-use App\DataTransferObjects\NewDiveData;
+use App\Domain\DataTransferObjects\DiveData;
+use App\Domain\DataTransferObjects\NewDiveData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DiveCreateRequest;
 use App\Http\Requests\DiveMergeRequest;
@@ -16,8 +18,6 @@ use App\Models\Dive;
 use App\Models\User;
 use App\Services\DiveMerger\DiveMergerService;
 use App\Services\Repositories\DiveRepository;
-use App\ViewModels\ApiModels\DiveDetailViewModel;
-use App\ViewModels\ApiModels\DiveListViewModel;
 
 class DiveController extends Controller
 {

@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\DiveMerger;
 
-use App\Helpers\Arrg;
+use App\Domain\Support\Arrg;
 use App\Models\Buddy;
 use App\Models\Dive;
 use App\Models\DiveTank;

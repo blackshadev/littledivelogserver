@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Repositories;
 
-use App\DataTransferObjects\EquipmentData;
-use App\DataTransferObjects\TankData;
+use App\Domain\DataTransferObjects\EquipmentData;
+use App\Domain\DataTransferObjects\TankData;
 use App\Models\Equipment;
 use App\Models\EquipmentTank;
 use App\Models\User;

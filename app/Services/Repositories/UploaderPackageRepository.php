@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\Repositories;
 
-use App\Helpers\Equality\EqualityHelpers;
-use App\ValueObjects\Uploader\AvailablePackageVersionValue;
-use App\ValueObjects\Uploader\PlatformValue;
-use App\ValueObjects\Uploader\UploaderPackageValue;
-use App\ValueObjects\Uploader\VersionValue;
+use App\Domain\Support\Equality\EqualityHelpers;
+use App\Domain\ValueObjects\Uploader\AvailablePackageVersionValue;
+use App\Domain\ValueObjects\Uploader\PlatformValue;
+use App\Domain\ValueObjects\Uploader\UploaderPackageValue;
+use App\Domain\ValueObjects\Uploader\VersionValue;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Application\ViewModels\ApiModels\UserSessionViewModel;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Models\RefreshToken;
 use App\Models\User;
-use App\ViewModels\ApiModels\UserSessionViewModel;
 use Littledev\Tauth\Http\Controllers\TauthController;
 use Littledev\Tauth\Services\TauthRepositoryInterface;
 use Littledev\Tauth\Services\TauthServiceInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\UploaderPackage;
 
-use App\ValueObjects\Uploader\UploaderPackageValue;
+use App\Domain\ValueObjects\Uploader\UploaderPackageValue;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
 class UploaderPackageDownloadService

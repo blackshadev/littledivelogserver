@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Services\Repositories;
 
 use App\CommandObjects\FindPlaceCommand;
-use App\DataTransferObjects\PlaceData;
+use App\Domain\DataTransferObjects\PlaceData;
 use App\Error\PlaceNotFound;
 use App\Helpers\Explorer\Utilities;
 use App\Models\Place;

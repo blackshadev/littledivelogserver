@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\Repositories;
 
-use App\DataTransferObjects\TankData;
+use App\Domain\DataTransferObjects\TankData;
 use App\Models\DiveTank;
 use App\Services\Repositories\DiveTankRepository;
 use Illuminate\Foundation\Testing\WithFaker;

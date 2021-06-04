@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\Repositories;
 
-use App\Helpers\Equality\Equality;
+use App\Domain\Support\Equality\Equality;
+use App\Domain\ValueObjects\Uploader\PlatformValue;
+use App\Domain\ValueObjects\Uploader\VersionValue;
 use App\Services\Repositories\UploaderPackageRepository;
-use App\ValueObjects\Uploader\PlatformValue;
-use App\ValueObjects\Uploader\VersionValue;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery;

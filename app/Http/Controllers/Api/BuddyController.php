@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\DataTransferObjects\BuddyData;
+use App\Application\ViewModels\ApiModels\BuddyDetailViewModel;
+use App\Application\ViewModels\ApiModels\BuddyListViewModel;
+use App\Domain\DataTransferObjects\BuddyData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BuddyCreateRequest;
 use App\Http\Requests\BuddyUpdateRequest;
 use App\Models\Buddy;
 use App\Models\User;
 use App\Services\Repositories\BuddyRepository;
-use App\ViewModels\ApiModels\BuddyDetailViewModel;
-use App\ViewModels\ApiModels\BuddyListViewModel;
 
 class BuddyController extends Controller
 {

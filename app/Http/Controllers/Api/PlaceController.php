@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Application\ViewModels\ApiModels\PlaceListViewModel;
 use App\CommandObjects\FindPlaceCommand;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Place;
 use App\Services\Repositories\PlaceRepository;
-use App\ViewModels\ApiModels\PlaceListViewModel;
 use Illuminate\Http\Request;
 
 class PlaceController extends Controller

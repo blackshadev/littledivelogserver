@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Services\Repositories;
 
 use App\CommandObjects\FindDivesCommand;
-use App\DataTransferObjects\BuddyData;
-use App\DataTransferObjects\DiveData;
-use App\DataTransferObjects\TagData;
-use App\DataTransferObjects\TankData;
+use App\Domain\DataTransferObjects\BuddyData;
+use App\Domain\DataTransferObjects\DiveData;
+use App\Domain\DataTransferObjects\TagData;
+use App\Domain\DataTransferObjects\TankData;
 use App\Models\Buddy;
 use App\Models\Computer;
 use App\Models\Dive;

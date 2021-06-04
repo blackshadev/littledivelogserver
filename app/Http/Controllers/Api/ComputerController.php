@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\DataTransferObjects\ComputerData;
+use App\Application\ViewModels\ApiModels\ComputerListViewModel;
+use App\Domain\DataTransferObjects\ComputerData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ComputerCreateRequest;
 use App\Models\Computer;
 use App\Models\User;
 use App\Services\Repositories\ComputerRepository;
-use App\ViewModels\ApiModels\ComputerListViewModel;
 
 class ComputerController extends Controller
 {

@@ -41,7 +41,8 @@ class Place extends Model implements Explored
             'id' => $this->id,
             'name' => $this->name,
             'country_code' => $this->country !== null ? $this->country->iso2 : null,
-            'country' => $this->country !== null ? $this->country->name : null
+            'country' => $this->country !== null ? $this->country->name : null,
+            'created_by' => $this->created_by,
         ];
     }
 
@@ -51,7 +52,8 @@ class Place extends Model implements Explored
             'id' => 'keyword',
             'name' => 'text',
             'country_code' => 'keyword',
-            'country' => 'text'
+            'country' => 'text',
+            'created_by' => 'keyword',
         ];
     }
 }

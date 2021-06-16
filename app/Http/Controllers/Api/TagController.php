@@ -5,47 +5,61 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Application\ViewModels\ApiModels\TagViewModel;
-use App\Domain\DataTransferObjects\TagData;
+use App\Domain\Support\Arrg;
+use App\Domain\Tags\DataTransferObjects\TagData;
+use App\Domain\Tags\Entities\DetailTag;
+use App\Domain\Tags\Repositories\DetailTagRepository;
+use App\Domain\Tags\Repositories\TagRepository;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TagCreateRequest;
-use App\Http\Requests\TagUpdateRequest;
-use App\Models\Tag;
+use App\Http\Requests\Tags\TagCreateRequest;
+use App\Http\Requests\Tags\TagRequest;
+use App\Http\Requests\Tags\TagUpdateRequest;
 use App\Models\User;
-use App\Services\Repositories\TagRepository;
 
 class TagController extends Controller
 {
-    private TagRepository $repository;
-
-    public function __construct(TagRepository $repository)
-    {
-        $this->authorizeResource(Tag::class, 'tag');
-        $this->repository = $repository;
+    public function __construct(
+        private TagRepository $repository,
+        private DetailTagRepository $detailTagRepository
+    ) {
     }
 
     public function index(User $user)
     {
-        return TagViewModel::fromCollection($user->tags);
+        return Arrg::map(
+            $this->detailTagRepository->listForUser($user->id),
+            fn (DetailTag $tag) => TagViewModel::fromDetailTag($tag)
+        );
     }
 
-    public function show(Tag $tag)
+    public function show(TagRequest $request)
     {
-        return new TagViewModel($tag);
+        $detailTag = $this->detailTagRepository->findById($request->getTagId());
+
+        return TagViewModel::fromDetailTag($detailTag);
     }
 
-    public function update(Tag $tag, TagUpdateRequest $request)
+    public function update(TagUpdateRequest $request)
     {
-        $this->repository->update($tag, TagData::fromArray($request->all()));
+        $tagData = TagData::fromArray($request->all());
 
-        return new TagViewModel($tag);
+        $tag = $request->getTag();
+
+        $this->repository->setData($tag, $tagData);
+        $this->repository->save($tag);
+
+        $detailTag = $this->detailTagRepository->findById($tag->getId());
+        return TagViewModel::fromDetailTag($detailTag);
     }
 
     public function store(User $user, TagCreateRequest $request)
     {
-        $tag = new Tag();
-        $tag->user()->associate($user);
-        $this->repository->update($tag, TagData::fromArray($request->all()));
+        $tagData = TagData::fromArray($request->all());
 
-        return new TagViewModel($tag);
+        $tag = $this->repository->create($user->id, $tagData);
+        $this->repository->save($tag);
+
+        $detailTag = $this->detailTagRepository->findById($tag->getId());
+        return TagViewModel::fromDetailTag($detailTag);
     }
 }

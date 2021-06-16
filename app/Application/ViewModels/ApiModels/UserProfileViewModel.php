@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\ViewModels\ApiModels;
 
 use App\Application\ViewModels\ViewModel;
-use App\Models\User;
+use App\Domain\Users\Entities\DetailUser;
 
 class UserProfileViewModel extends ViewModel
 {
@@ -15,50 +15,69 @@ class UserProfileViewModel extends ViewModel
         'buddy_count', 'tag_count',
     ];
 
-    protected User $user;
+    public function __construct(
+        private int $userId,
+        private string $name,
+        private string $email,
+        private \DateTimeInterface $inserted,
+        private int $tagCount,
+        private int $buddyCount,
+        private int $computerCount,
+        private int $diveCount,
+    ) {
+    }
 
-    public function __construct(User $user)
+    public static function fromDetailUser(DetailUser $user)
     {
-        $this->user = $user;
+        return new self(
+            userId: $user->getUserId(),
+            name: $user->getName(),
+            email: $user->getEmail(),
+            inserted: $user->getInserted(),
+            diveCount: $user->getDiveCount(),
+            buddyCount: $user->getBuddyCount(),
+            computerCount: $user->getComputerCount(),
+            tagCount: $user->getTagCount(),
+        );
     }
 
     public function getUserId()
     {
-        return $this->user->id;
+        return $this->userId;
     }
 
     public function getName()
     {
-        return $this->user->name;
+        return $this->name;
     }
 
     public function getEmail()
     {
-        return $this->user->email;
+        return $this->email;
     }
 
     public function getInserted()
     {
-        return $this->user->created_at;
+        return $this->inserted;
     }
 
     public function getTagCount()
     {
-        return $this->user->tags()->count();
+        return $this->tagCount;
     }
 
     public function getBuddyCount()
     {
-        return $this->user->buddies()->count();
+        return $this->buddyCount;
     }
 
     public function getComputerCount()
     {
-        return $this->user->computers()->count();
+        return $this->computerCount;
     }
 
     public function getDiveCount()
     {
-        return $this->user->dives()->count();
+        return $this->diveCount;
     }
 }

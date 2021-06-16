@@ -4,62 +4,86 @@ declare(strict_types=1);
 
 namespace App\Application\ViewModels\ApiModels;
 
-use App\Application\ViewModels\FromEloquentCollection;
 use App\Application\ViewModels\ViewModel;
-use App\Models\Computer;
+use App\Domain\Computers\Entities\DetailComputer;
+use DateTimeInterface;
 
 class ComputerListViewModel extends ViewModel
 {
-    use FromEloquentCollection;
-
     protected array $visible = [
-        'computer_id', 'serial', 'vendor', 'model', 'type', 'dive_count', 'last_read', 'last_fingerprint',
+        'computer_id', 'name', 'serial', 'vendor', 'model', 'type', 'dive_count', 'last_read', 'last_fingerprint',
     ];
 
-    private Computer $computer;
+    public function __construct(
+        private int $computerId,
+        private int $serial,
+        private string $vendor,
+        private int $model,
+        private int $type,
+        private string $name,
+        private int $diveCount,
+        private ?DateTimeInterface $lastRead,
+        private ?string $lastFingerprint,
+    ) {
+    }
 
-    public function __construct(Computer $computer)
+    public static function fromDetailModel(DetailComputer $detailComputer): self
     {
-        $this->computer = $computer;
+        return new self(
+            computerId: $detailComputer->getComputerId(),
+            model: $detailComputer->getModel(),
+            serial: $detailComputer->getSerial(),
+            type: $detailComputer->getType(),
+            vendor: $detailComputer->getVendor(),
+            name: $detailComputer->getName(),
+            diveCount: $detailComputer->getDiveCounts(),
+            lastRead: $detailComputer->getLastRead(),
+            lastFingerprint: $detailComputer->getLastFingerprint(),
+        );
     }
 
     public function getComputerId()
     {
-        return $this->computer->id;
+        return $this->computerId;
     }
 
     public function getSerial()
     {
-        return $this->computer->serial;
+        return $this->serial;
     }
 
     public function getVendor()
     {
-        return $this->computer->vendor;
+        return $this->vendor;
     }
 
     public function getModel()
     {
-        return $this->computer->model;
+        return $this->model;
     }
 
     public function getType()
     {
-        return $this->computer->type;
+        return $this->type;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function getDiveCount()
     {
-        return $this->computer->dives()->count();
+        return $this->diveCount;
     }
 
     public function getLastRead()
     {
-        return $this->computer->last_read;
+        return $this->lastRead;
     }
 
     public function getLastFingerprint()
     {
-        return $this->computer->last_fingerprint;
+        return $this->lastFingerprint;
     }
 }

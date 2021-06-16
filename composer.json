@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^8.0",
         "ext-json": "*",
         "dms/phpunit-arraysubset-asserts": "^0.2.1",
         "fideloper/proxy": "^4.2",
@@ -18,7 +18,8 @@
         "laravel/framework": "^8.0",
         "laravel/scout": "^8.4",
         "laravel/tinker": "^2.0",
-        "lcobucci/jwt": "3.3.3"
+        "lcobucci/jwt": "3.3.3",
+        "spatie/once": "^3.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
@@ -36,7 +37,7 @@
         "sort-packages": true,
         "discard-changes": true,
         "platform": {
-            "php": "7.4"
+            "php": "8.0"
         }
     },
     "extra": {

@@ -4,35 +4,41 @@ declare(strict_types=1);
 
 namespace App\Application\ViewModels\ApiModels;
 
-use App\Application\ViewModels\FromEloquentCollection;
 use App\Application\ViewModels\ViewModel;
-use App\Models\Place;
+use App\Domain\Places\Entities\Place;
 
 class PlaceListViewModel extends ViewModel
 {
-    use FromEloquentCollection;
-
     protected array $visible = ['place_id', 'name', 'country_code'];
 
-    private Place $place;
+    public function __construct(
+        private int $id,
+        private string $name,
+        private string $countryCode,
+    ) {
+    }
 
-    public function __construct(Place $place)
+    public static function fromPlace(Place $place): self
     {
-        $this->place = $place;
+        return new self(
+            id: $place->getId(),
+            name: $place->getName(),
+            countryCode: $place->getCountryCode(),
+        );
     }
 
     public function getPlaceId()
     {
-        return $this->place->id;
+        return $this->id;
     }
 
     public function getName()
     {
-        return $this->place->name;
+        return $this->name;
     }
 
     public function getCountryCode()
     {
-        return $this->place->country_code;
+        return $this->countryCode;
     }
 }

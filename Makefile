@@ -3,7 +3,7 @@ set-ids = USERID=$$(id -u) GROUPID=$$(id -g)
 
 .PHONY: test
 test:
-	@${set-ids} docker-compose exec app sh -c 'php artisan test --env=unit-tests'
+	@${set-ids} docker-compose exec app sh -c 'php8 artisan test --env=unit-tests'
 
 .PHONY: start
 start:
@@ -29,7 +29,7 @@ push:
 	docker push blackshadev/littledivelogserver:next-1
 
 cs-fix:
-	vagrant ssh -c 'cd code && vendor/bin/ecs check --fix --config=dev/ecs.php'
+	@${set-ids} docker-compose exec app sh -c 'php8 vendor/bin/ecs check --fix --config=dev/ecs.php'
 
 cs-check:
-	vagrant ssh -c 'cd code && vendor/bin/ecs check --config=dev/ecs.php'
+	@${set-ids} docker-compose exec app sh -c 'php8 vendor/bin/ecs check --config=dev/ecs.php'

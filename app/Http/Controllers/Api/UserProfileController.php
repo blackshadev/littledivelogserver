@@ -6,59 +6,74 @@ namespace App\Http\Controllers\Api;
 
 use App\Application\ViewModels\ApiModels\UserEquipmentViewModel;
 use App\Application\ViewModels\ApiModels\UserProfileViewModel;
-use App\Domain\DataTransferObjects\EquipmentData;
+use App\Domain\Equipment\DataTransferObjects\EquipmentData;
+use App\Domain\Equipment\Repositories\EquipmentRepository;
+use App\Domain\Users\DataTransferObjects\ChangePasswordData;
+use App\Domain\Users\DataTransferObjects\UserProfileData;
+use App\Domain\Users\Mutators\UpdatePasswordMutator;
+use App\Domain\Users\Mutators\UpdateUserProfileMutator;
+use App\Domain\Users\Repositories\CurrentUserRepository;
+use App\Domain\Users\Repositories\DetailUserRepository;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\EquipmentRequest;
-use App\Http\Requests\UpdatePasswordRequest;
-use App\Http\Requests\UpdateProfileRequest;
-use App\Models\User;
-use App\Services\Repositories\EquipmentRepository;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\Equipment\EquipmentRequest;
+use App\Http\Requests\Equipment\UpdateEquipmentRequest;
+use App\Http\Requests\Users\UpdatePasswordRequest;
+use App\Http\Requests\Users\UpdateProfileRequest;
 
 class UserProfileController extends Controller
 {
-    private EquipmentRepository $equipmentRepository;
-
-    public function __construct(EquipmentRepository $equipmentRepository)
-    {
-        $this->equipmentRepository = $equipmentRepository;
+    public function __construct(
+        private EquipmentRepository $equipmentRepository,
+        private CurrentUserRepository $currentUserRepository,
+        private DetailUserRepository $detailUserRepository,
+        private UpdatePasswordMutator $passwordMutator,
+        private UpdateUserProfileMutator $userProfileMutator,
+    ) {
     }
 
-    public function show(User $user)
+    public function show()
     {
-        return new UserProfileViewModel($user);
+        $currentUser = $this->currentUserRepository->getCurrentUser();
+        $detailUser = $this->detailUserRepository->findById($currentUser->getId());
+
+        return UserProfileViewModel::fromDetailUser($detailUser);
     }
 
-    public function update(User $user, UpdateProfileRequest $request)
+    public function update(UpdateProfileRequest $request)
     {
-        $user->name = $request->input('name');
-        $user->save();
+        $user = $request->getCurrentUser();
+        $data = UserProfileData::fromArray($request->all());
 
-        return $this->show($user);
+        $this->userProfileMutator->setData($user, $data);
+
+        $detailUser = $this->detailUserRepository->findById($user->getId());
+        return UserProfileViewModel::fromDetailUser($detailUser);
     }
 
-    public function updatePassword(User $user, UpdatePasswordRequest $request)
+    public function updatePassword(UpdatePasswordRequest $request)
     {
-        if (!Hash::check($request->input('old'), $user->password)) {
-            abort(403, 'Invalid old password');
-        }
+        $user = $request->getCurrentUser();
+        $data = ChangePasswordData::fromArray($request->all());
 
-        $user->password = $request->input('new');
-        $user->save();
+        $this->passwordMutator->setData($user, $data);
 
         return response(null, 201);
     }
 
-    public function equipment(User $user)
+    public function equipment(EquipmentRequest $request)
     {
-        return new UserEquipmentViewModel($user->equipment);
+        $equipment = $request->getEquipment();
+
+        return new UserEquipmentViewModel($equipment);
     }
 
-    public function updateEquipment(User $user, EquipmentRequest $request)
+    public function updateEquipment(UpdateEquipmentRequest $request)
     {
-        $equipmentData = EquipmentData::fromArray($user->id, $request->all());
-        $equipment = $this->equipmentRepository->findOrCreateForUser($user);
-        $this->equipmentRepository->update($equipment, $equipmentData);
+        $equipmentData = EquipmentData::fromArray($request->all());
+        $equipment = $request->getEquipment();
+
+        $this->equipmentRepository->setData($equipment, $equipmentData);
+        $this->equipmentRepository->save($equipment);
 
         return new UserEquipmentViewModel($equipment);
     }

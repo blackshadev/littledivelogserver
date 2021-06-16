@@ -6,36 +6,49 @@ namespace App\Http\Controllers\Api;
 
 use App\Application\ViewModels\ApiModels\PlaceListViewModel;
 use App\CommandObjects\FindPlaceCommand;
+use App\Domain\Places\Entities\Place;
+use App\Domain\Places\Repositories\PlaceRepository;
+use App\Domain\Places\Services\PlaceFinder;
+use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
-use App\Models\Country;
-use App\Models\Place;
-use App\Services\Repositories\PlaceRepository;
-use Illuminate\Http\Request;
+use App\Http\Requests\Places\SearchPlaceRequest;
 
 class PlaceController extends Controller
 {
-    private PlaceRepository $placeRepository;
-
-    public function __construct(PlaceRepository $placeRepository)
-    {
-        $this->placeRepository = $placeRepository;
-        $this->authorizeResource(Place::class, 'place');
+    public function __construct(
+        private PlaceRepository $placeRepository,
+        private PlaceFinder $placeFinder,
+    ) {
     }
 
     public function index()
     {
-        return PlaceListViewModel::fromCollection(Place::all());
+        return Arrg::map(
+            $this->placeRepository->list(),
+            fn (Place $place) => PlaceListViewModel::fromPlace($place)
+        );
     }
 
-    public function search(Request $request)
+    public function search(SearchPlaceRequest $request)
     {
-        $findCommand = FindPlaceCommand::fromArray($request->query());
-        $places = $this->placeRepository->find($findCommand);
-        return PlaceListViewModel::fromCollection($places);
+        $findCommand = new FindPlaceCommand(
+            keywords: $request->input('keywords'),
+            country: $request->input('country'),
+            userId: $request->user()->id,
+        );
+        $places = $this->placeFinder->find($findCommand);
+
+        return Arrg::map(
+            $places,
+            fn (Place $place) => PlaceListViewModel::fromPlace($place)
+        );
     }
 
-    public function indexForCountry(Country $country)
+    public function indexForCountry(string $country)
     {
-        return PlaceListViewModel::fromCollection($country->places);
+        return Arrg::map(
+            $this->placeRepository->forCountry($country),
+            fn (Place $place) => PlaceListViewModel::fromPlace($place)
+        );
     }
 }

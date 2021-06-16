@@ -4,45 +4,56 @@ declare(strict_types=1);
 
 namespace App\Application\ViewModels\ApiModels;
 
-use App\Application\ViewModels\FromEloquentCollection;
 use App\Application\ViewModels\ViewModel;
-use App\Models\Buddy;
+use App\Domain\Buddies\Entities\DetailBuddy;
+use DateTimeInterface;
 
 class BuddyListViewModel extends ViewModel
 {
-    use FromEloquentCollection;
-
     protected array $visible = ['buddy_id', 'text', 'color', 'dive_count', 'last_dive'];
 
-    protected Buddy $buddy;
+    public function __construct(
+        private int $buddyId,
+        private string $text,
+        private string $color,
+        private int $diveCount,
+        private ?DateTimeInterface $lastDive,
+    ) {
+    }
 
-    public function __construct(Buddy $buddy)
+    public static function fromDetailBuddy(DetailBuddy $buddy): self
     {
-        $this->buddy = $buddy;
+        return new self(
+            buddyId: $buddy->getId(),
+            text: $buddy->getName(),
+            color: $buddy->getColor(),
+            lastDive:$buddy->getLastDive(),
+            diveCount: $buddy->getDiveCount(),
+        );
     }
 
     public function getBuddyId()
     {
-        return $this->buddy->id;
+        return $this->buddyId;
     }
 
     public function getText()
     {
-        return $this->buddy->name;
+        return $this->text;
     }
 
     public function getColor()
     {
-        return $this->buddy->color;
+        return $this->color;
     }
 
     public function getDiveCount()
     {
-        return $this->buddy->dives()->count();
+        return $this->diveCount;
     }
 
     public function getLastDive()
     {
-        return $this->buddy->dives()->max('date');
+        return $this->lastDive;
     }
 }

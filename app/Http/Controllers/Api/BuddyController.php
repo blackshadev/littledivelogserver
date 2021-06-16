@@ -6,47 +6,57 @@ namespace App\Http\Controllers\Api;
 
 use App\Application\ViewModels\ApiModels\BuddyDetailViewModel;
 use App\Application\ViewModels\ApiModels\BuddyListViewModel;
-use App\Domain\DataTransferObjects\BuddyData;
+use App\Domain\Buddies\DataTransferObjects\BuddyData;
+use App\Domain\Buddies\Entities\DetailBuddy;
+use App\Domain\Buddies\Repositories\BuddyRepository;
+use App\Domain\Buddies\Repositories\DetailBuddyRepository;
+use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BuddyCreateRequest;
-use App\Http\Requests\BuddyUpdateRequest;
-use App\Models\Buddy;
+use App\Http\Requests\Buddies\BuddyCreateRequest;
+use App\Http\Requests\Buddies\BuddyRequest;
+use App\Http\Requests\Buddies\BuddyUpdateRequest;
 use App\Models\User;
-use App\Services\Repositories\BuddyRepository;
 
 class BuddyController extends Controller
 {
-    private BuddyRepository $repository;
-
-    public function __construct(BuddyRepository $repository)
-    {
-        $this->authorizeResource(Buddy::class, 'buddy');
-        $this->repository = $repository;
+    public function __construct(
+        private BuddyRepository $repository,
+        private DetailBuddyRepository $detailRepository,
+    ) {
     }
 
     public function index(User $user)
     {
-        return BuddyListViewModel::fromCollection($user->buddies);
+        return Arrg::map(
+            $this->detailRepository->listForUser($user->id),
+            fn (DetailBuddy $buddy) => BuddyListViewModel::fromDetailBuddy($buddy)
+        );
     }
 
-    public function show(Buddy $buddy)
+    public function show(BuddyRequest $request)
     {
-        return new BuddyDetailViewModel($buddy);
+        $detailBuddy = $this->detailRepository->findById($request->getBuddyId());
+        return BuddyDetailViewModel::fromDetailBuddy($detailBuddy);
     }
 
-    public function update(Buddy $buddy, BuddyUpdateRequest $request)
+    public function update(BuddyUpdateRequest $request)
     {
-        $this->repository->update($buddy, BuddyData::fromArray($request->all()));
+        $buddyData = BuddyData::fromArray($request->all());
+        $buddy = $request->getBuddy();
 
-        return new BuddyDetailViewModel($buddy);
+        $this->repository->setData($buddy, $buddyData);
+        $this->repository->save($buddy);
+
+        $detailTag = $this->detailRepository->findById($buddy->getId());
+        return BuddyDetailViewModel::fromDetailBuddy($detailTag);
     }
 
     public function store(User $user, BuddyCreateRequest $request)
     {
-        $buddy = new Buddy();
-        $buddy->user()->associate($user);
-        $this->repository->update($buddy, BuddyData::fromArray($request->all()));
+        $buddy = $this->repository->create($user->id, BuddyData::fromArray($request->all()));
+        $this->repository->save($buddy);
 
-        return new BuddyDetailViewModel($buddy);
+        $detailTag = $this->detailRepository->findById($buddy->getId());
+        return BuddyDetailViewModel::fromDetailBuddy($detailTag);
     }
 }

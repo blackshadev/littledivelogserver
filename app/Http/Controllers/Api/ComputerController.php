@@ -5,36 +5,44 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Application\ViewModels\ApiModels\ComputerListViewModel;
-use App\Domain\DataTransferObjects\ComputerData;
+use App\Domain\Computers\DataTransferObjects\ComputerData;
+use App\Domain\Computers\Entities\DetailComputer;
+use App\Domain\Computers\Repositories\ComputerRepository;
+use App\Domain\Computers\Repositories\DetailComputerRepository;
+use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ComputerCreateRequest;
-use App\Models\Computer;
+use App\Http\Requests\Computers\ComputerCreateRequest;
+use App\Http\Requests\Computers\ComputerRequest;
 use App\Models\User;
-use App\Services\Repositories\ComputerRepository;
 
 class ComputerController extends Controller
 {
-    private ComputerRepository $repository;
-
-    public function __construct(ComputerRepository $repository)
-    {
-        $this->authorizeResource(Computer::class, 'computer');
-        $this->repository = $repository;
+    public function __construct(
+        private ComputerRepository $repository,
+        private DetailComputerRepository $detailComputerRepository,
+    ) {
     }
 
     public function index(User $user)
     {
-        return ComputerListViewModel::fromCollection($user->computers);
+        return Arrg::map(
+            $this->detailComputerRepository->listForUser($user->id),
+            fn (DetailComputer $computer) => ComputerListViewModel::fromDetailModel($computer)
+        );
     }
 
-    public function show(Computer $computer)
+    public function show(ComputerRequest $request)
     {
-        return new ComputerListViewModel($computer);
+        $detailComputer = $this->detailComputerRepository->findById($request->getComputerId());
+        return ComputerListViewModel::fromDetailModel($detailComputer);
     }
 
     public function store(ComputerCreateRequest $request, User $user)
     {
-        $computer = $this->repository->createOrFind(ComputerData::fromArray($request->all()), $user);
-        return new ComputerListViewModel($computer);
+        $computer = $this->repository->create($user->id, ComputerData::fromArray($request->all()));
+        $this->repository->save($computer);
+
+        $detailComputer = $this->detailComputerRepository->findById($computer->getId());
+        return ComputerListViewModel::fromDetailModel($detailComputer);
     }
 }

@@ -4,30 +4,31 @@ declare(strict_types=1);
 
 namespace App\Application\ViewModels\ApiModels;
 
-use App\Application\ViewModels\FromEloquentCollection;
 use App\Application\ViewModels\ViewModel;
-use App\Models\Country;
+use App\Domain\Countries\Entity\Country;
 
 final class TranslatedCountryViewModel extends ViewModel
 {
-    use FromEloquentCollection;
-
     protected array $visible = ['name', 'iso2'];
 
-    private Country $country;
+    public function __construct(
+        private string $iso2,
+        private string $name,
+    ) {
+    }
 
-    public function __construct(Country $country)
+    public static function fromCountry(Country $country): self
     {
-        $this->country = $country;
+        return new self($country->getIso2(), $country->getName());
     }
 
     public function getName()
     {
-        return __('countries.' . $this->country->iso2);
+        return $this->name;
     }
 
     public function getIso2()
     {
-        return $this->country->iso2;
+        return $this->iso2;
     }
 }

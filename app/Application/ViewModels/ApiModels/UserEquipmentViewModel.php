@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Application\ViewModels\ApiModels;
 
 use App\Application\ViewModels\ViewModel;
-use App\Models\Equipment;
-use Illuminate\Database\Eloquent\Collection;
+use App\Domain\Equipment\Entities\Equipment;
+use App\Domain\Equipment\Entities\Tank;
+use App\Domain\Support\Arrg;
 
 class UserEquipmentViewModel extends ViewModel
 {
@@ -14,32 +15,23 @@ class UserEquipmentViewModel extends ViewModel
         'tanks',
     ];
 
-    protected ?Equipment $equipment;
-
-    public function __construct(?Equipment $equipment)
-    {
-        $this->equipment = $equipment;
+    public function __construct(
+        private Equipment $equipment
+    ) {
     }
 
-    public function getTanks()
+    public function getTanks(): array
     {
-        if ($this->equipment === null) {
-            return [];
-        }
+        $tanks = $this->equipment->getTanks();
 
-        /** @var Collection $tanks */
-        $tanks = $this->equipment->tanks;
-
-        return $tanks->map(function ($tank) {
-            return [
-                'volume' => $tank->volume,
-                'oxygen' => $tank->oxygen,
-                'pressure' => [
-                    'begin' => $tank->pressure_begin,
-                    'end' => $tank->pressure_end,
-                    'type' => $tank->pressure_type,
-                ]
-            ];
-        })->toArray();
+        return Arrg::map($tanks, fn (Tank $tank) => [
+            'volume' => $tank->getVolume(),
+            'oxygen' => $tank->getOxygen(),
+            'pressure' => [
+                'begin' => $tank->getBeginPressure(),
+                'end' => $tank->getEndPressure(),
+                'type' => $tank->getPressureType(),
+            ]
+        ]);
     }
 }

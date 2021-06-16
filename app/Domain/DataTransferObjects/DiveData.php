@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\DataTransferObjects;
 
+use App\Domain\Buddies\DataTransferObjects\BuddyData;
+use App\Domain\Equipment\DataTransferObjects\TankData;
+use App\Domain\Places\DataTransferObjects\PlaceData;
+use App\Domain\Tags\DataTransferObjects\TagData;
 use Carbon\Carbon;
 
 class DiveData

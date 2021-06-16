@@ -60,4 +60,13 @@ class Arrg
 
         return Arrg::map($a, fn ($item) => Arr::get($item, $field));
     }
+
+    public static function slice(array $a, int $start, int $length)
+    {
+        if ($a === null) {
+            return null;
+        }
+
+        return array_slice($a, $start, $length);
+    }
 }

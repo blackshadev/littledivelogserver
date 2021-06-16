@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Services\Repositories;
 
 use App\CommandObjects\FindDivesCommand;
-use App\Domain\DataTransferObjects\BuddyData;
+use App\Domain\Buddies\DataTransferObjects\BuddyData;
 use App\Domain\DataTransferObjects\DiveData;
 use App\Domain\DataTransferObjects\NewDiveData;
-use App\Domain\DataTransferObjects\TagData;
-use App\Domain\DataTransferObjects\TankData;
+use App\Domain\Equipment\DataTransferObjects\TankData;
 use App\Domain\Support\Arrg;
+use App\Domain\Tags\DataTransferObjects\TagData;
 use App\Error\ComputerNotFound;
 use App\Models\Buddy;
 use App\Models\Dive;

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Support\Mapping;
 
-use App\Helpers\Mapping\MappingInterface;
-
 class BasicMapping implements MappingInterface
 {
     private $data = [];

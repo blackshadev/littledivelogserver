@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Users\Mutators;
+namespace App\Application\Users\Services;
 
 use App\Domain\Users\DataTransferObjects\ChangePasswordData;
 use App\Domain\Users\Entities\User;
 use App\Domain\Users\Errors\InvalidPassword;
 use App\Domain\Users\Repositories\PasswordRepository;
 
-class UpdatePasswordMutator
+class UpdatePasswordUpdater
 {
     public function __construct(
         private PasswordRepository $passwordRepository,

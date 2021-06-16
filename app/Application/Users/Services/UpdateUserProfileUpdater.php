@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Users\Mutators;
+namespace App\Application\Users\Services;
 
 use App\Domain\Users\DataTransferObjects\UserProfileData;
 use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\UserRepository;
 
-class UpdateUserProfileMutator
+class UpdateUserProfileUpdater
 {
     public function __construct(
         private UserRepository $userRepository,

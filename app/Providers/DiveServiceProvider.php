@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Application\Users\Services\UpdatePasswordUpdater;
+use App\Application\Users\Services\UpdateUserProfileUpdater;
 use App\Domain\Buddies\Repositories\BuddyRepository;
 use App\Domain\Buddies\Repositories\DetailBuddyRepository;
 use App\Domain\Computers\Repositories\ComputerRepository;
@@ -14,8 +16,6 @@ use App\Domain\Places\Repositories\PlaceRepository;
 use App\Domain\Places\Services\PlaceFinder;
 use App\Domain\Tags\Repositories\DetailTagRepository;
 use App\Domain\Tags\Repositories\TagRepository;
-use App\Domain\Users\Mutators\UpdatePasswordMutator;
-use App\Domain\Users\Mutators\UpdateUserProfileMutator;
 use App\Domain\Users\Repositories\CurrentUserRepository;
 use App\Domain\Users\Repositories\DetailUserRepository;
 use App\Domain\Users\Repositories\PasswordRepository;
@@ -66,8 +66,8 @@ class DiveServiceProvider extends ServiceProvider
         $this->app->singleton(UserRepository::class, EloquentUserRepository::class);
         $this->app->singleton(PasswordRepository::class, LaravelPasswordRepository::class);
 
-        $this->app->singleton(UpdatePasswordMutator::class, UpdatePasswordMutator::class);
-        $this->app->singleton(UpdateUserProfileMutator::class, UpdateUserProfileMutator::class);
+        $this->app->singleton(UpdatePasswordUpdater::class, UpdatePasswordUpdater::class);
+        $this->app->singleton(UpdateUserProfileUpdater::class, UpdateUserProfileUpdater::class);
     }
 
     /**

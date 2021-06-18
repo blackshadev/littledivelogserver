@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Tags;
 
+use App\Http\Requests\AuthenticatedRequest;
 use App\Rules\HexColor;
-use Illuminate\Foundation\Http\FormRequest;
 
-class TagCreateRequest extends FormRequest
+class TagCreateRequest extends AuthenticatedRequest
 {
     public function rules()
     {

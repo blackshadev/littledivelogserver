@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repositories\Buddies;
 
-use App\Domain\Buddies\DataTransferObjects\BuddyData;
 use App\Domain\Buddies\Entities\Buddy;
 use App\Domain\Buddies\Repositories\BuddyRepository;
 use App\Models\Buddy as BuddyModel;
@@ -24,13 +23,6 @@ class EloquentBuddyRepository implements BuddyRepository
         );
     }
 
-    public function setData(Buddy $buddy, BuddyData $buddyData): void
-    {
-        $buddy->setName($buddyData->getName());
-        $buddy->setColor($buddyData->getColor());
-        $buddy->setEmail($buddyData->getEmail());
-    }
-
     public function save(Buddy $buddy): void
     {
         if ($buddy->isExisting()) {
@@ -47,11 +39,6 @@ class EloquentBuddyRepository implements BuddyRepository
         $model->save();
 
         $this->setDataFromModel($buddy, $model);
-    }
-
-    public function create(int $userId, BuddyData $data): Buddy
-    {
-        return Buddy::new($userId, $data->getName(), $data->getColor(), $data->getEmail());
     }
 
     private function setDataFromModel(Buddy $buddy, BuddyModel $model): void

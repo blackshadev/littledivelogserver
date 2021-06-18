@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repositories\Tags;
 
-use App\Domain\Tags\DataTransferObjects\TagData;
 use App\Domain\Tags\Entities\Tag;
 use App\Domain\Tags\Repositories\TagRepository;
 use App\Models\Tag as TagModel;
 
-class EloquentTagRepository implements TagRepository
+final class EloquentTagRepository implements TagRepository
 {
     public function findById(int $id): Tag
     {
@@ -21,12 +20,6 @@ class EloquentTagRepository implements TagRepository
             text: $model->text,
             color: $model->color,
         );
-    }
-
-    public function setData(Tag $tag, TagData $tagData): void
-    {
-        $tag->setText($tagData->getText());
-        $tag->setColor($tagData->getColor());
     }
 
     public function save(Tag $tag): void
@@ -44,11 +37,6 @@ class EloquentTagRepository implements TagRepository
         $model->save();
 
         $this->setDataFromModel($tag, $model);
-    }
-
-    public function create(int $userId, TagData $data): Tag
-    {
-        return Tag::new($userId, $data->getText(), $data->getColor());
     }
 
     private function setDataFromModel(Tag $tag, TagModel $model): void

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Application\ViewModels\ApiModels\TranslatedCountryViewModel;
+use App\Application\Countries\ViewModels\TranslatedCountryViewModel;
 use App\Domain\Countries\Entity\Country;
 use App\Domain\Countries\Repositories\CountryRepository;
 use App\Domain\Support\Arrg;

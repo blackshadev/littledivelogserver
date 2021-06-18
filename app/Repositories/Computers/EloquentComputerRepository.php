@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repositories\Computers;
 
-use App\Domain\Computers\DataTransferObjects\ComputerData;
 use App\Domain\Computers\Entities\Computer;
 use App\Domain\Computers\Repositories\ComputerRepository;
 use App\Models\Computer as ComputerModel;
@@ -18,27 +17,6 @@ class EloquentComputerRepository implements ComputerRepository
         return $this->fromModel($model);
     }
 
-    public function create(int $userId, ComputerData $data): Computer
-    {
-        return Computer::new(
-            userId: $userId,
-            name: $data->getName(),
-            vendor: $data->getVendor(),
-            model: $data->getModel(),
-            serial: $data->getSerial(),
-            type: $data->getType(),
-        );
-    }
-
-    public function setData(Computer $computer, ComputerData $data): void
-    {
-        $computer->setVendor($data->getVendor());
-        $computer->setSerial($data->getSerial());
-        $computer->setModel($data->getModel());
-        $computer->setName($data->getName());
-        $computer->setType($data->getType());
-    }
-
     public function save(Computer $computer): void
     {
         if ($computer->isExisting()) {
@@ -49,10 +27,10 @@ class EloquentComputerRepository implements ComputerRepository
 
         $model->user_id = $computer->getUserId();
         $model->name = $computer->getName();
-        $model->model = $computer->getModel();
         $model->serial = $computer->getSerial();
         $model->type = $computer->getType();
         $model->vendor = $computer->getVendor();
+        $model->setAttribute('model', $computer->getModel());
 
         $model->save();
 
@@ -66,7 +44,7 @@ class EloquentComputerRepository implements ComputerRepository
             computerId: $model->id,
             name: $model->name,
             vendor: $model->vendor,
-            model: $model->model,
+            model: $model->getAttribute('model'),
             type: $model->type,
             serial: $model->serial,
         );
@@ -78,7 +56,7 @@ class EloquentComputerRepository implements ComputerRepository
         $computer->setUserId($model->user_id);
         $computer->setName($model->name);
         $computer->setType($model->type);
-        $computer->setModel($model->model);
+        $computer->setModel($model->getAttribute('model'));
         $computer->setSerial($model->serial);
         $computer->setVendor($model->vendor);
     }

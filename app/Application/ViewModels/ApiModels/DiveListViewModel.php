@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\ViewModels\ApiModels;
 
+use App\Application\places\ViewModels\PlaceViewModel;
 use App\Application\ViewModels\FromEloquentCollection;
 use App\Application\ViewModels\ViewModel;
 use App\Models\Dive;

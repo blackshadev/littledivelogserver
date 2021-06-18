@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Application\ViewModels\ApiModels\BuddyDetailViewModel;
-use App\Application\ViewModels\ApiModels\BuddyListViewModel;
+use App\Application\Buddies\Services\BuddyCreator;
+use App\Application\Buddies\Services\BuddyUpdater;
+use App\Application\Buddies\ViewModels\BuddyDetailViewModel;
+use App\Application\Buddies\ViewModels\BuddyListViewModel;
 use App\Domain\Buddies\DataTransferObjects\BuddyData;
 use App\Domain\Buddies\Entities\DetailBuddy;
-use App\Domain\Buddies\Repositories\BuddyRepository;
 use App\Domain\Buddies\Repositories\DetailBuddyRepository;
 use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,8 @@ use App\Models\User;
 class BuddyController extends Controller
 {
     public function __construct(
-        private BuddyRepository $repository,
+        private BuddyCreator $creator,
+        private BuddyUpdater $updater,
         private DetailBuddyRepository $detailRepository,
     ) {
     }
@@ -44,17 +46,18 @@ class BuddyController extends Controller
         $buddyData = BuddyData::fromArray($request->all());
         $buddy = $request->getBuddy();
 
-        $this->repository->setData($buddy, $buddyData);
-        $this->repository->save($buddy);
+        $this->updater->update($buddy, $buddyData);
 
         $detailTag = $this->detailRepository->findById($buddy->getId());
         return BuddyDetailViewModel::fromDetailBuddy($detailTag);
     }
 
-    public function store(User $user, BuddyCreateRequest $request)
+    public function store(BuddyCreateRequest $request)
     {
-        $buddy = $this->repository->create($user->id, BuddyData::fromArray($request->all()));
-        $this->repository->save($buddy);
+        $data = BuddyData::fromArray($request->all());
+        $user = $request->getCurrentUser();
+
+        $buddy = $this->creator->create($user, $data);
 
         $detailTag = $this->detailRepository->findById($buddy->getId());
         return BuddyDetailViewModel::fromDetailBuddy($detailTag);

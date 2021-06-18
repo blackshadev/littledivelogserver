@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Buddies;
 
+use App\Http\Requests\AuthenticatedRequest;
 use App\Rules\HexColor;
-use Illuminate\Foundation\Http\FormRequest;
 
-class BuddyCreateRequest extends FormRequest
+class BuddyCreateRequest extends AuthenticatedRequest
 {
     public function rules()
     {

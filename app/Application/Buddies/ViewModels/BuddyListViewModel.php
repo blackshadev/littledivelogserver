@@ -2,22 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Application\ViewModels\ApiModels;
+namespace App\Application\Buddies\ViewModels;
 
 use App\Application\ViewModels\ViewModel;
 use App\Domain\Buddies\Entities\DetailBuddy;
 use DateTimeInterface;
 
-class BuddyDetailViewModel extends ViewModel
+class BuddyListViewModel extends ViewModel
 {
-    protected array $visible = ['buddy_id', 'text', 'color', 'dive_count', 'last_dive', 'email', 'buddy_user_id'];
+    protected array $visible = ['buddy_id', 'text', 'color', 'dive_count', 'last_dive'];
 
     public function __construct(
         private int $buddyId,
         private string $text,
         private string $color,
-        private ?string $email,
-        private int $buddyUserId,
         private int $diveCount,
         private ?DateTimeInterface $lastDive,
     ) {
@@ -29,45 +27,33 @@ class BuddyDetailViewModel extends ViewModel
             buddyId: $buddy->getId(),
             text: $buddy->getName(),
             color: $buddy->getColor(),
-            email: $buddy->getEmail(),
-            buddyUserId: 0,
             lastDive:$buddy->getLastDive(),
             diveCount: $buddy->getDiveCount(),
         );
     }
 
-    public function getBuddyId(): int
+    public function getBuddyId()
     {
         return $this->buddyId;
     }
 
-    public function getText(): string
+    public function getText()
     {
         return $this->text;
     }
 
-    public function getColor(): string
+    public function getColor()
     {
         return $this->color;
     }
 
-    public function getDiveCount(): int
+    public function getDiveCount()
     {
         return $this->diveCount;
     }
 
-    public function getLastDive(): ?string
+    public function getLastDive()
     {
-        return $this->lastDive !== null ? $this->lastDive->format(DateTimeInterface::ATOM) : null;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function getBuddyUserId(): ?int
-    {
-        return $this->buddyUserId;
+        return $this->lastDive;
     }
 }

@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Application\Buddies\Services\BuddyCreator;
+use App\Application\Buddies\Services\BuddyUpdater;
+use App\Application\Tags\Services\TagCreator;
+use App\Application\Tags\Services\TagUpdater;
 use App\Application\Users\Services\UpdatePasswordUpdater;
 use App\Application\Users\Services\UpdateUserProfileUpdater;
 use App\Domain\Buddies\Repositories\BuddyRepository;
@@ -34,6 +38,7 @@ use App\Repositories\Users\EloquentUserRepository;
 use App\Repositories\Users\LaravelCurrentUserRepository;
 use App\Repositories\Users\LaravelPasswordRepository;
 use App\Services\Places\ExplorerPlaceFinder;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class DiveServiceProvider extends ServiceProvider
@@ -47,9 +52,13 @@ class DiveServiceProvider extends ServiceProvider
     {
         $this->app->singleton(BuddyRepository::class, EloquentBuddyRepository::class);
         $this->app->singleton(DetailBuddyRepository::class, EloquentDetailBuddyRepository::class);
+        $this->app->singleton(BuddyCreator::class, BuddyCreator::class);
+        $this->app->singleton(BuddyUpdater::class, BuddyUpdater::class);
 
         $this->app->singleton(TagRepository::class, EloquentTagRepository::class);
         $this->app->singleton(DetailTagRepository::class, EloquentDetailTagRepository::class);
+        $this->app->singleton(TagCreator::class, TagCreator::class);
+        $this->app->singleton(TagUpdater::class, TagUpdater::class);
 
         $this->app->singleton(ComputerRepository::class, EloquentComputerRepository::class);
         $this->app->singleton(DetailComputerRepository::class, EloquentDetailComputerRepository::class);
@@ -77,5 +86,13 @@ class DiveServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+    }
+
+    public function provides()
+    {
+        return [
+            BuddyCreator::class,
+            BuddyUpdater::class,
+        ];
     }
 }

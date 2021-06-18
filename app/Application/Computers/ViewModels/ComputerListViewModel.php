@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\ViewModels\ApiModels;
+namespace App\Application\Computers\ViewModels;
 
 use App\Application\ViewModels\ViewModel;
 use App\Domain\Computers\Entities\DetailComputer;

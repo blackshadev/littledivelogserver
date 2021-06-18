@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Application\ViewModels\ApiModels;
+namespace App\Application\Tags\ViewModels;
 
 use App\Application\ViewModels\ViewModel;
 use App\Domain\Tags\Entities\DetailTag;
 use DateTimeInterface;
 
-class TagViewModel extends ViewModel
+final class TagViewModel extends ViewModel
 {
     protected array $visible = ['tag_id', 'text', 'color', 'dive_count', 'last_dive'];
 

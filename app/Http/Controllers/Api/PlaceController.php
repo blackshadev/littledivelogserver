@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Application\ViewModels\ApiModels\PlaceListViewModel;
+use App\Application\Places\ViewModels\PlaceListViewModel;
 use App\CommandObjects\FindPlaceCommand;
 use App\Domain\Places\Entities\Place;
 use App\Domain\Places\Repositories\PlaceRepository;

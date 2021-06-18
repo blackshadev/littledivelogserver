@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Application\ViewModels\ApiModels\TagViewModel;
+use App\Application\Tags\Services\TagCreator;
+use App\Application\Tags\Services\TagUpdater;
+use App\Application\Tags\ViewModels\TagViewModel;
 use App\Domain\Support\Arrg;
 use App\Domain\Tags\DataTransferObjects\TagData;
 use App\Domain\Tags\Entities\DetailTag;
 use App\Domain\Tags\Repositories\DetailTagRepository;
-use App\Domain\Tags\Repositories\TagRepository;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tags\TagCreateRequest;
 use App\Http\Requests\Tags\TagRequest;
@@ -19,7 +20,8 @@ use App\Models\User;
 class TagController extends Controller
 {
     public function __construct(
-        private TagRepository $repository,
+        private TagCreator $creator,
+        private TagUpdater $updater,
         private DetailTagRepository $detailTagRepository
     ) {
     }
@@ -42,22 +44,20 @@ class TagController extends Controller
     public function update(TagUpdateRequest $request)
     {
         $tagData = TagData::fromArray($request->all());
-
         $tag = $request->getTag();
 
-        $this->repository->setData($tag, $tagData);
-        $this->repository->save($tag);
+        $this->updater->update($tag, $tagData);
 
         $detailTag = $this->detailTagRepository->findById($tag->getId());
         return TagViewModel::fromDetailTag($detailTag);
     }
 
-    public function store(User $user, TagCreateRequest $request)
+    public function store(TagCreateRequest $request)
     {
         $tagData = TagData::fromArray($request->all());
+        $user = $request->getCurrentUser();
 
-        $tag = $this->repository->create($user->id, $tagData);
-        $this->repository->save($tag);
+        $tag = $this->creator->create($user, $tagData);
 
         $detailTag = $this->detailTagRepository->findById($tag->getId());
         return TagViewModel::fromDetailTag($detailTag);

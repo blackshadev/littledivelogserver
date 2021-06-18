@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Application\ViewModels\ApiModels\ComputerListViewModel;
+use App\Application\Computers\Services\ComputerCreator;
+use App\Application\Computers\ViewModels\ComputerListViewModel;
 use App\Domain\Computers\DataTransferObjects\ComputerData;
 use App\Domain\Computers\Entities\DetailComputer;
-use App\Domain\Computers\Repositories\ComputerRepository;
 use App\Domain\Computers\Repositories\DetailComputerRepository;
 use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
@@ -18,7 +18,7 @@ use App\Models\User;
 class ComputerController extends Controller
 {
     public function __construct(
-        private ComputerRepository $repository,
+        private ComputerCreator $creator,
         private DetailComputerRepository $detailComputerRepository,
     ) {
     }
@@ -39,8 +39,7 @@ class ComputerController extends Controller
 
     public function store(ComputerCreateRequest $request, User $user)
     {
-        $computer = $this->repository->create($user->id, ComputerData::fromArray($request->all()));
-        $this->repository->save($computer);
+        $computer = $this->creator->create($user->id, ComputerData::fromArray($request->all()));
 
         $detailComputer = $this->detailComputerRepository->findById($computer->getId());
         return ComputerListViewModel::fromDetailModel($detailComputer);

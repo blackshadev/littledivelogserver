@@ -30,6 +30,8 @@ class EloquentComputerRepository implements ComputerRepository
         $model->serial = $computer->getSerial();
         $model->type = $computer->getType();
         $model->vendor = $computer->getVendor();
+        $model->last_read = $computer->getLastRead();
+        $model->last_fingerprint = $computer->getFingerprint();
         $model->setAttribute('model', $computer->getModel());
 
         $model->save();
@@ -47,6 +49,8 @@ class EloquentComputerRepository implements ComputerRepository
             model: $model->getAttribute('model'),
             type: $model->type,
             serial: $model->serial,
+            lastRead: $model->last_read,
+            fingerprint: $model->fingerprint,
         );
     }
 

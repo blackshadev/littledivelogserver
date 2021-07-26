@@ -32,4 +32,9 @@ class AuthenticatedRequest extends FormRequest
     {
         return $this->currentUserRepository->isLoggedIn();
     }
+
+    public function rules()
+    {
+        return [];
+    }
 }

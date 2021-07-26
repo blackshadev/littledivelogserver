@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Users\Services;
 
-use App\Domain\Users\DataTransferObjects\UserProfileData;
+use App\Application\Users\DataTransferObjects\UserProfileData;
 use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\UserRepository;
 

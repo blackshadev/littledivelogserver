@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services\Repositories;
 
-use App\CommandObjects\FindDivesCommand;
-use App\Domain\Buddies\DataTransferObjects\BuddyData;
-use App\Domain\DataTransferObjects\DiveData;
-use App\Domain\DataTransferObjects\NewDiveData;
-use App\Domain\Equipment\DataTransferObjects\TankData;
+use App\Application\Buddies\DataTransferObjects\BuddyData;
+use App\Application\Dives\CommandObjects\FindDivesCommand;
+use App\Application\Dives\DataTransferObjects\DiveData;
+use App\Application\Dives\DataTransferObjects\NewDiveData;
+use App\Application\Equipment\DataTransferObjects\TankData;
+use App\Application\Tags\DataTransferObjects\TagData;
 use App\Domain\Support\Arrg;
-use App\Domain\Tags\DataTransferObjects\TagData;
 use App\Error\ComputerNotFound;
 use App\Models\Buddy;
 use App\Models\Dive;

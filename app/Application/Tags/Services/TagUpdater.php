@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Tags\Services;
 
-use App\Domain\Tags\DataTransferObjects\TagData;
+use App\Application\Tags\DataTransferObjects\TagData;
 use App\Domain\Tags\Entities\Tag;
 use App\Domain\Tags\Repositories\TagRepository;
 

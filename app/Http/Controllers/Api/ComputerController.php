@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Application\Computers\DataTransferObjects\ComputerData;
 use App\Application\Computers\Services\ComputerCreator;
 use App\Application\Computers\ViewModels\ComputerListViewModel;
-use App\Domain\Computers\DataTransferObjects\ComputerData;
 use App\Domain\Computers\Entities\DetailComputer;
 use App\Domain\Computers\Repositories\DetailComputerRepository;
 use App\Domain\Support\Arrg;

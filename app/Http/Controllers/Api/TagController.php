@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Application\Tags\DataTransferObjects\TagData;
 use App\Application\Tags\Services\TagCreator;
 use App\Application\Tags\Services\TagUpdater;
 use App\Application\Tags\ViewModels\TagViewModel;
 use App\Domain\Support\Arrg;
-use App\Domain\Tags\DataTransferObjects\TagData;
 use App\Domain\Tags\Entities\DetailTag;
 use App\Domain\Tags\Repositories\DetailTagRepository;
 use App\Http\Controllers\Controller;

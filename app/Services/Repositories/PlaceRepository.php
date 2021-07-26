@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Repositories;
 
-use App\CommandObjects\FindPlaceCommand;
-use App\Domain\Places\DataTransferObjects\PlaceData;
+use App\Application\Places\CommandObjects\FindPlaceCommand;
+use App\Application\Places\DataTransferObjects\PlaceData;
 use App\Error\PlaceNotFound;
 use App\Models\Place;
 use App\Models\User;

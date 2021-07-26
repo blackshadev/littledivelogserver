@@ -2,34 +2,43 @@
 
 declare(strict_types=1);
 
-namespace App\Application\places\ViewModels;
+namespace App\Application\Places\ViewModels;
 
 use App\Application\ViewModels\ViewModel;
-use App\Models\Place;
+use App\Domain\Places\Entities\Place;
 
 class PlaceViewModel extends ViewModel
 {
-    protected array $visible = ['country_code', 'place_id', 'name'];
+    protected array $visible = ['place_id', 'name', 'country_code'];
 
-    protected Place $place;
-
-    public function __construct(Place $place)
-    {
-        $this->place = $place;
+    public function __construct(
+        private int $id,
+        private string $name,
+        private string $countryCode,
+    ) {
     }
 
-    public function getPlaceId(): int
+    public static function fromPlace(Place $place): self
     {
-        return $this->place->id;
+        return new self(
+            id: $place->getId(),
+            name: $place->getName(),
+            countryCode: $place->getCountryCode(),
+        );
     }
 
-    public function getCountryCode(): string
+    public function getPlaceId()
     {
-        return $this->place->country_code;
+        return $this->id;
     }
 
-    public function getName(): string
+    public function getName()
     {
-        return $this->place->name;
+        return $this->name;
+    }
+
+    public function getCountryCode()
+    {
+        return $this->countryCode;
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Repositories;
 
-use App\Domain\Tags\DataTransferObjects\TagData;
+use App\Application\Tags\DataTransferObjects\TagData;
 use App\Error\TagNotFound;
 use App\Models\Tag;
 use App\Models\User;

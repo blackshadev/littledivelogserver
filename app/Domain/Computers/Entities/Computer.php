@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Computers\Entities;
 
+use DateTimeInterface;
+
 class Computer
 {
     public function __construct(
@@ -14,6 +16,8 @@ class Computer
         private int $model,
         private int $type,
         private string $name,
+        private ?DateTimeInterface $lastRead = null,
+        private ?string $fingerprint = null
     ) {
     }
 
@@ -54,6 +58,26 @@ class Computer
             type: $type,
             name: $name,
         );
+    }
+
+    public function getComputerId(): ?int
+    {
+        return $this->computerId;
+    }
+
+    public function setComputerId(?int $computerId): void
+    {
+        $this->computerId = $computerId;
+    }
+
+    public function getLastRead(): ?DateTimeInterface
+    {
+        return $this->lastRead;
+    }
+
+    public function getFingerprint(): ?string
+    {
+        return $this->fingerprint;
     }
 
     public function getUserId(): int
@@ -129,5 +153,15 @@ class Computer
     public function isExisting(): bool
     {
         return $this->computerId !== null;
+    }
+
+    public function updateLastRead(DateTimeInterface $date, string $fingerprint)
+    {
+        if ($this->lastRead !== null && $this->lastRead > $date) {
+            return;
+        }
+
+        $this->lastRead = $date;
+        $this->fingerprint = $fingerprint;
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Repositories;
 
-use App\Domain\Equipment\DataTransferObjects\TankData;
+use App\Application\Equipment\DataTransferObjects\TankData;
 use App\Models\EquipmentTank;
 
 class EquipmentTankRepository

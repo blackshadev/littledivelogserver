@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\Users\Services;
 
-use App\Domain\Users\DataTransferObjects\ChangePasswordData;
+use App\Application\Users\DataTransferObjects\ChangePasswordData;
+use App\Application\Users\Errors\InvalidPassword;
 use App\Domain\Users\Entities\User;
-use App\Domain\Users\Errors\InvalidPassword;
 use App\Domain\Users\Repositories\PasswordRepository;
 
 class UpdatePasswordUpdater

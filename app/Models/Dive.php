@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use JeroenG\Explorer\Application\Explored;
 use Laravel\Scout\Searchable;
 
+/**
+ * @mixin Builder
+ */
 class Dive extends Model implements Explored
 {
     use HasFactory;
@@ -19,7 +23,8 @@ class Dive extends Model implements Explored
     protected $dates = ['created_at', 'updated_at', 'date'];
 
     protected $casts = [
-        'max_depth' => 'float'
+        'max_depth' => 'float',
+        'samples' => 'array',
     ];
 
     public function buddies()
@@ -69,6 +74,7 @@ class Dive extends Model implements Explored
             'id' => $this->id,
             'user_id' => $this->user_id,
             'max_depth' => $this->max_depth,
+            'divetime' => $this->divetime,
             'date' => $this->date,
             'created_at' => $this->created_at,
             'tags' => $this->tags()->getQuery()->select(['tags.id', 'tags.text'])->get()->toArray(),
@@ -89,6 +95,7 @@ class Dive extends Model implements Explored
             'max_depth' => 'float',
             'date' => 'date',
             'created_at' => 'date',
+            'divetime' => 'integer',
             'tags' => [
                 'type' => 'nested',
                 'properties' => [

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Application\Places\ViewModels\PlaceListViewModel;
-use App\CommandObjects\FindPlaceCommand;
+use App\Application\Places\CommandObjects\FindPlaceCommand;
+use App\Application\Places\Services\PlaceFinder;
+use App\Application\Places\ViewModels\PlaceViewModel;
 use App\Domain\Places\Entities\Place;
 use App\Domain\Places\Repositories\PlaceRepository;
-use App\Domain\Places\Services\PlaceFinder;
 use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Places\SearchPlaceRequest;
@@ -25,7 +25,7 @@ class PlaceController extends Controller
     {
         return Arrg::map(
             $this->placeRepository->list(),
-            fn (Place $place) => PlaceListViewModel::fromPlace($place)
+            fn (Place $place) => PlaceViewModel::fromPlace($place)
         );
     }
 
@@ -40,7 +40,7 @@ class PlaceController extends Controller
 
         return Arrg::map(
             $places,
-            fn (Place $place) => PlaceListViewModel::fromPlace($place)
+            fn (Place $place) => PlaceViewModel::fromPlace($place)
         );
     }
 
@@ -48,7 +48,7 @@ class PlaceController extends Controller
     {
         return Arrg::map(
             $this->placeRepository->forCountry($country),
-            fn (Place $place) => PlaceListViewModel::fromPlace($place)
+            fn (Place $place) => PlaceViewModel::fromPlace($place)
         );
     }
 }

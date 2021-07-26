@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services\DiveMerger;
 
-use App\Domain\Buddies\DataTransferObjects\BuddyData;
-use App\Domain\DataTransferObjects\NewDiveData;
-use App\Domain\Equipment\DataTransferObjects\TankData;
-use App\Domain\Places\DataTransferObjects\PlaceData;
+use App\Application\Buddies\DataTransferObjects\BuddyData;
+use App\Application\Dives\DataTransferObjects\NewDiveData;
+use App\Application\Equipment\DataTransferObjects\TankData;
+use App\Application\Places\DataTransferObjects\PlaceData;
+use App\Application\Tags\DataTransferObjects\TagData;
 use App\Domain\Support\Arrg;
 use App\Domain\Support\Math;
-use App\Domain\Tags\DataTransferObjects\TagData;
 use App\Models\Dive;
 use App\Models\DiveTank;
 use Carbon\Carbon;

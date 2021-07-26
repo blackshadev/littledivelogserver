@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Equipment\Repositories;
 
-use App\Domain\Equipment\DataTransferObjects\EquipmentData;
+use App\Application\Equipment\DataTransferObjects\EquipmentData;
 use App\Domain\Equipment\Entities\Equipment;
 
 interface EquipmentRepository

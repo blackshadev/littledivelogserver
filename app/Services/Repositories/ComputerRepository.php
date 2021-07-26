@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Repositories;
 
-use App\Domain\Computers\DataTransferObjects\ComputerData;
+use App\Application\Computers\DataTransferObjects\ComputerData;
 use App\Error\ComputerAlreadyExists;
 use App\Models\Computer;
 use App\Models\User;

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Places;
 
-use App\CommandObjects\FindPlaceCommand;
+use App\Application\Places\CommandObjects\FindPlaceCommand;
+use App\Application\Places\Services\PlaceFinder;
 use App\Domain\Places\Entities\Place;
-use App\Domain\Places\Services\PlaceFinder;
 use App\Domain\Support\Arrg;
 use App\Explorer\Syntax\Wildcard;
 use App\Models\Place as PlaceModel;

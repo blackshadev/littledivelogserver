@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Repositories;
 
-use App\Domain\Buddies\DataTransferObjects\BuddyData;
+use App\Application\Buddies\DataTransferObjects\BuddyData;
 use App\Error\BuddyNotFound;
 use App\Models\Buddy;
 use App\Models\User;

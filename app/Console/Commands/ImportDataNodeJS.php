@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Domain\Buddies\DataTransferObjects\BuddyData;
-use App\Domain\DataTransferObjects\DiveData;
-use App\Domain\DataTransferObjects\NewDiveData;
-use App\Domain\Equipment\DataTransferObjects\TankData;
+use App\Application\Buddies\DataTransferObjects\BuddyData;
+use App\Application\Dives\DataTransferObjects\DiveData;
+use App\Application\Dives\DataTransferObjects\NewDiveData;
+use App\Application\Equipment\DataTransferObjects\TankData;
+use App\Application\Tags\DataTransferObjects\TagData;
 use App\Domain\Support\Mapping\BasicMapping;
 use App\Domain\Support\Mapping\MappingInterface;
-use App\Domain\Tags\DataTransferObjects\TagData;
 use App\Models\Dive;
 use App\Models\Place;
 use App\Models\User;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Places\Entities;
 
-class Place
+final class Place
 {
     public function __construct(
         private ?int $id,
@@ -12,6 +12,19 @@ class Place
         private string $name,
         private string $countryCode,
     ) {
+    }
+
+    public static function new(
+        int $createdBy,
+        string $name,
+        string $countryCode
+    ) {
+        return new self(
+            id: null,
+            createdBy: $createdBy,
+            name: $name,
+            countryCode: $countryCode,
+        );
     }
 
     public function getId(): ?int
@@ -52,5 +65,10 @@ class Place
     public function setCountryCode(string $countryCode): void
     {
         $this->countryCode = $countryCode;
+    }
+
+    public function isExisting(): bool
+    {
+        return $this->id !== null;
     }
 }

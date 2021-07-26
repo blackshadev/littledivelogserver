@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Application\Buddies\DataTransferObjects\BuddyData;
 use App\Application\Buddies\Services\BuddyCreator;
 use App\Application\Buddies\Services\BuddyUpdater;
 use App\Application\Buddies\ViewModels\BuddyDetailViewModel;
 use App\Application\Buddies\ViewModels\BuddyListViewModel;
-use App\Domain\Buddies\DataTransferObjects\BuddyData;
 use App\Domain\Buddies\Entities\DetailBuddy;
 use App\Domain\Buddies\Repositories\DetailBuddyRepository;
 use App\Domain\Support\Arrg;

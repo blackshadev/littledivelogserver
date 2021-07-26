@@ -69,4 +69,13 @@ class Arrg
 
         return array_slice($a, $start, $length);
     }
+
+    public static function only(?array $a, array $fields): ?array
+    {
+        if ($a === null) {
+            return null;
+        }
+
+        return array_combine($fields, array_map(fn ($field) => $a[$field], $fields));
+    }
 }

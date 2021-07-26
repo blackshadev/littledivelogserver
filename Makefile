@@ -28,6 +28,12 @@ push:
 	@${set-ids} docker build --target=prod --build-arg USERID=$$(id -u) --build-arg GROUPID=$$(id -g) --tag=blackshadev/littledivelogserver:next-1 .
 	docker push blackshadev/littledivelogserver:next-1
 
+index:
+	@${set-ids} docker-compose exec app sh -c 'php8 artisan elastic:delete || true'
+	@${set-ids} docker-compose exec app sh -c 'php8 artisan elastic:create'
+	@${set-ids} docker-compose exec app sh -c 'php8 artisan scout:import App\\Models\\Dive'
+	@${set-ids} docker-compose exec app sh -c 'php8 artisan scout:import App\\Models\\Place'
+
 cs-fix:
 	@${set-ids} docker-compose exec app sh -c 'php8 vendor/bin/ecs check --fix --config=dev/ecs.php'
 

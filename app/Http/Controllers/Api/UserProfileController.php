@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Application\Equipment\DataTransferObjects\EquipmentData;
+use App\Application\Users\DataTransferObjects\ChangePasswordData;
+use App\Application\Users\DataTransferObjects\UserProfileData;
 use App\Application\Users\Services\UpdatePasswordUpdater;
 use App\Application\Users\Services\UpdateUserProfileUpdater;
 use App\Application\Users\ViewModels\UserEquipmentViewModel;
 use App\Application\Users\ViewModels\UserProfileViewModel;
-use App\Domain\Equipment\DataTransferObjects\EquipmentData;
 use App\Domain\Equipment\Repositories\EquipmentRepository;
-use App\Domain\Users\DataTransferObjects\ChangePasswordData;
-use App\Domain\Users\DataTransferObjects\UserProfileData;
 use App\Domain\Users\Repositories\CurrentUserRepository;
 use App\Domain\Users\Repositories\DetailUserRepository;
 use App\Http\Controllers\Controller;

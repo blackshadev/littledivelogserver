@@ -4,35 +4,41 @@ declare(strict_types=1);
 
 namespace App\Application\ViewModels\ApiModels;
 
-use App\Application\ViewModels\FromEloquentCollection;
 use App\Application\ViewModels\ViewModel;
-use App\Models\Tag;
+use App\Domain\Tags\Entities\Tag;
 
 class DiveTagsViewModel extends ViewModel
 {
-    use FromEloquentCollection;
-
     protected array $visible = ['tag_id', 'color', 'text'];
 
-    private Tag $tag;
+    public function __construct(
+        private int $tagId,
+        private string $color,
+        private string $text,
+    ) {
+    }
 
-    public function __construct(Tag $tag)
+    public static function fromTag(Tag $tag): self
     {
-        $this->tag = $tag;
+        return new self(
+            tagId: $tag->getId(),
+            color: $tag->getColor(),
+            text: $tag->getText(),
+        );
     }
 
     public function getTagId()
     {
-        return $this->tag->id;
+        return $this->tagId;
     }
 
     public function getColor()
     {
-        return $this->tag->color;
+        return $this->color;
     }
 
     public function getText()
     {
-        return $this->tag->text;
+        return $this->text;
     }
 }

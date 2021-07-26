@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Computers\Services;
 
-use App\Domain\Computers\DataTransferObjects\ComputerData;
+use App\Application\Computers\DataTransferObjects\ComputerData;
 use App\Domain\Computers\Entities\Computer;
 use App\Domain\Computers\Repositories\ComputerRepository;
 use App\Domain\Users\Entities\User;

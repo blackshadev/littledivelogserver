@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Buddies\Entities;
 
-class Buddy
+use App\Domain\EntityWithId;
+
+class Buddy implements EntityWithId
 {
     private function __construct(
         private ?int $id,
@@ -74,7 +76,7 @@ class Buddy
         $this->email = $email;
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

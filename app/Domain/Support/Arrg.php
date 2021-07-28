@@ -23,14 +23,12 @@ class Arrg
         return $a !== null ? array_filter($a, $fn) : null;
     }
 
-    public static function firstNotNull(?array $a, ?string $field = null)
+    public static function firstNotNull(?array $a)
     {
         if ($a === null) {
             return null;
         }
-        if ($field !== null) {
-            $a = Arrg::get($a, $field);
-        }
+
         return Arr::first(Arrg::notNull($a));
     }
 
@@ -59,6 +57,22 @@ class Arrg
         }
 
         return Arrg::map($a, fn ($item) => Arr::get($item, $field));
+    }
+
+    public static function call(?array $a, string $method, ...$args): ?array
+    {
+        if ($a === null) {
+            return null;
+        }
+
+        $methods = explode('.', $method);
+        return Arrg::map($a, function ($item) use ($methods, $args) {
+            foreach ($methods as $method) {
+                $item = $item !== null ? ([$item, $method])(...$args) : null;
+            }
+
+            return $item;
+        });
     }
 
     public static function slice(array $a, int $start, int $length)

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Tags\Entities;
 
-class Tag
+use App\Domain\EntityWithId;
+
+class Tag implements EntityWithId
 {
     public function __construct(
         private ?int $id,
@@ -31,7 +33,7 @@ class Tag
         return new self(null, $userId, $text, $color);
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

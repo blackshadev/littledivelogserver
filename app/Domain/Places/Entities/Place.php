@@ -6,12 +6,21 @@ namespace App\Domain\Places\Entities;
 
 final class Place
 {
-    public function __construct(
+    private function __construct(
         private ?int $id,
         private ?int $createdBy,
         private string $name,
         private string $countryCode,
     ) {
+    }
+
+    public static function existing(
+        int $id,
+        ?int $createdBy,
+        string $name,
+        string $countryCode,
+    ): self {
+        return new self($id, $createdBy, $name, $countryCode);
     }
 
     public static function new(

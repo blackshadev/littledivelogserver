@@ -6,6 +6,7 @@ namespace App\Services\DiveMerger;
 
 use App\Application\Buddies\DataTransferObjects\BuddyData;
 use App\Application\Dives\DataTransferObjects\NewDiveData;
+use App\Application\Dives\Exceptions\CannotMergeDivesException;
 use App\Application\Equipment\DataTransferObjects\TankData;
 use App\Application\Places\DataTransferObjects\PlaceData;
 use App\Application\Tags\DataTransferObjects\TagData;

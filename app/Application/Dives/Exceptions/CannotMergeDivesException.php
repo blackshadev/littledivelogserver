@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\DiveMerger;
+namespace App\Application\Dives\Exceptions;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 

@@ -10,230 +10,184 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\DiveMerger;
 
-use App\Domain\Support\Arrg;
-use App\Models\Buddy;
-use App\Models\Dive;
-use App\Models\DiveTank;
-use App\Models\Tag;
-use App\Models\User;
-use App\Services\DiveMerger\CannotMergeDivesException;
-use App\Services\DiveMerger\DiveMergerService;
-use App\Services\Repositories\DiveRepository;
-use Carbon\Carbon;
-use Database\Factories\DiveFactory;
+use App\Application\Dives\Exceptions\CannotMergeDivesException;
+use App\Application\Dives\Services\Mergers\DiveEntityMerger;
+use App\Application\Dives\Services\Mergers\DiveMerger;
+use App\Application\Dives\Services\Mergers\DiveSampleCombiner;
+use App\Application\Dives\Services\Mergers\DiveTankMerger;
+use App\Domain\Computers\Entities\Computer;
+use App\Domain\Dives\Entities\Dive;
+use App\Domain\Places\Entities\Place;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery;
-use Tests\TestCase;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class DiveMergerTest extends TestCase
+class DiveMergerTest extends MockeryTestCase
 {
     use WithFaker;
     use DatabaseTransactions;
 
-    /** @var DiveRepository|Mockery\LegacyMockInterface|Mockery\MockInterface  */
-    private DiveRepository $diveRepository;
+    public const USERID = 1;
 
-    private DiveMergerService $subject;
+    public const DATETIME = '2020-10-09 10:10:10';
+
+    private DiveMerger $subject;
+
+    private DiveTankMerger |
+
+Mockery\MockInterface $diveTankMerger;
+
+    private DiveEntityMerger |
+
+Mockery\MockInterface $entityMerger;
+
+    private DiveSampleCombiner |
+
+Mockery\MockInterface $diveSampleCombiner;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->diveRepository = Mockery::mock(DiveRepository::class);
-        $this->subject = new DiveMergerService($this->diveRepository);
+        $this->entityMerger = Mockery::mock(DiveEntityMerger::class);
+        $this->diveTankMerger = Mockery::mock(DiveTankMerger::class);
+        $this->diveSampleCombiner = Mockery::mock(DiveSampleCombiner::class);
+
+        $this->subject = new DiveMerger(
+            $this->diveTankMerger,
+            $this->entityMerger,
+            $this->diveSampleCombiner,
+        );
     }
 
-    public function testItMergesDivesBasicData()
+    /** @dataProvider basicAttributeDivesDataProvider */
+    public function testItMergesBasicDiveAttributes(array $dives, Dive $target): void
     {
-        $dives = $this->makeDives([
+        $this->diveSampleCombiner->expects('combine')->andReturn([]);
+        $this->entityMerger->expects('unique')->twice()->with([])->andReturn([]);
+        $this->diveTankMerger->expects('mergeForDives')->andReturn([]);
+
+        $newDive = $this->subject->merge($dives);
+
+        self::assertEquals($target->getDate(), $newDive->getDate());
+        self::assertEquals($target->getMaxDepth(), $newDive->getMaxDepth());
+        self::assertEquals($target->getDivetime(), $newDive->getDivetime());
+        self::assertEquals($target->getUserId(), $newDive->getUserId());
+        self::assertEquals($target->getPlace(), $newDive->getPlace());
+        self::assertEquals($target->getComputer(), $newDive->getComputer());
+    }
+
+    public function basicAttributeDivesDataProvider()
+    {
+        $computer = Computer::new(self::USERID, 0, ':vendor:', 0, 0, ':name:');
+
+        yield 'selects min date' => [
             [
-                'date' => new Carbon('2020-10-10 12:00:00'),
-                'max_depth' => '5.5'
+                Dive::new(self::USERID, new \DateTimeImmutable('2020-10-09 10:10:10')),
+                Dive::new(self::USERID, new \DateTimeImmutable('2020-10-09 10:40:10')),
+                Dive::new(self::USERID, new \DateTimeImmutable('2020-10-09 09:10:10')),
             ],
+            Dive::new(self::USERID, new \DateTimeImmutable('2020-10-09 09:10:10'))
+        ];
+
+        yield 'selects max depth' => [
             [
-                'date' => new Carbon('2020-10-10 11:00:00'),
-                'max_depth' => '1.0'
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), maxDepth: 1.0),
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), maxDepth: 10.0),
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), maxDepth: 2.0),
             ],
+            Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), maxDepth: 10.0)
+        ];
+
+        yield 'summarizes divetime' => [
             [
-                'date' => new Carbon('2020-10-10 10:00:00'),
-                'max_depth' => '3.2'
-            ]
-        ]);
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), divetime: 10),
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), divetime: 60),
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), divetime: 140),
+            ],
+            Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), divetime: 210)
+        ];
 
-        $newDive = $this->subject->mergeDives($dives);
+        $place = Place::existing(1, self::USERID, ':test1:', 'NL');
+        yield 'selects first place' => [
+            [
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), place: null),
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), place: $place),
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), place: null),
+            ],
+            Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), place: $place),
+        ];
 
-        self::assertEquals(new Carbon('2020-10-10 10:00:00'), $newDive->getDate());
-        self::assertEquals(5.5, $newDive->getMaxDepth());
+        yield 'Prefers divecomputer on divetime' => [
+            [
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), divetime: 10, computer: $computer),
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), divetime: 60),
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), divetime: 140, computer: $computer),
+            ],
+            Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), divetime: 150, computer: $computer),
+        ];
+
+        yield 'Prefers divecomputer on date' => [
+            [
+                Dive::new(self::USERID, new \DateTimeImmutable('2020-10-09 09:10:10')),
+                Dive::new(self::USERID, new \DateTimeImmutable('2020-10-09 10:10:10'), computer: $computer),
+                Dive::new(self::USERID, new \DateTimeImmutable('2020-10-09 10:40:10'), computer: $computer),
+            ],
+            Dive::new(self::USERID, new \DateTimeImmutable('2020-10-09 10:10:10'), computer: $computer),
+        ];
     }
 
-    public function testItMergesDivesBuddies()
+    /** @dataProvider invalidDiveMergeDataProvider */
+    public function testItThrowsExceptions(array $dives): void
     {
-        [$bud1, $bud2, $bud3] = Buddy::factory()->count(4)->create();
-        /** @var Dive $dive1 */
-
-        [$dive1, $dive2] = $this->makeDives(
-            2,
-        );
-
-        $dive1->buddies()->saveMany([$bud1, $bud2]);
-        $dive2->buddies()->saveMany([$bud3, $bud2]);
-
-        $newDive = $this->subject->mergeDives([$dive1, $dive2]);
-
-        $buddies = $newDive->getBuddies();
-        self::assertCount(3, $buddies);
-        self::assertEquals(
-            array_values(Arrg::map($buddies, fn ($item) => $item->getId())),
-            Arrg::get([$bud1, $bud2, $bud3], "id")
-        );
-    }
-
-    public function testItMergesDivesTags()
-    {
-        [$bud1, $tag2, $tag3] = Tag::factory()->count(4)->create();
-        /** @var Dive $dive1 */
-        /** @var Dive $dive2 */
-        [$dive1, $dive2] = $this->makeDives(
-            2,
-        );
-
-        $dive1->tags()->saveMany([$bud1, $tag2]);
-        $dive2->tags()->saveMany([$tag3, $tag2]);
-
-        $newDive = $this->subject->mergeDives([$dive1, $dive2]);
-
-        $buddies = $newDive->getTags();
-        self::assertCount(3, $buddies);
-        self::assertEquals(
-            array_values(Arrg::map($buddies, fn ($item) => $item->getId())),
-            Arrg::get([$bud1, $tag2, $tag3], "id")
-        );
-    }
-
-    public function testItMergesDivesTanks()
-    {
-        $tank1 = DiveTank::factory()->createOne([
-            'pressure_begin' => 200,
-            'pressure_end' => 100,
-            'volume' => 11,
-            'oxygen' => 21,
-            'pressure_type' => 'bar'
-        ]);
-        $tank2 = DiveTank::factory()->createOne([
-            'pressure_begin' => 98,
-            'pressure_end' => 50,
-            'volume' => 11,
-            'oxygen' => 21,
-            'pressure_type' => 'bar'
-        ]);
-
-        /** @var Dive $dive1 */
-        /** @var Dive $dive2 */
-        [$dive1, $dive2] = $this->makeDives(
-            2,
-        );
-        $dive1->tanks()->save($tank1);
-        $dive2->tanks()->save($tank2);
-
-        $newDive = $this->subject->mergeDives([$dive1, $dive2]);
-
-        $tanks = $newDive->getTanks();
-        self::assertCount(1, $tanks);
-        self::assertEquals(200, $tanks[0]->getPressures()->getBegin());
-        self::assertEquals(50, $tanks[0]->getPressures()->getEnd());
-    }
-
-    public function testItThrowsOnDifferentPlaces()
-    {
-        [$dive1, $dive2] = $this->makeDives(
-            2,
-        );
-        $dive1->place_id = 9;
-        $dive2->place_id = 10;
+        $this->diveSampleCombiner->expects('combine')->never();
+        $this->entityMerger->expects('unique')->never();
+        $this->diveTankMerger->expects('mergeForDives')->never();
 
         $this->expectException(CannotMergeDivesException::class);
 
-        $this->subject->mergeDives([$dive1, $dive2]);
+        $this->subject->merge($dives);
     }
 
-    public function testItThrowsOnDifferentDates()
+    public function invalidDiveMergeDataProvider()
     {
-        [$dive1, $dive2] = $this->makeDives(
-            2,
-        );
-        $dive1->date = new Carbon('2019-12-12 12:12:00');
-        $dive2->date = new Carbon('2019-12-16 12:12:00');
+        yield 'No dives' => [
+            [],
+        ];
 
-        $this->expectException(CannotMergeDivesException::class);
+        yield 'One dive' => [
+            [
+                Dive::new(self::USERID, new \DateTimeImmutable('2020-10-10 10:10:10')),
+            ],
+        ];
 
-        $this->subject->mergeDives([$dive1, $dive2]);
-    }
+        yield 'Dates to much seperated' => [
+            [
+                Dive::new(self::USERID, new \DateTimeImmutable('2020-10-10 10:10:10')),
+                Dive::new(self::USERID, new \DateTimeImmutable('2020-10-10 12:11:10')),
+            ],
+        ];
 
-    public function testItThrowsOnDifferentUsers()
-    {
-        [$dive1, $dive2] = $this->makeDives(
-            2,
-        );
-        $dive1->user_id = 2;
-        $dive2->user_id = 5;
+        yield 'Different places' => [
+            [
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), place: Place::existing(1, 1, ':test1:', 'NL')),
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), place: Place::existing(5, 1, ':test1:', 'NL')),
+            ],
+        ];
 
-        $this->expectException(CannotMergeDivesException::class);
+        yield 'Different Computers' => [
+            [
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), computer: Computer::existing(self::USERID, 1, 0, '', 0, 0, '')),
+                Dive::new(self::USERID, new \DateTimeImmutable(self::DATETIME), computer: Computer::existing(self::USERID, 5, 0, '', 0, 0, '')),
+            ],
+        ];
 
-        $this->subject->mergeDives([$dive1, $dive2]);
-    }
-
-    public function testItThrowsOnDifferentComputers()
-    {
-        [$dive1, $dive2] = $this->makeDives(
-            2,
-        );
-        $dive1->computer_id = 2;
-        $dive2->computer_id = 5;
-
-        $this->expectException(CannotMergeDivesException::class);
-
-        $this->subject->mergeDives([$dive1, $dive2]);
-    }
-
-    public function testItThrowsOnTooFewDives()
-    {
-        $dive1 = new Dive();
-
-        $this->expectException(CannotMergeDivesException::class);
-
-        $this->subject->mergeDives([$dive1]);
-    }
-
-    private function makeDives($attributeSetsOrNumOrFactory, ?DiveFactory $factory = null)
-    {
-        if (is_array($attributeSetsOrNumOrFactory)) {
-            $attributeSets = $attributeSetsOrNumOrFactory;
-        } elseif (is_int($attributeSetsOrNumOrFactory)) {
-            $attributeSets = [];
-            for ($iX = 0; $iX < $attributeSetsOrNumOrFactory; $iX++) {
-                $attributeSets[] = [];
-            }
-        } else {
-            throw new \UnexpectedValueException("Expected array or int");
-        }
-        $user = User::factory()->createOne();
-        $baseDate = $this->faker->dateTimeThisYear;
-        $iX = 0;
-
-        $dives = [];
-        if ($factory === null) {
-            $factory = Dive::factory();
-        }
-        foreach ($attributeSets as $attributeSet) {
-            $baseData = [ 'date' => (new Carbon($baseDate))->addHours($iX++) ];
-            /** @var Dive $dive */
-            $dive = $factory->createOne(array_merge($baseData, $attributeSet));
-            $dive->user_id = $user->id;
-            $dive->user = $user;
-            $dives[] = $dive;
-        }
-
-        return $dives;
+        yield 'Different Users' => [
+            [
+                Dive::new(1, new \DateTimeImmutable(self::DATETIME)),
+                Dive::new(5, new \DateTimeImmutable(self::DATETIME)),
+            ],
+        ];
     }
 }

@@ -6,12 +6,12 @@ namespace App\Application\Dives\Services\Mergers;
 
 use App\Application\Dives\Exceptions\CannotMergeTankException;
 use App\Domain\Dives\Entities\Dive;
+use App\Domain\Dives\Entities\DiveTank;
 use App\Domain\Dives\ValueObjects\GasMixture;
 use App\Domain\Dives\ValueObjects\TankPressures;
 use App\Domain\Support\ArrayUtil;
 use App\Domain\Support\Arrg;
 use App\Domain\Support\Math;
-use App\Models\DiveTank;
 
 class DiveTankMerger
 {
@@ -21,6 +21,10 @@ class DiveTankMerger
      */
     public function mergeForDives(array $dives): array
     {
+        if (empty($dives)) {
+            return [];
+        }
+
         $groupedByTank = ArrayUtil::transpose(Arrg::call($dives, 'getTanks'));
         return Arrg::map($groupedByTank, fn (array $tanks) => $this->merge($tanks));
     }
@@ -66,7 +70,7 @@ class DiveTankMerger
             return CannotMergeTankException::differentVolumes();
         }
 
-        if (count(array_unique(Arrg::notNull(Arrg::call($tanks, 'getOxygen')))) > 1) {
+        if (count(array_unique(Arrg::notNull(Arrg::call($tanks, 'getGasMixture.getOxygen')))) > 1) {
             return CannotMergeTankException::differentGasmixture();
         }
 

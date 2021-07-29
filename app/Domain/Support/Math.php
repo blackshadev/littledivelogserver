@@ -8,11 +8,11 @@ class Math
 {
     public static function max(...$ints)
     {
-        return max(Arrg::notNull($ints));
+        return max(...Arrg::notNull($ints));
     }
 
     public static function min(...$ints)
     {
-        return min(Arrg::notNull($ints));
+        return min(...Arrg::notNull($ints));
     }
 }

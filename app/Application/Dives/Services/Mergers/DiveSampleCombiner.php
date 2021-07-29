@@ -15,51 +15,50 @@ class DiveSampleCombiner
      */
     public function combine(array $dives): array
     {
+        if (empty($dives)) {
+            return [];
+        }
+
         $divesWithSamples = Arrg::filter(
             $dives,
-            fn ($dive) => $dive->samples !== null && count($dive->samples) > 0
+            fn (Dive $dive) => !empty($dive->getSamples())
         );
         $orderedDives = $this->orderDives($divesWithSamples);
 
-        $prevDive = array_shift($dives);
+        $prevDive = array_shift($orderedDives);
         $samples = Arrg::copy($prevDive->getSamples());
+
+        $this->mergeSampleStart($samples);
 
         /** @var Dive $dive */
         foreach ($orderedDives as $dive) {
             $prevSample = last($samples);
             $curSamples = $dive->getSamples();
+            $lastDiveSampleTime = (last($prevDive->getSamples()) ?: [])['Time'] ?? 0;
 
-            $timeDiff = $dive->getDate()->getTimestamp() - $prevDive->getDate()->getTimestamp();
-            $timeOffset = $prevSample->Time + $timeDiff;
-
-            if ($timeDiff < 0) {
-                throw new \UnexpectedValueException('Timediff should be greater than 0 at this point');
+            $prevDiveEndTime = $prevDive->getDate()->getTimestamp() + $lastDiveSampleTime;
+            $surfaceTime = $dive->getDate()->getTimestamp() - $prevDiveEndTime;
+            if ($surfaceTime < 0) {
+                $surfaceTime = 0;
             }
+            $timeOffset = $prevSample['Time'] + $surfaceTime;
 
             // Stitch some surface time in between
-            if ($timeDiff < 10) {
+            if ($surfaceTime > 10) {
                 $samples[] = [
-                    "Time" => $timeOffset + floor($timeDiff / 2),
-                    "Depth" => 0,
-                ];
-            } else {
-                $samples[] = [
-                    "Time" => $prevSample->Time + 2,
-                    "Depth" => 0,
+                    "Time" => $prevSample['Time'] + 2,
+                    "Depth" => 0.0,
                 ];
                 $samples[] = [
-                    "Time" => $timeOffset,
-                    "Depth" => 0,
+                    "Time" => $timeOffset - 2,
+                    "Depth" => 0.0,
                 ];
             }
 
-            while ($dive->getSamples()[0]->Time === $dive->getSamples()[1]->Time) {
-                $curSamples[0] = array_merge($curSamples[0], $curSamples[1]);
-                array_shift($curSamples);
-            }
+            $this->mergeSampleStart($curSamples);
 
             foreach ($dive->getSamples() as $sample) {
-                $sample->Time += $timeOffset;
+                $sample['Time'] += $timeOffset;
                 $samples[] = $sample;
             }
 
@@ -73,19 +72,19 @@ class DiveSampleCombiner
     {
         usort(
             $dives,
-            function ($a, $b) {
-                if ($a->date->lessThan($b->date)) {
-                    return -1;
-                }
-
-                if ($a->date->greaterThan($b->date)) {
-                    return 1;
-                }
-
-                return 0;
+            function (Dive $a, Dive $b) {
+                return $a->getDate()->getTimestamp() - $b->getDate()->getTimestamp();
             }
         );
 
         return $dives;
+    }
+
+    private function mergeSampleStart(array &$samples)
+    {
+        while (count($samples) > 1 && $samples[0]['Time'] === $samples[1]['Time']) {
+            $samples[1] = $samples[0] + $samples[1];
+            array_shift($samples);
+        }
     }
 }

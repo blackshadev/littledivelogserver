@@ -29,13 +29,14 @@ final class EloquentDiveRepository implements DiveRepository
         private TagRepository $tagRepository,
         private BuddyRepository $buddyRepository,
         private DiveTankRepository $diveTankRepository,
+        private DiveFactory $diveFactory,
     ) {
     }
 
     public function findById(int $diveId): Dive
     {
         $model = DiveModel::findOrFail($diveId);
-        return $this->createFromModel($model);
+        return $this->diveFactory->createFromModel($model);
     }
 
     public function save(Dive $dive): void
@@ -143,23 +144,5 @@ final class EloquentDiveRepository implements DiveRepository
         foreach ($diveTankModelsToRemove as $tankModel) {
             $tankModel->delete();
         }
-    }
-
-    private function createFromModel(DiveModel $model): Dive
-    {
-        return new Dive(
-            diveId: $model->id,
-            date: $model->date,
-            userId: $model->user_id,
-            divetime: $model->divetime,
-            maxDepth: $model->max_depth,
-            computerId: $model->computer_id,
-            fingerprint: $model->fingerprint,
-            samples: $model->samples,
-            place: $model->place_id ? $this->placeRepository->findById($model->place_id) : null,
-            tags: $model->tags()->select(['dive_tag.tag_id'])->pluck('tag_id')->map(fn (int $id) => $this->tagRepository->findById($id))->toArray(),
-            buddies: $model->buddies()->select(['buddy_dive.buddy_id'])->pluck('buddy_id')->map(fn (int $id) => $this->buddyRepository->findById($id))->toArray(),
-            tanks: $model->tanks()->select(['dive_tanks.id'])->pluck('id')->map(fn (int $id) => $this->diveTankRepository->findById($id))->toArray(),
-        );
     }
 }

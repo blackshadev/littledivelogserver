@@ -9,9 +9,11 @@ use App\Application\Dives\DataTransferObjects\DiveData;
 use App\Application\Dives\Services\DiveCreator;
 use App\Application\Dives\Services\DiveFinder;
 use App\Application\Dives\Services\DiveUpdater;
+use App\Application\Dives\Services\Mergers\DiveMerger;
 use App\Application\Dives\ViewModels\DiveDetailViewModel;
 use App\Application\Dives\ViewModels\DiveListViewModel;
 use App\Domain\Dives\Entities\DiveSummary;
+use App\Domain\Dives\Repositories\DiveBatchRepository;
 use App\Domain\Dives\Repositories\DiveSummaryRepository;
 use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
@@ -21,22 +23,13 @@ use App\Http\Requests\Dives\DiveCreateRequest;
 use App\Http\Requests\Dives\DiveRequest;
 use App\Http\Requests\Dives\DiveSearchRequest;
 use App\Http\Requests\Dives\DiveUpdateRequest;
-use App\Services\DiveMerger\DiveMergerService;
 
 class DiveController extends Controller
 {
-    public function __construct(
-        private DiveSummaryRepository $diveSummaryRepository,
-        private DiveUpdater $diveUpdater,
-        private DiveCreator $diveCreator,
-        private DiveFinder $diveFinder,
-    ) {
-    }
-
-    public function index(AuthenticatedRequest $request)
+    public function index(AuthenticatedRequest $request, DiveSummaryRepository $diveSummaryRepository)
     {
         $user = $request->getCurrentUser();
-        $dives = $this->diveSummaryRepository->listForUser($user);
+        $dives = $diveSummaryRepository->listForUser($user);
 
         return Arrg::map(
             $dives,
@@ -44,14 +37,14 @@ class DiveController extends Controller
         );
     }
 
-    public function search(DiveSearchRequest $request)
+    public function search(DiveSearchRequest $request, DiveFinder $diveFinder)
     {
         $search = FindDivesCommand::forUser(
             $request->getCurrentUser()->getId(),
             $request->query()
         );
 
-        $dives = $this->diveFinder->search($search);
+        $dives = $diveFinder->search($search);
 
         return Arrg::map(
             $dives,
@@ -69,37 +62,36 @@ class DiveController extends Controller
         return $request->getDive()->getSamples();
     }
 
-    public function update(DiveUpdateRequest $request)
+    public function update(DiveUpdateRequest $request, DiveUpdater $diveUpdater)
     {
         $dive = $request->getDive();
         $diveData = DiveData::fromArray($request->all());
 
-        $this->diveUpdater->update($dive, $diveData);
+        $diveUpdater->update($dive, $diveData);
 
         return DiveDetailViewModel::fromDive($dive);
     }
 
-    public function store(DiveCreateRequest $request)
+    public function store(DiveCreateRequest $request, DiveCreator $diveCreator)
     {
         $diveData = DiveData::fromArray($request->all());
 
-        $dive = $this->diveCreator->create($request->getCurrentUser(), $diveData);
+        $dive = $diveCreator->create($request->getCurrentUser(), $diveData);
 
         return DiveDetailViewModel::fromDive($dive);
     }
 
     public function merge(
         DiveMergeRequest $request,
-//        User $user,
-        DiveMergerService $diveMergerService
+        DiveBatchRepository $diveBatchRepository,
+        DiveMerger $diveMerger,
     ) {
-        abort(400, 'Not yet implemented');
-//        $dives = Dive::find([$request->get('dives')]);
-//        if (count($dives) !== 0 && $dives[0]->user_id === $user->id) {
-//            abort(403);
-//        }
-//        $newDive = $diveMergerService->mergeDives($dives);
-//        $this->repository->update(new Dive(), $newDive);
-//        $this->repository->removeMany($dives);
+        $dives = $diveBatchRepository->findByIds($request->vali('dives'));
+
+        $dive = $diveMerger->merge($dives);
+
+        $diveBatchRepository->replace($dives, $dive);
+
+        return DiveDetailViewModel::fromDive($dive);
     }
 }

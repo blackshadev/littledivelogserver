@@ -36,6 +36,7 @@ RUN apk add --no-cache \
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY ./docker/ /
+RUN ln /usr/bin/php8 /usr/bin/php
 
 FROM base AS dev
 ARG USERID=101

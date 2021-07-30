@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Tauth;
 
 use App\Models\User;
-use App\Services\Repositories\TauthRepository;
+use App\Repositories\Tauth\TauthRepository;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use Littledev\Tauth\Services\JWTServiceInterface;

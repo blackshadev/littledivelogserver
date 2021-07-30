@@ -72,7 +72,7 @@ class ExplorerPlaceFinder implements PlaceFinder
     {
         return Arrg::map(
             $results->hits(),
-            fn ($result) => new Place(
+            fn ($result) => Place::existing(
                 id: $result['_source']['id'],
                 name: $result['_source']['name'],
                 countryCode: $result['_source']['country_code'],

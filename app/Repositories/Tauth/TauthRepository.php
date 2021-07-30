@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Repositories;
+namespace App\Repositories\Tauth;
 
 use App\Models\RefreshToken;
 use App\Models\User;

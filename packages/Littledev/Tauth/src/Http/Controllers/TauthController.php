@@ -62,7 +62,7 @@ class TauthController extends Controller
 
         return [
             "refresh_token" => (string)$refreshToken,
-            "access_token" => (string)$accessToken
+            "access_token" => $accessToken->toString(),
         ];
     }
 

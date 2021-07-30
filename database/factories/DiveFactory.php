@@ -43,17 +43,10 @@ class DiveFactory extends Factory
                     ->get('id')
             );
 
-            $dive->buddies()->attach(
-                $user->buddies()
-                    ->inRandomOrder()
-                    ->take(random_int(1, 5))
-                    ->get('id')
-            );
-
             $dive->tags()->attach(
                 $user->tags()
                     ->inRandomOrder()
-                    ->take(random_int(0, 5))
+                    ->take(random_int(1, 5))
                     ->get('id')
             );
         });

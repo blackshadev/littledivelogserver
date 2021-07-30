@@ -39,6 +39,7 @@ class DiveListingTest extends TestCase
 
         $response = $this->get('/api/dives/', ['Authorization' => 'Bearer aa.test.aa']);
         $response->assertStatus(200);
+
         $response->assertJsonStructure([[
             'dive_id',
             'date',

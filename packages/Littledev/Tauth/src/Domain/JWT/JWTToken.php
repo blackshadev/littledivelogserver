@@ -7,6 +7,7 @@ namespace Littledev\Tauth\Domain\JWT;
 
 use Carbon\Carbon;
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
@@ -29,8 +30,15 @@ class JWTToken
 
     private Signer $signer;
 
+    private Builder $builder;
+
     public function __construct(Key $key, Signer $signer)
     {
+        $config = Configuration::forSymmetricSigner(
+            $signer,
+            $key
+        );
+        $this->builder = $config->builder();
         $this->key = $key;
         $this->signer = $signer;
         $this->issuedAt = Carbon::now();
@@ -116,10 +124,10 @@ class JWTToken
 
     public function toToken(): Token
     {
-        $builder = (new Builder())
-            ->issuedAt($this->getIssuedAt()->getTimestamp())
+        $builder = $this->builder
+            ->issuedAt($this->getIssuedAt()->toDateTimeImmutable())
             ->issuedBy($this->issuer)
-            ->expiresAt($this->getExpiresAt()->getTimestamp())
+            ->expiresAt($this->getExpiresAt()->toDateTimeImmutable())
             ->permittedFor($this->audience)
             ->relatedTo($this->subject);
 

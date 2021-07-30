@@ -7,6 +7,7 @@ namespace Littledev\Tauth\Support;
 
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\Key\InMemory;
 
 class JWTConfiguration
 {
@@ -58,7 +59,7 @@ class JWTConfiguration
 
     public function setKey(string $key): self
     {
-        $this->key = new Key($key);
+        $this->key = InMemory::plainText($key);
         return $this;
     }
 

@@ -30,8 +30,8 @@ class TauthJWTServiceTest extends TestCase
 
         $this->configuration->setSigner('hs256');
         $this->configuration->setKey($this->faker->password);
-        $this->configuration->setAudience($this->faker->url);
-        $this->configuration->setIssuer($this->faker->url);
+        $this->configuration->setAudience('http://not.so.localhost');
+        $this->configuration->setIssuer('http://localhost/');
         $this->configuration->setLifetime('PT5M');
 
         $this->jwtService = new JWTService($this->configuration);
@@ -63,6 +63,8 @@ class TauthJWTServiceTest extends TestCase
         $token = $this->jwtService->createTokenFor($refresh);
 
         $this->configuration->setKey($this->faker->password);
+        $this->jwtService->setConfiguration($this->configuration);
+
         self::assertFalse($this->jwtService->isValid($token));
     }
 

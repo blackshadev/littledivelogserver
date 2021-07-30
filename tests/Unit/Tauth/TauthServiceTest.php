@@ -53,8 +53,8 @@ class TauthServiceTest extends TestCase
 
     public function testCreateAccessToken()
     {
+        $token = $this->createToken();
         $refresh = new RefreshToken();
-        $token = new Token();
 
         $this->jwtService->shouldReceive('createTokenFor')->with($refresh)->andReturn($token);
         $result = $this->tauthService->createAccessToken($refresh);
@@ -118,7 +118,7 @@ class TauthServiceTest extends TestCase
     {
         $accessToken = '';
         $userKey = '';
-        $token = new Token();
+        $token = $this->createToken();
         $user = new User();
 
         $this->repository->shouldReceive('isAccessToken')
@@ -170,7 +170,7 @@ class TauthServiceTest extends TestCase
     public function testValidateInvalidAccessToken()
     {
         $accessToken = '';
-        $token = new Token();
+        $token = $this->createToken();
 
         $this->repository->shouldReceive('isAccessToken')
             ->with($accessToken)
@@ -196,7 +196,7 @@ class TauthServiceTest extends TestCase
     {
         $accessToken = '';
         $userKey = '';
-        $token = new Token();
+        $token = $this->createToken();
 
         $this->jwtService->shouldReceive('parse')
             ->with($accessToken)
@@ -220,5 +220,14 @@ class TauthServiceTest extends TestCase
 
         $this->expectException(NoSuchUserException::class);
         $this->tauthService->validateAccessToken($accessToken);
+    }
+
+    private function createToken(): Token
+    {
+        return new Token\Plain(
+            new Token\DataSet([], 'headers'),
+            new Token\DataSet([], 'claims'),
+            new Token\Signature('hash', 'signature'),
+        );
     }
 }

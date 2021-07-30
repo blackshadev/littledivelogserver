@@ -24,7 +24,8 @@ class EloquentDiveBatchRepository implements DiveBatchRepository
     {
         return DiveModel::whereIn('id', $diveIds)
             ->get()
-            ->map(fn (DiveModel $model) => $this->diveFactory->createFromModel($model));
+            ->map(fn (DiveModel $model) => $this->diveFactory->createFromModel($model))
+            ->toArray();
     }
 
     public function replace(array $divesToReplace, Dive $newDive): void

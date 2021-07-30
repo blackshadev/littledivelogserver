@@ -32,6 +32,36 @@ final class Dive
         Assert::allIsInstanceOf($buddies, Buddy::class);
     }
 
+    public static function existing(
+        int $diveId,
+        int $userId,
+        ?DateTimeInterface $date,
+        ?int $divetime = null,
+        ?float $maxDepth = null,
+        ?Computer $computer = null,
+        ?string $fingerprint = null,
+        ?Place $place = null,
+        array $tanks = [],
+        array $tags = [],
+        array $buddies = [],
+        ?array $samples = [],
+    ): self {
+        return new self(
+            diveId: $diveId,
+            userId: $userId,
+            date: $date,
+            divetime: $divetime,
+            maxDepth: $maxDepth,
+            computerId: $computer,
+            fingerprint: $fingerprint,
+            place: $place,
+            tanks: $tanks,
+            tags: $tags,
+            buddies: $buddies,
+            samples: $samples,
+        );
+    }
+
     public static function new(
         ?int $userId,
         ?DateTimeInterface $date,

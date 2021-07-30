@@ -11,8 +11,10 @@ use App\Application\Tags\ViewModels\TagViewModel;
 use App\Domain\Support\Arrg;
 use App\Domain\Tags\Entities\DetailTag;
 use App\Domain\Tags\Repositories\DetailTagRepository;
+use App\Domain\Tags\Repositories\TagRepository;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tags\TagCreateRequest;
+use App\Http\Requests\Tags\TagDeleteRequest;
 use App\Http\Requests\Tags\TagRequest;
 use App\Http\Requests\Tags\TagUpdateRequest;
 use App\Models\User;
@@ -61,5 +63,12 @@ class TagController extends Controller
 
         $detailTag = $this->detailTagRepository->findById($tag->getId());
         return TagViewModel::fromDetailTag($detailTag);
+    }
+
+    public function delete(TagDeleteRequest $request, TagRepository $tagRepository)
+    {
+        $tagRepository->remove($request->getTag());
+
+        return response()->noContent();
     }
 }

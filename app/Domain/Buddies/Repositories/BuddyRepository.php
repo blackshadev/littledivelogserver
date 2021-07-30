@@ -11,4 +11,6 @@ interface BuddyRepository
     public function findById(int $id): Buddy;
 
     public function save(Buddy $buddy): void;
+
+    public function remove(Buddy $buddy): void;
 }

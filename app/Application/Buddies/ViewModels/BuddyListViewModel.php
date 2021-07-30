@@ -54,6 +54,6 @@ class BuddyListViewModel extends ViewModel
 
     public function getLastDive()
     {
-        return $this->lastDive;
+        return $this->lastDive !== null ? $this->lastDive->format(DateTimeInterface::ATOM) : null;
     }
 }

@@ -41,6 +41,11 @@ class EloquentBuddyRepository implements BuddyRepository
         $this->setDataFromModel($buddy, $model);
     }
 
+    public function remove(Buddy $buddy): void
+    {
+        BuddyModel::findOrFail($buddy->getId())->delete();
+    }
+
     private function setDataFromModel(Buddy $buddy, BuddyModel $model): void
     {
         $buddy->setId($model->id);

@@ -11,4 +11,6 @@ interface DiveRepository
     public function findById(int $diveId): Dive;
 
     public function save(Dive $dive): void;
+
+    public function remove(Dive $getDive): void;
 }

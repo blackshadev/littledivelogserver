@@ -11,4 +11,6 @@ interface TagRepository
     public function findById(int $id): Tag;
 
     public function save(Tag $tag): void;
+
+    public function remove(Tag $tag): void;
 }

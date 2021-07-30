@@ -9,3 +9,4 @@ Route::get('/', [BuddyController::class, 'index']);
 Route::get('/{buddy}', [BuddyController::class, 'show']);
 Route::put('/{buddy}', [BuddyController::class, 'update']);
 Route::post('/', [BuddyController::class, 'store']);
+Route::delete('/{buddy}', [BuddyController::class, 'delete']);

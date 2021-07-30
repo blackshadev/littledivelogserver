@@ -9,3 +9,4 @@ Route::get('/', [TagController::class, 'index']);
 Route::get('/{tag}', [TagController::class, 'show']);
 Route::put('/{tag}', [TagController::class, 'update']);
 Route::post('/', [TagController::class, 'store']);
+Route::delete('/{tag}', [TagController::class, 'delete']);

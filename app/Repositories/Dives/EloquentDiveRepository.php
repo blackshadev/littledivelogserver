@@ -53,7 +53,10 @@ final class EloquentDiveRepository implements DiveRepository
             $model->max_depth = $dive->getMaxDepth();
             $model->divetime = $dive->getDivetime();
             $model->samples = $dive->getSamples();
+
+            // Save to ensure we can associate and dissociate entities
             $model->save();
+
             $dive->setDiveId($model->id);
 
             $place = $dive->getPlace();
@@ -67,7 +70,14 @@ final class EloquentDiveRepository implements DiveRepository
             $this->setBuddies($model, $dive->getBuddies());
 
             $this->setTanks($model, $dive->getTanks());
+
+            $model->save();
         });
+    }
+
+    public function remove(Dive $dive): void
+    {
+        DiveModel::findOrFail($dive->getDiveId())->delete();
     }
 
     private function setPlace(DiveModel $model, ?Place $place): void

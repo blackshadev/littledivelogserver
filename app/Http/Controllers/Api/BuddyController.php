@@ -10,10 +10,12 @@ use App\Application\Buddies\Services\BuddyUpdater;
 use App\Application\Buddies\ViewModels\BuddyDetailViewModel;
 use App\Application\Buddies\ViewModels\BuddyListViewModel;
 use App\Domain\Buddies\Entities\DetailBuddy;
+use App\Domain\Buddies\Repositories\BuddyRepository;
 use App\Domain\Buddies\Repositories\DetailBuddyRepository;
 use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Buddies\BuddyCreateRequest;
+use App\Http\Requests\Buddies\BuddyDeleteRequest;
 use App\Http\Requests\Buddies\BuddyRequest;
 use App\Http\Requests\Buddies\BuddyUpdateRequest;
 use App\Models\User;
@@ -61,5 +63,11 @@ class BuddyController extends Controller
 
         $detailTag = $this->detailRepository->findById($buddy->getId());
         return BuddyDetailViewModel::fromDetailBuddy($detailTag);
+    }
+
+    public function delete(BuddyDeleteRequest $request, BuddyRepository $repository)
+    {
+        $repository->remove($request->getBuddy());
+        return response()->noContent();
     }
 }

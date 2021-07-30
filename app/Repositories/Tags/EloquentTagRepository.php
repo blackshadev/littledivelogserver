@@ -39,6 +39,11 @@ final class EloquentTagRepository implements TagRepository
         $this->setDataFromModel($tag, $model);
     }
 
+    public function remove(Tag $tag): void
+    {
+        TagModel::findOrFail($tag->getId())->delete();
+    }
+
     private function setDataFromModel(Tag $tag, TagModel $model): void
     {
         $tag->setId($model->id);

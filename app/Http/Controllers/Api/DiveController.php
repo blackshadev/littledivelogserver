@@ -14,12 +14,14 @@ use App\Application\Dives\ViewModels\DiveDetailViewModel;
 use App\Application\Dives\ViewModels\DiveListViewModel;
 use App\Domain\Dives\Entities\DiveSummary;
 use App\Domain\Dives\Repositories\DiveBatchRepository;
+use App\Domain\Dives\Repositories\DiveRepository;
 use App\Domain\Dives\Repositories\DiveSummaryRepository;
 use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthenticatedRequest;
-use App\Http\Requests\DiveMergeRequest;
 use App\Http\Requests\Dives\DiveCreateRequest;
+use App\Http\Requests\Dives\DiveDeleteRequest;
+use App\Http\Requests\Dives\DiveMergeRequest;
 use App\Http\Requests\Dives\DiveRequest;
 use App\Http\Requests\Dives\DiveSearchRequest;
 use App\Http\Requests\Dives\DiveUpdateRequest;
@@ -93,5 +95,12 @@ class DiveController extends Controller
         $diveBatchRepository->replace($dives, $dive);
 
         return DiveDetailViewModel::fromDive($dive);
+    }
+
+    public function delete(DiveDeleteRequest $request, DiveRepository $diveRepository)
+    {
+        $diveRepository->remove($request->getDive());
+
+        return response()->noContent();
     }
 }

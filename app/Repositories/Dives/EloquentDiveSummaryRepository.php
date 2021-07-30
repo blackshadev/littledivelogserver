@@ -19,7 +19,7 @@ final class EloquentDiveSummaryRepository implements DiveSummaryRepository
     public function listForUser(User $user): array
     {
         return Dive::with(['buddies', 'tags'])
-            ->where('user_id', $user->getId())->orderBy('date')
+            ->where('user_id', $user->getId())
             ->orderBy('date', 'desc')
             ->get()
             ->map(fn (Dive $dive) => $this->createDiveSummaryFromModel($dive))

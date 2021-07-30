@@ -53,7 +53,7 @@ final class EloquentDiveSummaryRepository implements DiveSummaryRepository
 
     private function createPlaceFromModel(PlaceModel $model): Place
     {
-        return new Place(
+        return Place::existing(
             id: $model->id,
             name: $model->name,
             countryCode: $model->country_code,

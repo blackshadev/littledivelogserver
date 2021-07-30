@@ -32,7 +32,8 @@ final class EloquentPlacesRepositories implements PlaceRepository
 
     public function forCountry(string $iso2): array
     {
-        return PlaceModel::where('country_code', $iso2)
+        return PlaceModel::query()->where('country_code', $iso2)
+            ->get()
             ->map(fn (PlaceModel $model) => $this->createEntityFromModel($model))
             ->toArray();
     }
@@ -87,7 +88,7 @@ final class EloquentPlacesRepositories implements PlaceRepository
 
     private function createEntityFromModel(PlaceModel $model): Place
     {
-        return new Place(
+        return Place::existing(
             id: $model->id,
             name: $model->name,
             countryCode: $model->country_code,

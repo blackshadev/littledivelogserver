@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Api;
 
-use App\Models\Buddy;
 use App\Models\Dive;
 use App\Models\Tag;
 use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\WithFakeTAuthentication;
 
 class DiveListingTest extends TestCase
 {
+    use DatabaseTransactions;
     use WithFaker;
     use WithFakeTAuthentication;
 
@@ -29,20 +30,21 @@ class DiveListingTest extends TestCase
 
         /** @var User $user */
         $user = User::factory()
-            ->has(Dive::factory()->count($diveCount))
-            ->makeOne();
+            ->has(Tag::factory()->count(10))
+            ->createOne();
+
+        Dive::factory()->count($diveCount)->for($user)->filled()->create();
 
         $this->fakeAccessTokenFor($user);
 
-        /** @var Dive $dive */
-        foreach ($user->dives as $dive) {
-            $tags = Tag::factory()->count($this->faker->numberBetween(0, 3))->make();
-            $buddies = Buddy::factory()->count($this->faker->numberBetween(0, 3))->make();
-            $dive->tags()->attach($tags);
-            $dive->buddies()->attach($buddies);
-        }
-
         $response = $this->get('/api/dives/', ['Authorization' => 'Bearer aa.test.aa']);
         $response->assertStatus(200);
+        $response->assertJsonStructure([[
+            'dive_id',
+            'date',
+            'divetime',
+            'place' => [ 'place_id', 'name', 'country_code'],
+            'tags' => [['tag_id', 'text', 'color']]
+        ]]);
     }
 }

@@ -11,7 +11,7 @@ class ComputerFactory extends Factory
     public function definition()
     {
         return [
-            'serial' => $this->faker->randomNumber(),
+            'serial' => $this->faker->unique()->randomNumber(),
             'vendor' => $this->faker->lastName,
             'model' => $this->faker->randomNumber(),
             'type' => $this->faker->randomNumber(),

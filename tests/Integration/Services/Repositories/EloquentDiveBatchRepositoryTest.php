@@ -22,11 +22,11 @@ class EloquentDiveBatchRepositoryTest extends TestCase
 
     private DiveRepository |
 
-Mockery\MockInterface $diveRepository;
+ Mockery\MockInterface $diveRepository;
 
     private DiveFactory |
 
-Mockery\MockInterface $diveFactory;
+ Mockery\MockInterface $diveFactory;
 
     protected function setUp(): void
     {

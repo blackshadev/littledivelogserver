@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Dives;
 
 use App\Domain\Buddies\Repositories\BuddyRepository;
+use App\Domain\Computers\Repositories\ComputerRepository;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Repositories\DiveTankRepository;
 use App\Domain\Places\Repositories\PlaceRepository;
@@ -18,6 +19,7 @@ class DiveFactory
         private TagRepository $tagRepository,
         private BuddyRepository $buddyRepository,
         private DiveTankRepository $diveTankRepository,
+        private ComputerRepository $computerRepository,
     ) {
     }
 
@@ -29,7 +31,7 @@ class DiveFactory
             userId: $model->user_id,
             divetime: $model->divetime,
             maxDepth: $model->max_depth,
-            computerId: $model->computer_id,
+            computerId: $this->computerRepository->findById($model->computer_id),
             fingerprint: $model->fingerprint,
             samples: $model->samples,
             place: $model->place_id ? $this->placeRepository->findById($model->place_id) : null,

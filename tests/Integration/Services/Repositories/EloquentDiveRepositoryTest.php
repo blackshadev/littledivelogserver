@@ -26,7 +26,7 @@ class EloquentDiveRepositoryTest extends TestCase
         $this->subject = $this->app->make(DiveRepository::class);
     }
 
-    public function testItFindsDive(): void
+    public function testItFindsFullDive(): void
     {
         $user = UserModel::factory()
             ->has(TagModel::factory()->count(10))
@@ -60,7 +60,18 @@ class EloquentDiveRepositoryTest extends TestCase
         self::assertEquals($diveModel->tanks->first()->pressure_type, $dive->getTanks()[0]->getPressures()->getType());
     }
 
-    public function testItSavesDive()
+    public function testItFindsMinimalDives()
     {
+        $user = UserModel::factory()->createOne();
+
+        $diveModel = DiveModel::factory()
+            ->for($user)
+            ->createOne();
+
+        $dive = $this->subject->findById($diveModel->id);
+
+        self::assertEquals($user->id, $dive->getUserId());
+        self::assertTrue($dive->isExisting());
+        self::assertEquals($diveModel->id, $dive->getDiveId());
     }
 }

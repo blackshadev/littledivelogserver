@@ -31,7 +31,7 @@ class DiveFactory
             userId: $model->user_id,
             divetime: $model->divetime,
             maxDepth: $model->max_depth,
-            computerId: $this->computerRepository->findById($model->computer_id),
+            computerId: $model->computer_id ? $this->computerRepository->findById($model->computer_id) : null,
             fingerprint: $model->fingerprint,
             samples: $model->samples,
             place: $model->place_id ? $this->placeRepository->findById($model->place_id) : null,

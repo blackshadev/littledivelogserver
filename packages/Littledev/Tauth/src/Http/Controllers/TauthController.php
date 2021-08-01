@@ -44,7 +44,7 @@ class TauthController extends Controller
         $accessToken = $this->authenticationService->createAccessToken($refreshToken);
 
         return [
-            "access_token" => (string)$accessToken
+            "access_token" => $accessToken->toString()
         ];
     }
 
@@ -61,7 +61,7 @@ class TauthController extends Controller
         $accessToken = $this->authenticationService->createAccessToken($refreshToken);
 
         return [
-            "refresh_token" => (string)$refreshToken,
+            "refresh_token" => $refreshToken->toString(),
             "access_token" => $accessToken->toString(),
         ];
     }

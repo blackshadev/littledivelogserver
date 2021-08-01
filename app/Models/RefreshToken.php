@@ -26,7 +26,7 @@ class RefreshToken extends Model implements RefreshTokenInterface
 
     protected $fillable = ['user'];
 
-    public function __toString(): string
+    public function toString(): string
     {
         return (string) $this->id;
     }

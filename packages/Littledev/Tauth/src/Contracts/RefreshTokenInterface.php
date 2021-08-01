@@ -6,7 +6,7 @@ namespace Littledev\Tauth\Contracts;
 
 interface RefreshTokenInterface extends JWTSubject
 {
-    public function __toString(): string;
+    public function toString(): string;
 
     public function getToken(): string;
 

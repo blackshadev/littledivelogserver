@@ -6,6 +6,7 @@ namespace App\Repositories\Computers;
 
 use App\Domain\Computers\Entities\Computer;
 use App\Domain\Computers\Repositories\ComputerRepository;
+use App\Domain\Users\Entities\User;
 use App\Models\Computer as ComputerModel;
 
 class EloquentComputerRepository implements ComputerRepository
@@ -15,6 +16,16 @@ class EloquentComputerRepository implements ComputerRepository
         $model = ComputerModel::findOrFail($id);
 
         return $this->fromModel($model);
+    }
+
+    public function findBySerial(User $user, int $serial): ?Computer
+    {
+        $model = ComputerModel::query()
+            ->where('user_id', $user->getId())
+            ->where('serial', $serial)
+            ->first();
+
+        return !is_null($model) ? $this->fromModel($model) : null;
     }
 
     public function save(Computer $computer): void

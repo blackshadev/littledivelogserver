@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Support;
 
-class Math
+final class Math
 {
     public static function max(...$ints)
     {

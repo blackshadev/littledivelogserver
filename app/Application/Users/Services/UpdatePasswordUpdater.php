@@ -9,7 +9,7 @@ use App\Application\Users\Errors\InvalidPassword;
 use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\PasswordRepository;
 
-class UpdatePasswordUpdater
+final class UpdatePasswordUpdater
 {
     public function __construct(
         private PasswordRepository $passwordRepository,

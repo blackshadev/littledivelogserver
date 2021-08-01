@@ -6,7 +6,7 @@ namespace App\Http\Requests\Buddies;
 
 use App\Rules\HexColor;
 
-class BuddyUpdateRequest extends BuddyRequest
+final class BuddyUpdateRequest extends BuddyRequest
 {
     public function rules()
     {

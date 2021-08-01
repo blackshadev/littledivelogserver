@@ -6,7 +6,7 @@ namespace App\Http\Requests\Users;
 
 use App\Http\Requests\AuthenticatedRequest;
 
-class UpdateProfileRequest extends AuthenticatedRequest
+final class UpdateProfileRequest extends AuthenticatedRequest
 {
     public function rules()
     {

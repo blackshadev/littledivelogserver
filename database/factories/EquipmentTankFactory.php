@@ -7,7 +7,7 @@ namespace Database\Factories;
 use App\Models\Equipment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class EquipmentTankFactory extends Factory
+final class EquipmentTankFactory extends Factory
 {
     public function definition()
     {

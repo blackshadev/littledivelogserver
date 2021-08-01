@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Buddies\DataTransferObjects;
 
-class BuddyData
+final class BuddyData
 {
     private ?int $id = null;
 

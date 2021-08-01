@@ -13,7 +13,7 @@ use Littledev\Tauth\Support\JWTConfiguration;
 use Mockery\Mock;
 use Tests\TestCase;
 
-class TauthJWTServiceTest extends TestCase
+final class TauthJWTServiceTest extends TestCase
 {
     use WithFaker;
 
@@ -37,13 +37,13 @@ class TauthJWTServiceTest extends TestCase
         $this->jwtService = new JWTService($this->configuration);
     }
 
-    public function testInvalidSignerInConfig()
+    public function testInvalidSignerInConfig(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->configuration->setSigner('invalid');
     }
 
-    public function testCreateValidJwt()
+    public function testCreateValidJwt(): void
     {
         /** @var RefreshToken $refresh */
         $refresh = RefreshToken::factory()->makeOne();
@@ -55,7 +55,7 @@ class TauthJWTServiceTest extends TestCase
         self::assertTrue($this->jwtService->isValid($token));
     }
 
-    public function testInvalidSignerJwt()
+    public function testInvalidSignerJwt(): void
     {
         /** @var RefreshToken $refresh */
         $refresh = RefreshToken::factory()->makeOne();
@@ -68,7 +68,7 @@ class TauthJWTServiceTest extends TestCase
         self::assertFalse($this->jwtService->isValid($token));
     }
 
-    public function testExpiredJwt()
+    public function testExpiredJwt(): void
     {
         /** @var RefreshToken $refresh */
         $refresh = RefreshToken::factory()->makeOne();
@@ -79,7 +79,7 @@ class TauthJWTServiceTest extends TestCase
         self::assertFalse($this->jwtService->isValid($token));
     }
 
-    public function testExpiredRefreshToken()
+    public function testExpiredRefreshToken(): void
     {
         /** @var RefreshToken $refresh */
         $refresh = RefreshToken::factory()->expired()->makeOne();

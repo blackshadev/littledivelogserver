@@ -8,7 +8,7 @@ use Fideloper\Proxy\TrustProxies as Middleware;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 
-class TrustProxies extends Middleware
+final class TrustProxies extends Middleware
 {
     protected $proxies;
 

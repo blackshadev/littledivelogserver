@@ -8,7 +8,7 @@ use App\Models\Dive;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DivePolicy
+final class DivePolicy
 {
     use HandlesAuthorization;
 

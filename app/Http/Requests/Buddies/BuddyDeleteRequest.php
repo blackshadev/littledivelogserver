@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Buddies;
 
-class BuddyDeleteRequest extends BuddyRequest
+final class BuddyDeleteRequest extends BuddyRequest
 {
 }

@@ -13,7 +13,7 @@ use App\Domain\Support\ArrayUtil;
 use App\Domain\Support\Arrg;
 use App\Domain\Support\Math;
 
-class DiveTankMerger
+final class DiveTankMerger
 {
     /**
      * @param Dive[] $dives

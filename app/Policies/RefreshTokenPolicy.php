@@ -7,7 +7,7 @@ namespace App\Policies;
 use App\Models\RefreshToken;
 use App\Models\User;
 
-class RefreshTokenPolicy
+final class RefreshTokenPolicy
 {
     public function delete(User $target, RefreshToken $refreshToken)
     {

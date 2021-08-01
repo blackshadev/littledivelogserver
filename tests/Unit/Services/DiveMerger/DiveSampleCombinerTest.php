@@ -8,7 +8,7 @@ use App\Application\Dives\Services\Mergers\DiveSampleCombiner;
 use App\Domain\Dives\Entities\Dive;
 use PHPUnit\Framework\TestCase;
 
-class DiveSampleCombinerTest extends TestCase
+final class DiveSampleCombinerTest extends TestCase
 {
     /**
      * @dataProvider diveProvider

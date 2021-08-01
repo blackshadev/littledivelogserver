@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
 use Tests\TestCase;
 
-class EloquentDiveBatchRepositoryTest extends TestCase
+final class EloquentDiveBatchRepositoryTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -40,7 +40,7 @@ class EloquentDiveBatchRepositoryTest extends TestCase
         );
     }
 
-    public function testItFindsByIds()
+    public function testItFindsByIds(): void
     {
         $times = 10;
         $userId = 1;

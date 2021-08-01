@@ -6,7 +6,7 @@ namespace App\Domain\Buddies\Entities;
 
 use App\Domain\EntityWithId;
 
-class Buddy implements EntityWithId
+final class Buddy implements EntityWithId
 {
     private function __construct(
         private ?int $id,

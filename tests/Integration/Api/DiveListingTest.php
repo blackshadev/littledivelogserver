@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\WithFakeTAuthentication;
 
-class DiveListingTest extends TestCase
+final class DiveListingTest extends TestCase
 {
     use DatabaseTransactions;
     use WithFaker;
@@ -24,7 +24,7 @@ class DiveListingTest extends TestCase
         $this->fakedTauth();
     }
 
-    public function testDiveListForAuthenticatedUser()
+    public function testDiveListForAuthenticatedUser(): void
     {
         $diveCount = $this->faker->numberBetween(1, 10);
 

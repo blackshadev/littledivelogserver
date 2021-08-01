@@ -7,16 +7,16 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCountriesTable extends Migration
+final class CreateCountriesTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('countries', function (Blueprint $table): void {
             $table->string('iso2')->primary();
         });
 
@@ -28,7 +28,7 @@ class CreateCountriesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('countries');
     }

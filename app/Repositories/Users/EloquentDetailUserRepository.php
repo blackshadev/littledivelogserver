@@ -8,7 +8,7 @@ use App\Domain\Users\Entities\DetailUser;
 use App\Domain\Users\Repositories\DetailUserRepository;
 use App\Models\User as UserModel;
 
-class EloquentDetailUserRepository implements DetailUserRepository
+final class EloquentDetailUserRepository implements DetailUserRepository
 {
     public function findById(int $id): DetailUser
     {

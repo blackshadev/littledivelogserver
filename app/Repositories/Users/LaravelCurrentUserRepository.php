@@ -8,7 +8,7 @@ use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\CurrentUserRepository;
 use LogicException;
 
-class LaravelCurrentUserRepository implements CurrentUserRepository
+final class LaravelCurrentUserRepository implements CurrentUserRepository
 {
     public function getCurrentUser(): User
     {

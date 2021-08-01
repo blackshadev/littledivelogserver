@@ -9,7 +9,7 @@ use App\Domain\Dives\Entities\Dive;
 use App\Domain\Support\ArrayUtil;
 use App\Domain\Support\Arrg;
 
-class DiveMerger
+final class DiveMerger
 {
     public const HOURS_IN_SECONDS = 60 * 60;
 

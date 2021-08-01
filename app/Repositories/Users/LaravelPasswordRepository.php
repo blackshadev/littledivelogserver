@@ -8,7 +8,7 @@ use App\Domain\Users\Repositories\PasswordRepository;
 use App\Models\User as UserModel;
 use Illuminate\Support\Facades\Hash;
 
-class LaravelPasswordRepository implements PasswordRepository
+final class LaravelPasswordRepository implements PasswordRepository
 {
     public function validate(int $userId, string $password): bool
     {

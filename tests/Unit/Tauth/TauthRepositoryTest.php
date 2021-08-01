@@ -13,7 +13,7 @@ use Littledev\Tauth\Services\TauthRepositoryInterface;
 use stdClass;
 use Tests\TestCase;
 
-class TauthRepositoryTest extends TestCase
+final class TauthRepositoryTest extends TestCase
 {
     use WithFaker;
 
@@ -30,7 +30,7 @@ class TauthRepositoryTest extends TestCase
         $this->subject = new TauthRepository($this->jwtService);
     }
 
-    public function testFindUserByCredentialsWithValidCredentials()
+    public function testFindUserByCredentialsWithValidCredentials(): void
     {
         $data = [
             'email' => $this->faker->email,
@@ -46,7 +46,7 @@ class TauthRepositoryTest extends TestCase
         self::assertSame($user, $result);
     }
 
-    public function testFindUserByCredentialsWithInvalidCredentials()
+    public function testFindUserByCredentialsWithInvalidCredentials(): void
     {
         $data = [
             'email' => $this->faker->email,
@@ -61,7 +61,7 @@ class TauthRepositoryTest extends TestCase
         self::assertNull($result);
     }
 
-    public function testFindUserByCredentialsWithInvalidUserModel()
+    public function testFindUserByCredentialsWithInvalidUserModel(): void
     {
         $data = [
             'email' => $this->faker->email,

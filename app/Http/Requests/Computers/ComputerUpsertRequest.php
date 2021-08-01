@@ -6,7 +6,7 @@ namespace App\Http\Requests\Computers;
 
 use App\Http\Requests\AuthenticatedRequest;
 
-class ComputerUpsertRequest extends AuthenticatedRequest
+final class ComputerUpsertRequest extends AuthenticatedRequest
 {
     public function rules()
     {

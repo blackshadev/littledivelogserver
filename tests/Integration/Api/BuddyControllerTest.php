@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\WithFakeTAuthentication;
 
-class BuddyControllerTest extends TestCase
+final class BuddyControllerTest extends TestCase
 {
     use WithFaker;
     use WithFakeTAuthentication;
@@ -24,7 +24,7 @@ class BuddyControllerTest extends TestCase
         $this->fakedTauth();
     }
 
-    public function testItCreatesABuddy()
+    public function testItCreatesABuddy(): void
     {
         /** @var User $user */
         $user = User::factory()->createOne();
@@ -50,7 +50,7 @@ class BuddyControllerTest extends TestCase
         ]);
     }
 
-    public function testItUpdatesABuddy()
+    public function testItUpdatesABuddy(): void
     {
         /** @var User $user */
         $user = User::factory()
@@ -88,7 +88,7 @@ class BuddyControllerTest extends TestCase
         ]);
     }
 
-    public function testItListsBuddies()
+    public function testItListsBuddies(): void
     {
         $buddyCount = $this->faker->numberBetween(1, 10);
 
@@ -110,7 +110,7 @@ class BuddyControllerTest extends TestCase
         self::assertArrayHasKey('color', $data[0]);
     }
 
-    public function testItShowsABuddy()
+    public function testItShowsABuddy(): void
     {
         $buddyCount = $this->faker->numberBetween(1, 10);
 

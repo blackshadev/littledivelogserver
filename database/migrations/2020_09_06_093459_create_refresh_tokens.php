@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRefreshTokens extends Migration
+final class CreateRefreshTokens extends Migration
 {
-    public function up()
+    public function up(): void
     {
-        Schema::create('refresh_tokens', function (Blueprint $table) {
+        Schema::create('refresh_tokens', function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->foreignId('user_id')->constrained();
             $table->dateTime('expired_at')->nullable();
@@ -18,7 +18,7 @@ class CreateRefreshTokens extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('refresh_tokens');
     }

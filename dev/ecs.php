@@ -24,6 +24,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PhpCsFixer\Fixer\Alias\MbStrFunctionsFixer::class);
     $services->set(PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer::class);
     $services->set(PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer::class);
+    $services->set(PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer::class);
+    $services->set(PhpCsFixer\Fixer\ClassNotation\FinalClassFixer::class);
 
     // B. full sets
     $parameters = $containerConfigurator->parameters();

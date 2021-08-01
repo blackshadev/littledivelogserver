@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Places\DataTransferObjects;
 
-class PlaceData
+final class PlaceData
 {
     private ?int $id = null;
 

@@ -8,7 +8,7 @@ use App\Models\Equipment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class EquipmentFactory extends Factory
+final class EquipmentFactory extends Factory
 {
     protected $model = Equipment::class;
 

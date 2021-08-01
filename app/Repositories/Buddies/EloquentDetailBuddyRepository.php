@@ -9,7 +9,7 @@ use App\Domain\Buddies\Repositories\DetailBuddyRepository;
 use App\Models\Buddy as BuddyModel;
 use App\Models\User;
 
-class EloquentDetailBuddyRepository implements DetailBuddyRepository
+final class EloquentDetailBuddyRepository implements DetailBuddyRepository
 {
     /** @return DetailBuddy[] */
     public function listForUser(int $userId): array

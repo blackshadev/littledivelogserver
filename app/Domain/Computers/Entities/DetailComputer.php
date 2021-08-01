@@ -6,7 +6,7 @@ namespace App\Domain\Computers\Entities;
 
 use DateTimeInterface;
 
-class DetailComputer
+final class DetailComputer
 {
     public function __construct(
         private ?int $computerId,

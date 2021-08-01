@@ -7,7 +7,7 @@ namespace App\Http\Requests\Tags;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Rules\HexColor;
 
-class TagCreateRequest extends AuthenticatedRequest
+final class TagCreateRequest extends AuthenticatedRequest
 {
     public function rules()
     {

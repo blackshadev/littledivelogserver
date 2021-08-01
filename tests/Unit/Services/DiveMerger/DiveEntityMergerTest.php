@@ -9,7 +9,7 @@ use App\Domain\Buddies\Entities\Buddy;
 use App\Domain\Tags\Entities\Tag;
 use PHPUnit\Framework\TestCase;
 
-class DiveEntityMergerTest extends TestCase
+final class DiveEntityMergerTest extends TestCase
 {
     /** @dataProvider entityDataProvider */
     public function testItMergesEntities(array $input, array $expected): void

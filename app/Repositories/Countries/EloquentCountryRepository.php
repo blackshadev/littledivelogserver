@@ -8,7 +8,7 @@ use App\Domain\Countries\Entity\Country;
 use App\Domain\Countries\Repositories\CountryRepository;
 use App\Models\Country as CountryModel;
 
-class EloquentCountryRepository implements CountryRepository
+final class EloquentCountryRepository implements CountryRepository
 {
     /** @return Country[] */
     public function list(): array

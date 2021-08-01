@@ -6,7 +6,7 @@ namespace App\Application\Dives\Services\Mergers;
 
 use App\Domain\EntityWithId;
 
-class DiveEntityMerger
+final class DiveEntityMerger
 {
     /**
      * @param EntityWithId[] $entities

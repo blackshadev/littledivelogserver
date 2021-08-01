@@ -6,7 +6,7 @@ namespace App\Domain\Tags\Entities;
 
 use App\Domain\EntityWithId;
 
-class Tag implements EntityWithId
+final class Tag implements EntityWithId
 {
     public function __construct(
         private ?int $id,

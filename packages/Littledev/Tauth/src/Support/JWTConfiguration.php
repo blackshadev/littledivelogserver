@@ -9,7 +9,7 @@ use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Key\InMemory;
 
-class JWTConfiguration
+final class JWTConfiguration
 {
     private Key $key;
 

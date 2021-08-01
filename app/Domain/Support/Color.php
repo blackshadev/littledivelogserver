@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Support;
 
-class Color
+final class Color
 {
     public static function randomHex(): string
     {

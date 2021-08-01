@@ -10,11 +10,11 @@ use App\Models\Place;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class DiveSeeder extends Seeder
+final class DiveSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        User::all()->each(function (User $user) {
+        User::all()->each(function (User $user): void {
             Dive::factory()
                 ->count(random_int(0, 100))
                 ->state(function () {
@@ -27,7 +27,7 @@ class DiveSeeder extends Seeder
                 })
                 ->state(['user_id' => $user->id])
                 ->create()
-                ->each(function (Dive $dive) use ($user) {
+                ->each(function (Dive $dive) use ($user): void {
                     $dive->buddies()->attach(
                         $user->buddies()
                             ->inRandomOrder()

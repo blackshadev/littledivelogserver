@@ -14,11 +14,11 @@ use App\Models\Equipment as EquipmentModel;
 use App\Models\EquipmentTank as EquipmentTankModel;
 use Illuminate\Support\Facades\DB;
 
-class EloquentEquipmentRepository implements EquipmentRepository
+final class EloquentEquipmentRepository implements EquipmentRepository
 {
     public function save(Equipment $equipment): void
     {
-        DB::transaction(function () use ($equipment) {
+        DB::transaction(function () use ($equipment): void {
             /** @var EquipmentModel $model */
             if ($equipment->isExisting()) {
                 $model = EquipmentModel::findOrFail($equipment->getId());
@@ -122,7 +122,7 @@ class EloquentEquipmentRepository implements EquipmentRepository
         $equipment->setTanks($newTanks);
     }
 
-    private function setTankData(Tank $tank, TankData $tankData)
+    private function setTankData(Tank $tank, TankData $tankData): void
     {
         $tank->setBeginPressure($tankData->getPressures()->getBegin());
         $tank->setEndPressure($tankData->getPressures()->getEnd());

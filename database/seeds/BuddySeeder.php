@@ -8,11 +8,11 @@ use App\Models\Buddy;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class BuddySeeder extends Seeder
+final class BuddySeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        User::all()->each(function (User $user) {
+        User::all()->each(function (User $user): void {
             Buddy::factory()
                 ->count(random_int(0, 20))
                 ->state([

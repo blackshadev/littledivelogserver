@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Support\Mapping;
 
-class BasicMapping implements MappingInterface
+final class BasicMapping implements MappingInterface
 {
     private $data = [];
 
@@ -13,7 +13,7 @@ class BasicMapping implements MappingInterface
         return $this->data[$oldId] ?? null;
     }
 
-    public function set($oldId, $newId)
+    public function set($oldId, $newId): void
     {
         $this->data[$oldId] = $newId;
     }

@@ -9,14 +9,14 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class RegistrationTest extends TestCase
+final class RegistrationTest extends TestCase
 {
     use DatabaseTransactions;
     use WithFaker;
 
     public const REGISTRATION_URL = '/api/auth/register';
 
-    public function testFailsWithNoData()
+    public function testFailsWithNoData(): void
     {
         $this->json('post', self::REGISTRATION_URL)
             ->assertStatus(422)
@@ -30,7 +30,7 @@ class RegistrationTest extends TestCase
             ]);
     }
 
-    public function testFailsWithInvalidEmail()
+    public function testFailsWithInvalidEmail(): void
     {
         $this->json('post', self::REGISTRATION_URL, [
             'email' => $this->faker->word,
@@ -46,7 +46,7 @@ class RegistrationTest extends TestCase
             ]);
     }
 
-    public function testFailsOnDuplicatedUser()
+    public function testFailsOnDuplicatedUser(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -64,7 +64,7 @@ class RegistrationTest extends TestCase
             ]);
     }
 
-    public function testSuccessfullRegistration()
+    public function testSuccessfullRegistration(): void
     {
         $data = [
             'email' => $this->faker->email,

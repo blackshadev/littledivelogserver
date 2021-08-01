@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Dives;
 
-class DiveDeleteRequest extends DiveRequest
+final class DiveDeleteRequest extends DiveRequest
 {
 }

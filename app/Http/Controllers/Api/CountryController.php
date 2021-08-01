@@ -10,7 +10,7 @@ use App\Domain\Countries\Repositories\CountryRepository;
 use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
 
-class CountryController extends Controller
+final class CountryController extends Controller
 {
     public function __construct(
         private CountryRepository $repository

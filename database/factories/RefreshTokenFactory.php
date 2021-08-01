@@ -8,7 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RefreshTokenFactory extends Factory
+final class RefreshTokenFactory extends Factory
 {
     public function expired()
     {

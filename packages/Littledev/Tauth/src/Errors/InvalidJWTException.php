@@ -6,7 +6,7 @@ namespace Littledev\Tauth\Errors;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class InvalidJWTException extends HttpException
+final class InvalidJWTException extends HttpException
 {
     public function __construct(string $message)
     {

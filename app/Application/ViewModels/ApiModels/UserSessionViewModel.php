@@ -8,7 +8,7 @@ use App\Application\ViewModels\FromEloquentCollection;
 use App\Application\ViewModels\ViewModel;
 use App\Models\RefreshToken;
 
-class UserSessionViewModel extends ViewModel
+final class UserSessionViewModel extends ViewModel
 {
     use FromEloquentCollection;
 

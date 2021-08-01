@@ -14,7 +14,7 @@ trait WithFakeTAuthentication
     /** @var TauthServiceInterface|MockInterface */
     private TauthServiceInterface $tauthService;
 
-    private function fakedTauth()
+    private function fakedTauth(): void
     {
         $this->tauthService = \Mockery::mock(TauthServiceInterface::class);
         $this->app->instance(TauthServiceInterface::class, $this->tauthService);
@@ -23,7 +23,7 @@ trait WithFakeTAuthentication
         $this->tauthService->shouldReceive('getUser')->andReturn(null)->byDefault();
     }
 
-    private function fakeAccessTokenFor(User $user)
+    private function fakeAccessTokenFor(User $user): void
     {
         $this->tauthService->shouldReceive('validateAccessToken')->andReturnTrue();
         $this->tauthService->shouldReceive('getUser')->andReturn($user);

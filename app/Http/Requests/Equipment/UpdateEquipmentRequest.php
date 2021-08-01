@@ -6,7 +6,7 @@ namespace App\Http\Requests\Equipment;
 
 use Illuminate\Validation\Rule;
 
-class UpdateEquipmentRequest extends EquipmentRequest
+final class UpdateEquipmentRequest extends EquipmentRequest
 {
     public function rules()
     {

@@ -6,7 +6,7 @@ namespace App\Explorer\Syntax;
 
 use JeroenG\Explorer\Domain\Syntax\SyntaxInterface;
 
-class Wildcard implements SyntaxInterface
+final class Wildcard implements SyntaxInterface
 {
     public function __construct(
         private string $field,

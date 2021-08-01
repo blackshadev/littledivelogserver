@@ -8,7 +8,7 @@ use App\Domain\Buddies\Entities\Buddy;
 use App\Domain\Buddies\Repositories\BuddyRepository;
 use App\Models\Buddy as BuddyModel;
 
-class EloquentBuddyRepository implements BuddyRepository
+final class EloquentBuddyRepository implements BuddyRepository
 {
     public function findById(int $id): Buddy
     {

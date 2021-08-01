@@ -11,7 +11,7 @@ use Littledev\Tauth\Contracts\TauthAuthenticatable;
 use Littledev\Tauth\Errors\InvalidJWTException;
 use Littledev\Tauth\Errors\NoSuchUserException;
 
-class TauthService implements TauthServiceInterface
+final class TauthService implements TauthServiceInterface
 {
     private JWTServiceInterface $JWTFactory;
 

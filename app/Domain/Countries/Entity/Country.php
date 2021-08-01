@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Countries\Entity;
 
-class Country
+final class Country
 {
     public function __construct(
         private string $iso2,

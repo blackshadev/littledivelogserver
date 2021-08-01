@@ -6,7 +6,7 @@ namespace App\Application\Users\Errors;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class InvalidPassword extends HttpException
+final class InvalidPassword extends HttpException
 {
     public function __construct()
     {

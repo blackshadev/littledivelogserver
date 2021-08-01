@@ -10,7 +10,7 @@ use App\Domain\Users\Repositories\CurrentUserRepository;
 use App\Error\TagNotFound;
 use App\Http\Requests\AuthenticatedRequest;
 
-class TagRequest extends AuthenticatedRequest
+final class TagRequest extends AuthenticatedRequest
 {
     public function __construct(
         private TagRepository $repository,

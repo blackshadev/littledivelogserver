@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @mixin Builder
  */
-class Country extends Model
+final class Country extends Model
 {
     use HasFactory;
 

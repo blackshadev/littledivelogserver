@@ -15,7 +15,7 @@ use App\Http\Requests\Computers\ComputerRequest;
 use App\Http\Requests\Computers\ComputerUpsertRequest;
 use App\Models\User;
 
-class ComputerController extends Controller
+final class ComputerController extends Controller
 {
     public function __construct(
         private ComputerUpserter $creator,

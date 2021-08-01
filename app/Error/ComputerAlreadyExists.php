@@ -6,7 +6,7 @@ namespace App\Error;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class ComputerAlreadyExists extends HttpException
+final class ComputerAlreadyExists extends HttpException
 {
     public function __construct(int $serial)
     {

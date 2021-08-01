@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\WithFakeTAuthentication;
 
-class TagsControllerTest extends TestCase
+final class TagsControllerTest extends TestCase
 {
     use WithFaker;
     use WithFakeTAuthentication;
@@ -24,7 +24,7 @@ class TagsControllerTest extends TestCase
         $this->fakedTauth();
     }
 
-    public function testItCreatesATag()
+    public function testItCreatesATag(): void
     {
         /** @var User $user */
         $user = User::factory()->createOne();
@@ -51,7 +51,7 @@ class TagsControllerTest extends TestCase
         ]);
     }
 
-    public function testItUpdatesATag()
+    public function testItUpdatesATag(): void
     {
         /** @var User $user */
         $user = User::factory()
@@ -87,7 +87,7 @@ class TagsControllerTest extends TestCase
         ]);
     }
 
-    public function testItListsTags()
+    public function testItListsTags(): void
     {
         $tagCount = $this->faker->numberBetween(1, 10);
 
@@ -109,7 +109,7 @@ class TagsControllerTest extends TestCase
         self::assertArrayHasKey('color', $data[0]);
     }
 
-    public function testItShowsATag()
+    public function testItShowsATag(): void
     {
         $tagCount = $this->faker->numberBetween(1, 10);
 

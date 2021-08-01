@@ -12,7 +12,7 @@ use App\Domain\Dives\ValueObjects\GasMixture;
 use App\Domain\Dives\ValueObjects\TankPressures;
 use PHPUnit\Framework\TestCase;
 
-class DiveTankMergerTest extends TestCase
+final class DiveTankMergerTest extends TestCase
 {
     public const FAKE_DIVE_ID = 1;
 

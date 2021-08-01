@@ -8,11 +8,11 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class TagSeeder extends Seeder
+final class TagSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        User::all()->each(function (User $user) {
+        User::all()->each(function (User $user): void {
             Tag::factory()
                 ->count(random_int(0, 20))
                 ->state([

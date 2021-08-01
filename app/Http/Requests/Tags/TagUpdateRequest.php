@@ -6,7 +6,7 @@ namespace App\Http\Requests\Tags;
 
 use App\Rules\HexColor;
 
-class TagUpdateRequest extends TagRequest
+final class TagUpdateRequest extends TagRequest
 {
     public function rules()
     {

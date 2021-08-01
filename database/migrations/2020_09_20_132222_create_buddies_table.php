@@ -6,16 +6,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBuddiesTable extends Migration
+final class CreateBuddiesTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('buddies', function (Blueprint $table) {
+        Schema::create('buddies', function (Blueprint $table): void {
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained();
@@ -31,7 +31,7 @@ class CreateBuddiesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('buddies');
     }

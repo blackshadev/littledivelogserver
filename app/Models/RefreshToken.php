@@ -18,7 +18,7 @@ use Ramsey\Uuid\Uuid;
  * @method static Builder valid()
  * @mixin Builder
  */
-class RefreshToken extends Model implements RefreshTokenInterface
+final class RefreshToken extends Model implements RefreshTokenInterface
 {
     use HasFactory;
 
@@ -31,10 +31,10 @@ class RefreshToken extends Model implements RefreshTokenInterface
         return (string) $this->id;
     }
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
-        self::creating(function ($model) {
+        self::creating(function ($model): void {
             $model->id = Uuid::uuid4();
         });
     }
@@ -79,7 +79,7 @@ class RefreshToken extends Model implements RefreshTokenInterface
         return $query->whereNull('expired_at')->orWhere('expired_at', '>=', Carbon::now());
     }
 
-    public function setUserAttribute(TauthAuthenticatable $user)
+    public function setUserAttribute(TauthAuthenticatable $user): void
     {
         $this->attributes['user_id'] = $user->getUserIdentifier();
     }

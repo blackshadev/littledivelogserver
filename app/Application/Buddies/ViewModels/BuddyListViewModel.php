@@ -8,7 +8,7 @@ use App\Application\ViewModels\ViewModel;
 use App\Domain\Buddies\Entities\DetailBuddy;
 use DateTimeInterface;
 
-class BuddyListViewModel extends ViewModel
+final class BuddyListViewModel extends ViewModel
 {
     protected array $visible = ['buddy_id', 'text', 'color', 'dive_count', 'last_dive'];
 

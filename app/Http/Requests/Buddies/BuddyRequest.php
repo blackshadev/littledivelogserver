@@ -10,7 +10,7 @@ use App\Domain\Users\Repositories\CurrentUserRepository;
 use App\Error\BuddyNotFound;
 use App\Http\Requests\AuthenticatedRequest;
 
-class BuddyRequest extends AuthenticatedRequest
+final class BuddyRequest extends AuthenticatedRequest
 {
     public function __construct(
         private BuddyRepository $repository,

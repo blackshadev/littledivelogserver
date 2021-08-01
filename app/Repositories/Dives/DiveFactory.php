@@ -12,7 +12,7 @@ use App\Domain\Places\Repositories\PlaceRepository;
 use App\Domain\Tags\Repositories\TagRepository;
 use App\Models\Dive as DiveModel;
 
-class DiveFactory
+final class DiveFactory
 {
     public function __construct(
         private PlaceRepository $placeRepository,

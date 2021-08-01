@@ -6,7 +6,7 @@ namespace App\Domain\Equipment\Entities;
 
 use Webmozart\Assert\Assert;
 
-class Equipment
+final class Equipment
 {
     /** @param Tank[] $tanks */
     private function __construct(

@@ -10,7 +10,7 @@ use App\Models\Place;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DiveFactory extends Factory
+final class DiveFactory extends Factory
 {
     public function definition()
     {
@@ -36,7 +36,7 @@ class DiveFactory extends Factory
                 ];
             })
             ->has(DiveTank::factory(), 'tanks')
-            ->afterCreating(function (Dive $dive) {
+            ->afterCreating(function (Dive $dive): void {
 
                 /** @var User $user */
                 $user = $dive->user;
@@ -59,7 +59,7 @@ class DiveFactory extends Factory
 
     public function withComputer()
     {
-        return $this->afterMaking(function (Dive $dive) {
+        return $this->afterMaking(function (Dive $dive): void {
             /** @var User $user */
             $user = $dive->user;
 

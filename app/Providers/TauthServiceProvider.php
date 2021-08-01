@@ -16,9 +16,9 @@ use Littledev\Tauth\Services\TauthService;
 use Littledev\Tauth\Services\TauthServiceInterface;
 use Littledev\Tauth\Support\JWTConfiguration;
 
-class TauthServiceProvider extends ServiceProvider
+final class TauthServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(JWTConfiguration::class, function () {
             return (new JWTConfiguration())

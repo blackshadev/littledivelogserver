@@ -8,9 +8,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
-class CountrySeeder extends Seeder
+final class CountrySeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         DB::table('countries')->truncate();
 

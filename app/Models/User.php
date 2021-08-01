@@ -14,7 +14,7 @@ use Littledev\Tauth\Contracts\TauthAuthenticatable;
 /**
  * @mixin Builder
  */
-class User extends AuthUser implements TauthAuthenticatable
+final class User extends AuthUser implements TauthAuthenticatable
 {
     use Notifiable, HasFactory;
 
@@ -35,7 +35,7 @@ class User extends AuthUser implements TauthAuthenticatable
         return $this->hasMany(RefreshToken::class);
     }
 
-    public function setPasswordAttribute(string $password)
+    public function setPasswordAttribute(string $password): void
     {
         $this->attributes['password'] = Hash::make($password);
     }

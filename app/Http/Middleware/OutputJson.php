@@ -7,7 +7,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class OutputJson
+final class OutputJson
 {
     public function handle(Request $request, \Closure $next)
     {

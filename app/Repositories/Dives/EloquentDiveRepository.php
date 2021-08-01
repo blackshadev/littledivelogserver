@@ -41,7 +41,7 @@ final class EloquentDiveRepository implements DiveRepository
 
     public function save(Dive $dive): void
     {
-        DB::transaction(function () use ($dive) {
+        DB::transaction(function () use ($dive): void {
             if ($dive->isExisting()) {
                 $model = DiveModel::findOrFail($dive->getDiveId());
             } else {
@@ -98,7 +98,7 @@ final class EloquentDiveRepository implements DiveRepository
     private function setComputer(
         DiveModel $model,
         ?Computer $computer,
-    ) {
+    ): void {
         if ($computer === null) {
             $model->computer()->disassociate();
             return;

@@ -6,7 +6,7 @@ namespace App\Application\Dives\Exceptions;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class CannotMergeTankException extends HttpException
+final class CannotMergeTankException extends HttpException
 {
     public function __construct(string $message)
     {

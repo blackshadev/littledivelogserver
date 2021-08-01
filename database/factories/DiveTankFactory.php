@@ -7,7 +7,7 @@ namespace Database\Factories;
 use App\Models\Dive;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DiveTankFactory extends Factory
+final class DiveTankFactory extends Factory
 {
     public function definition()
     {

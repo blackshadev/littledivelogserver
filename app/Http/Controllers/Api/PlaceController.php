@@ -13,7 +13,7 @@ use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Places\SearchPlaceRequest;
 
-class PlaceController extends Controller
+final class PlaceController extends Controller
 {
     public function __construct(
         private PlaceRepository $placeRepository,

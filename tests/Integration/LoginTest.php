@@ -9,14 +9,14 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class LoginTest extends TestCase
+final class LoginTest extends TestCase
 {
     use WithFaker;
     use DatabaseTransactions;
 
     public const LOGIN_URL = '/api/auth/sessions/';
 
-    public function testInvalidRequest()
+    public function testInvalidRequest(): void
     {
         $this->json('post', self::LOGIN_URL, [])
             ->assertStatus(422)
@@ -29,7 +29,7 @@ class LoginTest extends TestCase
             ]);
     }
 
-    public function testInvalidCredentials()
+    public function testInvalidCredentials(): void
     {
         $this->json('post', self::LOGIN_URL, [
             'email' => $this->faker->email,
@@ -41,7 +41,7 @@ class LoginTest extends TestCase
             ]);
     }
 
-    public function testValidLogin()
+    public function testValidLogin(): void
     {
         $password = $this->faker->password;
         /** @var User $user */

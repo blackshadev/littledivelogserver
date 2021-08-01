@@ -6,16 +6,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDiveTagTable extends Migration
+final class CreateDiveTagTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('dive_tag', function (Blueprint $table) {
+        Schema::create('dive_tag', function (Blueprint $table): void {
             $table->id();
 
             $table->foreignId('dive_id')->constrained()->cascadeOnDelete();
@@ -28,7 +28,7 @@ class CreateDiveTagTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('dive_tag');
     }

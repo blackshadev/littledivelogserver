@@ -7,7 +7,7 @@ namespace App\Application\ViewModels\ApiModels;
 use App\Application\ViewModels\ViewModel;
 use App\Domain\Tags\Entities\Tag;
 
-class DiveTagsViewModel extends ViewModel
+final class DiveTagsViewModel extends ViewModel
 {
     protected array $visible = ['tag_id', 'color', 'text'];
 

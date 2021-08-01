@@ -14,7 +14,7 @@ use Littledev\Tauth\Services\TauthRepositoryInterface;
 use Littledev\Tauth\Services\TauthServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthController extends TauthController
+final class AuthController extends TauthController
 {
     public function __construct(
         TauthServiceInterface $authenticationService,
@@ -36,7 +36,7 @@ class AuthController extends TauthController
         return response()->noContent(Response::HTTP_CREATED);
     }
 
-    public function deleteSession(RefreshToken $refreshToken)
+    public function deleteSession(RefreshToken $refreshToken): void
     {
         $this->authorize('delete', $refreshToken);
 

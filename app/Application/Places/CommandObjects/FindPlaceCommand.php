@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Places\CommandObjects;
 
-class FindPlaceCommand
+final class FindPlaceCommand
 {
     public function __construct(
         private ?string $keywords,

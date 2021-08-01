@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Tests\WithFakeTAuthentication;
 
-class DiveCreateTest extends TestCase
+final class DiveCreateTest extends TestCase
 {
     use DatabaseTransactions;
     use WithFakeTAuthentication;
@@ -24,7 +24,7 @@ class DiveCreateTest extends TestCase
         $this->fakedTauth();
     }
 
-    public function testItWorksWithMinimalData()
+    public function testItWorksWithMinimalData(): void
     {
         /** @var User $user */
         $user = User::factory()->createOne();
@@ -48,7 +48,7 @@ class DiveCreateTest extends TestCase
         $this->assertDatabaseHas('dives', array_merge($data, ['user_id' => $user->id]));
     }
 
-    public function testItRequiresToBeLoggedIn()
+    public function testItRequiresToBeLoggedIn(): void
     {
         $user = User::factory()->createOne();
         $dive = Dive::factory()->state([
@@ -67,7 +67,7 @@ class DiveCreateTest extends TestCase
         $this->assertDatabaseMissing('dives', array_merge($data, ['user_id' => $user->id]));
     }
 
-    public function testNewFullData()
+    public function testNewFullData(): void
     {
         /** @var User $user */
         $user = User::factory()->createOne();
@@ -157,7 +157,7 @@ class DiveCreateTest extends TestCase
         ]);
     }
 
-    public function testItUpdatedComputerOnNewDive()
+    public function testItUpdatedComputerOnNewDive(): void
     {
 
         /** @var User $user */

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Users\DataTransferObjects;
 
-class ChangePasswordData
+final class ChangePasswordData
 {
     public function __construct(
         private string $newPassword,

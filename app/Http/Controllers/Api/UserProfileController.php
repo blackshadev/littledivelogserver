@@ -20,7 +20,7 @@ use App\Http\Requests\Equipment\UpdateEquipmentRequest;
 use App\Http\Requests\Users\UpdatePasswordRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
 
-class UserProfileController extends Controller
+final class UserProfileController extends Controller
 {
     public function __construct(
         private EquipmentRepository $equipmentRepository,

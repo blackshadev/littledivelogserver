@@ -14,7 +14,7 @@ use Littledev\Tauth\Services\JWTServiceInterface;
 use Littledev\Tauth\Services\TauthRepositoryInterface;
 use Ramsey\Uuid\Uuid;
 
-class TauthRepository implements TauthRepositoryInterface
+final class TauthRepository implements TauthRepositoryInterface
 {
     private JWTServiceInterface $factory;
 

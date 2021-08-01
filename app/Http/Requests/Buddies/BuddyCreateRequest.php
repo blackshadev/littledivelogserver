@@ -7,7 +7,7 @@ namespace App\Http\Requests\Buddies;
 use App\Http\Requests\AuthenticatedRequest;
 use App\Rules\HexColor;
 
-class BuddyCreateRequest extends AuthenticatedRequest
+final class BuddyCreateRequest extends AuthenticatedRequest
 {
     public function rules()
     {

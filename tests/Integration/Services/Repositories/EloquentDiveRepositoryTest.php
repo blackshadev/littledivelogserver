@@ -22,37 +22,43 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Tests\WithFakeTAuthentication;
 
-class EloquentDiveRepositoryTest extends TestCase
+final class EloquentDiveRepositoryTest extends TestCase
 {
     use DatabaseTransactions;
     use WithFakeTAuthentication;
 
     private DiveRepository $subject;
 
+    private UserModel $user;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->subject = $this->app->make(DiveRepository::class);
+
+
+        $this->user = UserModel::factory()->createOne();
+
+        $this->fakedTauth();
+        $this->fakeAccessTokenFor($this->user);
     }
 
     public function testItFindsFullDive(): void
     {
-        $user = UserModel::factory()
-            ->has(TagModel::factory()->count(10))
-            ->has(BuddyModel::factory()->count(10))
-            ->has(ComputerModel::factory()->count(10))
-            ->create();
+        TagModel::factory()->count(10)->for($this->user)->create();
+        BuddyModel::factory()->count(10)->for($this->user)->create();
+        ComputerModel::factory()->count(5)->for($this->user)->create();
 
         /** @var DiveModel $diveModel */
         $diveModel = DiveModel::factory()
-            ->for($user)
+            ->for($this->user)
             ->filled()
             ->withComputer()
             ->createOne();
 
         $dive = $this->subject->findById($diveModel->id);
 
-        self::assertEquals($user->id, $dive->getUserId());
+        self::assertEquals($this->user->id, $dive->getUserId());
         self::assertTrue($dive->isExisting());
         self::assertEquals($diveModel->id, $dive->getDiveId());
         self::assertEquals($diveModel->max_depth, $dive->getMaxDepth());
@@ -69,36 +75,30 @@ class EloquentDiveRepositoryTest extends TestCase
         self::assertEquals($diveModel->tanks->first()->pressure_type, $dive->getTanks()[0]->getPressures()->getType());
     }
 
-    public function testItFindsMinimalDives()
+    public function testItFindsMinimalDives(): void
     {
-        $user = UserModel::factory()->createOne();
-
         $diveModel = DiveModel::factory()
-            ->for($user)
+            ->for($this->user)
             ->createOne();
 
         $dive = $this->subject->findById($diveModel->id);
 
-        self::assertEquals($user->id, $dive->getUserId());
+        self::assertEquals($this->user->id, $dive->getUserId());
         self::assertTrue($dive->isExisting());
         self::assertEquals($diveModel->id, $dive->getDiveId());
     }
 
-    public function testItSavesDive()
+    public function testItSavesDive(): void
     {
-        $user = UserModel::factory()->createOne();
-
         $this->fakedTauth();
-        $this->fakeAccessTokenFor($user);
-
-        $userId = $user->id;
+        $this->fakeAccessTokenFor($this->user);
 
         $dive = Dive::new(
-            userId: $userId,
+            userId: $this->user->id,
             maxDepth: 42.42,
             date: new \DateTimeImmutable('2020-10-10 10:10:10'),
             divetime: 420,
-            place: Place::new($userId, ':place:', 'NL'),
+            place: Place::new($this->user->id, ':place:', 'NL'),
             samples: [
                 ['Time' => 0, 'Depth' => 1],
                 ['Time' => 60, 'Depth' => 6],
@@ -110,8 +110,8 @@ class EloquentDiveRepositoryTest extends TestCase
                 pressures: new TankPressures('bar', 221, 51),
                 gasMixture: new GasMixture(21)
             )],
-            buddies: [Buddy::new($userId, ':buddy:', ':color:', null)],
-            tags: [Tag::new($userId, ':tag:', ':color:')],
+            buddies: [Buddy::new($this->user->id, ':buddy:', ':color:', null)],
+            tags: [Tag::new($this->user->id, ':tag:', ':color:')],
         );
 
         self::assertFalse($dive->isExisting());
@@ -124,5 +124,16 @@ class EloquentDiveRepositoryTest extends TestCase
             'max_depth' => $dive->getMaxDepth(),
             'divetime' => $dive->getDivetime(),
         ]);
+    }
+
+    public function testItRemovesDive(): void
+    {
+        $model = DiveModel::factory()->for($this->user)->createOne();
+
+        $dive = Dive::existing($model->id, $model->user->id, $model->date->toDateTimeImmutable());
+
+        $this->subject->remove($dive);
+
+        $this->assertDatabaseMissing('dives', ['id' => $dive->getDiveId()]);
     }
 }

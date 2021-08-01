@@ -7,7 +7,7 @@ namespace App\Http\Requests\Dives;
 use App\Rules\HexColor;
 use Illuminate\Validation\Rule;
 
-class DiveUpdateRequest extends DiveRequest
+final class DiveUpdateRequest extends DiveRequest
 {
     public function rules()
     {

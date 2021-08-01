@@ -7,7 +7,7 @@ namespace App\Application\Dives\Services\Mergers;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Support\Arrg;
 
-class DiveSampleCombiner
+final class DiveSampleCombiner
 {
     /**
      * @param Dive[] $dives
@@ -80,7 +80,7 @@ class DiveSampleCombiner
         return $dives;
     }
 
-    private function mergeSampleStart(array &$samples)
+    private function mergeSampleStart(array &$samples): void
     {
         while (count($samples) > 1 && $samples[0]['Time'] === $samples[1]['Time']) {
             $samples[1] = $samples[0] + $samples[1];

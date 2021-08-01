@@ -6,7 +6,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class HexColor implements Rule
+final class HexColor implements Rule
 {
     public function passes($attribute, $value)
     {

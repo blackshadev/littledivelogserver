@@ -6,7 +6,7 @@ namespace App\Explorer\Support;
 
 use App\Domain\Support\Arrg;
 
-class Utilities
+final class Utilities
 {
     public static function toArray(array $array): array
     {

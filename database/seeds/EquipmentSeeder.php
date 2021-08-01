@@ -9,11 +9,11 @@ use App\Models\EquipmentTank;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class EquipmentSeeder extends Seeder
+final class EquipmentSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        User::all()->each(function (User $user) {
+        User::all()->each(function (User $user): void {
             $equipment = Equipment::factory()
                 ->state(['user_id' => $user->id])
                 ->createOne();

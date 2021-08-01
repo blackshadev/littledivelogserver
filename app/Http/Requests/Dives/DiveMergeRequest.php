@@ -6,7 +6,7 @@ namespace App\Http\Requests\Dives;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DiveMergeRequest extends FormRequest
+final class DiveMergeRequest extends FormRequest
 {
     public function rules()
     {

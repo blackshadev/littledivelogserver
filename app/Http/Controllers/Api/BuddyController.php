@@ -20,7 +20,7 @@ use App\Http\Requests\Buddies\BuddyRequest;
 use App\Http\Requests\Buddies\BuddyUpdateRequest;
 use App\Models\User;
 
-class BuddyController extends Controller
+final class BuddyController extends Controller
 {
     public function __construct(
         private BuddyCreator $creator,

@@ -6,7 +6,7 @@ namespace App\Domain\Support;
 
 use Illuminate\Support\Arr;
 
-class Arrg
+final class Arrg
 {
     public static function notNull(?array $a): ?array
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Users\Entities;
 
-class User
+final class User
 {
     public function __construct(
         private ?int $id,

@@ -16,7 +16,7 @@ use Littledev\Tauth\Services\TauthService;
 use Littledev\Tauth\Services\TauthServiceInterface;
 use Tests\TestCase;
 
-class TauthServiceTest extends TestCase
+final class TauthServiceTest extends TestCase
 {
     /** @var TauthRepositoryInterface|\Mockery\MockInterface  */
     private TauthRepositoryInterface $repository;
@@ -34,13 +34,13 @@ class TauthServiceTest extends TestCase
         $this->tauthService = new TauthService($this->jwtService, $this->repository);
     }
 
-    public function testNoUser()
+    public function testNoUser(): void
     {
         self::assertNull($this->tauthService->getUser());
         self::assertFalse($this->tauthService->isAuthenticated());
     }
 
-    public function testCreateRefreshToken()
+    public function testCreateRefreshToken(): void
     {
         $user = new User();
         $refresh = new RefreshToken();
@@ -51,7 +51,7 @@ class TauthServiceTest extends TestCase
         self::assertSame($refresh, $result);
     }
 
-    public function testCreateAccessToken()
+    public function testCreateAccessToken(): void
     {
         $token = $this->createToken();
         $refresh = new RefreshToken();
@@ -62,7 +62,7 @@ class TauthServiceTest extends TestCase
         self::assertSame($token, $result);
     }
 
-    public function testRefreshToken()
+    public function testRefreshToken(): void
     {
         $strToken = '';
         $refresh = new RefreshToken();
@@ -81,7 +81,7 @@ class TauthServiceTest extends TestCase
         self::assertFalse($this->tauthService->isAuthenticated());
     }
 
-    public function testInvalidRefreshToken()
+    public function testInvalidRefreshToken(): void
     {
         $strToken = '';
 
@@ -96,7 +96,7 @@ class TauthServiceTest extends TestCase
         self::assertNull($this->tauthService->getRefreshToken());
     }
 
-    public function testNonExistingRefreshToken()
+    public function testNonExistingRefreshToken(): void
     {
         $strToken = '';
 
@@ -114,7 +114,7 @@ class TauthServiceTest extends TestCase
         self::assertNull($this->tauthService->getRefreshToken());
     }
 
-    public function testValidateValidAccessToken()
+    public function testValidateValidAccessToken(): void
     {
         $accessToken = '';
         $userKey = '';
@@ -150,7 +150,7 @@ class TauthServiceTest extends TestCase
         self::assertTrue($this->tauthService->isAuthenticated());
     }
 
-    public function testValidateBrokenAccessToken()
+    public function testValidateBrokenAccessToken(): void
     {
         $accessToken = '';
 
@@ -167,7 +167,7 @@ class TauthServiceTest extends TestCase
         self::assertNull($this->tauthService->getAccessToken());
     }
 
-    public function testValidateInvalidAccessToken()
+    public function testValidateInvalidAccessToken(): void
     {
         $accessToken = '';
         $token = $this->createToken();
@@ -192,7 +192,7 @@ class TauthServiceTest extends TestCase
         self::assertNull($this->tauthService->getAccessToken());
     }
 
-    public function testBreakWhenUserNotFound()
+    public function testBreakWhenUserNotFound(): void
     {
         $accessToken = '';
         $userKey = '';

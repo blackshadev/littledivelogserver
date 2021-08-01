@@ -6,7 +6,7 @@ namespace App\Application\Dives\CommandObjects;
 
 use DateTimeInterface;
 
-class FindDivesCommand
+final class FindDivesCommand
 {
     private int $userId;
 

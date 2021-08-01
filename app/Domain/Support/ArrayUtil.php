@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Support;
 
-class ArrayUtil
+final class ArrayUtil
 {
     public static function transpose(array $array): array
     {

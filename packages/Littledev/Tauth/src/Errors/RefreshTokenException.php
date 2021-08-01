@@ -6,7 +6,7 @@ namespace Littledev\Tauth\Errors;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class RefreshTokenException extends HttpException
+final class RefreshTokenException extends HttpException
 {
     public function __construct(string $message = null)
     {

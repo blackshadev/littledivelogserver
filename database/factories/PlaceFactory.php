@@ -7,7 +7,7 @@ namespace Database\Factories;
 use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PlaceFactory extends Factory
+final class PlaceFactory extends Factory
 {
     public function definition()
     {

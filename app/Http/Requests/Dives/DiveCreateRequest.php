@@ -8,7 +8,7 @@ use App\Http\Requests\AuthenticatedRequest;
 use App\Rules\HexColor;
 use Illuminate\Validation\Rule;
 
-class DiveCreateRequest extends AuthenticatedRequest
+final class DiveCreateRequest extends AuthenticatedRequest
 {
     public function rules()
     {

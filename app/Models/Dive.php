@@ -13,7 +13,7 @@ use Laravel\Scout\Searchable;
 /**
  * @mixin Builder
  */
-class Dive extends Model implements Explored
+final class Dive extends Model implements Explored
 {
     use HasFactory;
     use Searchable;

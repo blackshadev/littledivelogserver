@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\WithFakeTAuthentication;
 
-class DiveShowTest extends TestCase
+final class DiveShowTest extends TestCase
 {
     use DatabaseTransactions;
     use WithFaker;
@@ -26,7 +26,7 @@ class DiveShowTest extends TestCase
         $this->fakedTauth();
     }
 
-    public function testDiveListForAuthenticatedUser()
+    public function testDiveListForAuthenticatedUser(): void
     {
         /** @var User $user */
         $user = User::factory()

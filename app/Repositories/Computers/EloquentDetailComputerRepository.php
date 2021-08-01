@@ -9,7 +9,7 @@ use App\Domain\Computers\Repositories\DetailComputerRepository;
 use App\Models\Computer as ComputerModel;
 use App\Models\User as UserModel;
 
-class EloquentDetailComputerRepository implements DetailComputerRepository
+final class EloquentDetailComputerRepository implements DetailComputerRepository
 {
     public function listForUser(int $userId): array
     {

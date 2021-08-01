@@ -12,7 +12,7 @@ use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
 
-class JWTToken
+final class JWTToken
 {
     private string $subject;
 

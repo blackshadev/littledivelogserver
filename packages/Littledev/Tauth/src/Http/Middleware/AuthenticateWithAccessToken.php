@@ -9,7 +9,7 @@ use Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests;
 use Illuminate\Http\Request;
 use Littledev\Tauth\Services\TauthServiceInterface;
 
-class AuthenticateWithAccessToken implements AuthenticatesRequests
+final class AuthenticateWithAccessToken implements AuthenticatesRequests
 {
     private TauthServiceInterface $authenticationService;
 
@@ -26,7 +26,7 @@ class AuthenticateWithAccessToken implements AuthenticatesRequests
         return $next($request);
     }
 
-    protected function authenticate(Request $request, bool $optional = false): void
+    private function authenticate(Request $request, bool $optional = false): void
     {
         $token = $request->bearerToken();
 

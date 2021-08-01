@@ -9,9 +9,9 @@ use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Database\Eloquent\JsonEncodingException;
 use JsonSerializable;
 
-class ViewModel implements Jsonable, JsonSerializable, Arrayable
+final class ViewModel implements Jsonable, JsonSerializable, Arrayable
 {
-    protected array $visible = [];
+    private array $visible = [];
 
     public function __get(string $name)
     {
@@ -27,7 +27,7 @@ class ViewModel implements Jsonable, JsonSerializable, Arrayable
         throw new \RuntimeException('Unexpected code path for ' . $name);
     }
 
-    public function __set(string $name, $value)
+    public function __set(string $name, $value): void
     {
         throw new \Exception('No setter allowed in view model');
     }

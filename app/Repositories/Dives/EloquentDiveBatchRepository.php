@@ -12,7 +12,7 @@ use App\Models\Dive as DiveModel;
 use Illuminate\Support\Facades\DB;
 use Webmozart\Assert\Assert;
 
-class EloquentDiveBatchRepository implements DiveBatchRepository
+final class EloquentDiveBatchRepository implements DiveBatchRepository
 {
     public function __construct(
         private DiveFactory $diveFactory,
@@ -32,7 +32,7 @@ class EloquentDiveBatchRepository implements DiveBatchRepository
     {
         Assert::allIsInstanceOf($divesToReplace, Dive::class);
 
-        DB::transaction(function () use ($divesToReplace, $newDive) {
+        DB::transaction(function () use ($divesToReplace, $newDive): void {
             $ids = Arrg::call($divesToReplace, 'getDiveId');
             DiveModel::whereIn('id', $ids)->delete();
 

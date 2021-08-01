@@ -9,9 +9,9 @@ use App\Models\Place;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class PlaceSeeder extends Seeder
+final class PlaceSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $countries = Country::query()->whereIn('iso2', ['NL', 'GR', 'EG'])->get('iso2');
         $users = User::query();

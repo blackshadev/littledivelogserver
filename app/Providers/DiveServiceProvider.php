@@ -57,14 +57,14 @@ use App\Repositories\Users\LaravelPasswordRepository;
 use App\Services\Places\ExplorerPlaceFinder;
 use Illuminate\Support\ServiceProvider;
 
-class DiveServiceProvider extends ServiceProvider
+final class DiveServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(BuddyRepository::class, EloquentBuddyRepository::class);
         $this->app->singleton(DetailBuddyRepository::class, EloquentDetailBuddyRepository::class);
@@ -114,7 +114,7 @@ class DiveServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
     }
 

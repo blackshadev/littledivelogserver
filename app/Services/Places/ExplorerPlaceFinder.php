@@ -18,7 +18,7 @@ use JeroenG\Explorer\Domain\Syntax\Compound\BoolQuery;
 use JeroenG\Explorer\Domain\Syntax\Matching;
 use JeroenG\Explorer\Domain\Syntax\Term;
 
-class ExplorerPlaceFinder implements PlaceFinder
+final class ExplorerPlaceFinder implements PlaceFinder
 {
     public function __construct(
         private IndexAdapterInterface $adapter

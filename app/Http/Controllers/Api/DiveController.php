@@ -26,7 +26,7 @@ use App\Http\Requests\Dives\DiveRequest;
 use App\Http\Requests\Dives\DiveSearchRequest;
 use App\Http\Requests\Dives\DiveUpdateRequest;
 
-class DiveController extends Controller
+final class DiveController extends Controller
 {
     public function index(AuthenticatedRequest $request, DiveSummaryRepository $diveSummaryRepository)
     {

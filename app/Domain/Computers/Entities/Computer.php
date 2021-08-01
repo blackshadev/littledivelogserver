@@ -6,7 +6,7 @@ namespace App\Domain\Computers\Entities;
 
 use DateTimeInterface;
 
-class Computer
+final class Computer
 {
     public function __construct(
         private ?int $computerId,
@@ -155,7 +155,7 @@ class Computer
         return $this->computerId !== null;
     }
 
-    public function updateLastRead(DateTimeInterface $date, string $fingerprint)
+    public function updateLastRead(DateTimeInterface $date, string $fingerprint): void
     {
         if (!is_null($this->lastRead) && !is_null($this->fingerprint) && $this->lastRead > $date) {
             return;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Computers\DataTransferObjects;
 
-class ComputerData
+final class ComputerData
 {
     private int $serial;
 

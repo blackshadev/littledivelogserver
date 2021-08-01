@@ -8,7 +8,7 @@ use App\Application\Users\DataTransferObjects\UserProfileData;
 use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\UserRepository;
 
-class UpdateUserProfileUpdater
+final class UpdateUserProfileUpdater
 {
     public function __construct(
         private UserRepository $userRepository,

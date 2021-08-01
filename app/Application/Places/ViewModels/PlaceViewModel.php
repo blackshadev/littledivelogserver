@@ -7,7 +7,7 @@ namespace App\Application\Places\ViewModels;
 use App\Application\ViewModels\ViewModel;
 use App\Domain\Places\Entities\Place;
 
-class PlaceViewModel extends ViewModel
+final class PlaceViewModel extends ViewModel
 {
     protected array $visible = ['place_id', 'name', 'country_code'];
 

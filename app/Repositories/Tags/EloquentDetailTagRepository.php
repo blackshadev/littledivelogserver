@@ -9,7 +9,7 @@ use App\Domain\Tags\Repositories\DetailTagRepository;
 use App\Models\Tag as TagModel;
 use App\Models\User as UserModel;
 
-class EloquentDetailTagRepository implements DetailTagRepository
+final class EloquentDetailTagRepository implements DetailTagRepository
 {
     public function findById(int $id): DetailTag
     {

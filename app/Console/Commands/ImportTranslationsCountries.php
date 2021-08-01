@@ -7,7 +7,7 @@ namespace App\Console\Commands;
 use App\Models\Country;
 use Illuminate\Console\Command;
 
-class ImportTranslationsCountries extends Command
+final class ImportTranslationsCountries extends Command
 {
     protected $signature = 'import:translations:countries {file} {--locale=en} {--header}';
 

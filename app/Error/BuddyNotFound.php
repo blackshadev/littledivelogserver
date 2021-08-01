@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace App\Error;
 
-class BuddyNotFound extends \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+final class BuddyNotFound extends \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 {
 }

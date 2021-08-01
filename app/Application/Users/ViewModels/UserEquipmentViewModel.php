@@ -9,7 +9,7 @@ use App\Domain\Equipment\Entities\Equipment;
 use App\Domain\Equipment\Entities\Tank;
 use App\Domain\Support\Arrg;
 
-class UserEquipmentViewModel extends ViewModel
+final class UserEquipmentViewModel extends ViewModel
 {
     protected array $visible = [
         'tanks',

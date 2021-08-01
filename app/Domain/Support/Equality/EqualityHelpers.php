@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Support\Equality;
 
-class EqualityHelpers
+final class EqualityHelpers
 {
     /**
      * @param Equality[] $array

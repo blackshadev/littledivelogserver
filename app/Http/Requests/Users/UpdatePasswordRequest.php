@@ -6,7 +6,7 @@ namespace App\Http\Requests\Users;
 
 use App\Http\Requests\AuthenticatedRequest;
 
-class UpdatePasswordRequest extends AuthenticatedRequest
+final class UpdatePasswordRequest extends AuthenticatedRequest
 {
     public function rules()
     {

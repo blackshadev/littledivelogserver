@@ -10,7 +10,7 @@ use App\Application\Places\DataTransferObjects\PlaceData;
 use App\Application\Tags\DataTransferObjects\TagData;
 use Carbon\Carbon;
 
-class DiveData
+final class DiveData
 {
     private ?Carbon $date = null;
 
@@ -147,7 +147,7 @@ class DiveData
         $this->buddies = $buddies;
     }
 
-    protected function setData(array $data): void
+    private function setData(array $data): void
     {
         $this->date = Carbon::parse($data['date']) ?? null;
         $this->divetime = $data['divetime'] ?? null;

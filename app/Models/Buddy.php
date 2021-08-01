@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @mixin Builder
  */
-class Buddy extends Model
+final class Buddy extends Model
 {
     use HasFactory;
 

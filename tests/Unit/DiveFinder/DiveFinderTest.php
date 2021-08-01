@@ -16,7 +16,7 @@ use JeroenG\Explorer\Application\SearchCommand;
 use Mockery;
 use Tests\TestCase;
 
-class DiveFinderTest extends TestCase
+final class DiveFinderTest extends TestCase
 {
     private ExplorerDiveFinder $subject;
 

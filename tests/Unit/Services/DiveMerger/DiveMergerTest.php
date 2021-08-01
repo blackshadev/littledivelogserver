@@ -23,7 +23,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class DiveMergerTest extends MockeryTestCase
+final class DiveMergerTest extends MockeryTestCase
 {
     use WithFaker;
     use DatabaseTransactions;

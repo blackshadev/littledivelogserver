@@ -8,7 +8,7 @@ use App\Application\ViewModels\FromEloquentCollection;
 use App\Application\ViewModels\ViewModel;
 use App\Models\Buddy;
 
-class DiveBuddiesViewModel extends ViewModel
+final class DiveBuddiesViewModel extends ViewModel
 {
     use FromEloquentCollection;
 

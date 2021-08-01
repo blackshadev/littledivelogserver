@@ -6,7 +6,7 @@ namespace App\Domain\Buddies\Entities;
 
 use DateTimeInterface;
 
-class DetailBuddy
+final class DetailBuddy
 {
     public function __construct(
         private ?int $id,

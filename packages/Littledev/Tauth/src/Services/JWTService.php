@@ -20,7 +20,7 @@ use Littledev\Tauth\Domain\JWT\JWTToken;
 use Littledev\Tauth\Errors\TokenExpiredException;
 use Littledev\Tauth\Support\JWTConfiguration;
 
-class JWTService implements JWTServiceInterface
+final class JWTService implements JWTServiceInterface
 {
     public const TOKEN_CLAIM = 'tok';
 
@@ -39,7 +39,7 @@ class JWTService implements JWTServiceInterface
         $this->setConfiguration($configuration);
     }
 
-    public function setConfiguration(JWTConfiguration $configuration)
+    public function setConfiguration(JWTConfiguration $configuration): void
     {
         $this->configuration = $configuration;
 

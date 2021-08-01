@@ -8,7 +8,7 @@ use App\Application\ViewModels\ViewModel;
 use App\Domain\Computers\Entities\DetailComputer;
 use DateTimeInterface;
 
-class ComputerListViewModel extends ViewModel
+final class ComputerListViewModel extends ViewModel
 {
     protected array $visible = [
         'id', 'name', 'serial', 'vendor', 'model', 'type', 'dive_count', 'last_read', 'last_fingerprint',

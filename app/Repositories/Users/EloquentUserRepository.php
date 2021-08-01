@@ -8,7 +8,7 @@ use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\UserRepository;
 use App\Models\User as UserModel;
 
-class EloquentUserRepository implements UserRepository
+final class EloquentUserRepository implements UserRepository
 {
     public function save(User $user): void
     {

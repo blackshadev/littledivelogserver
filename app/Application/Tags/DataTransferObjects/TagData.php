@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Tags\DataTransferObjects;
 
-class TagData
+final class TagData
 {
     private ?int $id = null;
 

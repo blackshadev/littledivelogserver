@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\WithFakeTAuthentication;
 
-class ComputerControllerTest extends TestCase
+final class ComputerControllerTest extends TestCase
 {
     use WithFaker;
     use WithFakeTAuthentication;

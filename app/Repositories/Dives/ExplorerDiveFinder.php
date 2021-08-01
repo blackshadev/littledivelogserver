@@ -20,7 +20,7 @@ use JeroenG\Explorer\Domain\Syntax\Nested;
 use JeroenG\Explorer\Domain\Syntax\Range;
 use JeroenG\Explorer\Domain\Syntax\Term;
 
-class ExplorerDiveFinder implements DiveFinder
+final class ExplorerDiveFinder implements DiveFinder
 {
     public function __construct(
         private IndexAdapterInterface $adapter,

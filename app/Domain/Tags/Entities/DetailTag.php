@@ -6,7 +6,7 @@ namespace App\Domain\Tags\Entities;
 
 use DateTimeInterface;
 
-class DetailTag
+final class DetailTag
 {
     public function __construct(
         private ?int $id,

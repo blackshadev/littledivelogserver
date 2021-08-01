@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Users\DataTransferObjects;
 
-class UserProfileData
+final class UserProfileData
 {
     private ?string $name;
 

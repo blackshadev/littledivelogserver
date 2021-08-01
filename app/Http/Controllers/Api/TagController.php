@@ -19,7 +19,7 @@ use App\Http\Requests\Tags\TagRequest;
 use App\Http\Requests\Tags\TagUpdateRequest;
 use App\Models\User;
 
-class TagController extends Controller
+final class TagController extends Controller
 {
     public function __construct(
         private TagCreator $creator,

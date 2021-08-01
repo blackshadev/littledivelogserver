@@ -9,7 +9,7 @@ use App\Domain\Computers\Repositories\ComputerRepository;
 use App\Domain\Users\Entities\User;
 use App\Models\Computer as ComputerModel;
 
-class EloquentComputerRepository implements ComputerRepository
+final class EloquentComputerRepository implements ComputerRepository
 {
     public function findById(int $id): Computer
     {

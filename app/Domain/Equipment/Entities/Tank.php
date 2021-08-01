@@ -6,7 +6,7 @@ namespace App\Domain\Equipment\Entities;
 
 use Webmozart\Assert\Assert;
 
-class Tank
+final class Tank
 {
     public const PRESSURE_TYPE_BAR = 'bar';
 

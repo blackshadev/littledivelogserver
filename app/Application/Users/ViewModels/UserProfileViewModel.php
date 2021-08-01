@@ -7,7 +7,7 @@ namespace App\Application\Users\ViewModels;
 use App\Application\ViewModels\ViewModel;
 use App\Domain\Users\Entities\DetailUser;
 
-class UserProfileViewModel extends ViewModel
+final class UserProfileViewModel extends ViewModel
 {
     protected array $visible = [
         'user_id', 'name', 'email',

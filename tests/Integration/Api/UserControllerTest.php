@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\WithFakeTAuthentication;
 
-class UserControllerTest extends TestCase
+final class UserControllerTest extends TestCase
 {
     use WithFaker;
     use WithFakeTAuthentication;
@@ -24,7 +24,7 @@ class UserControllerTest extends TestCase
         $this->fakedTauth();
     }
 
-    public function testItReturnsEmptyUserProfile()
+    public function testItReturnsEmptyUserProfile(): void
     {
         /** @var User $user */
         $user = User::factory()->createOne();
@@ -44,7 +44,7 @@ class UserControllerTest extends TestCase
             ]);
     }
 
-    public function testItReturnsFilledUserProfile()
+    public function testItReturnsFilledUserProfile(): void
     {
         /** @var User $user */
         $user = User::factory()
@@ -66,13 +66,13 @@ class UserControllerTest extends TestCase
             ]);
     }
 
-    public function testItErrorsOnNonUser()
+    public function testItErrorsOnNonUser(): void
     {
         $this->get(action([UserProfileController::class, 'show']))
             ->assertStatus(403);
     }
 
-    public function testItGetsUsersEquipment()
+    public function testItGetsUsersEquipment(): void
     {
         /** @var Equipment $equipment */
         $equipment = Equipment::factory()

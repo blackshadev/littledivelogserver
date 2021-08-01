@@ -8,7 +8,7 @@ use App\Application\ViewModels\FromEloquentCollection;
 use App\Application\ViewModels\ViewModel;
 use App\Models\DiveTank;
 
-class DiveTankViewModel extends ViewModel
+final class DiveTankViewModel extends ViewModel
 {
     use FromEloquentCollection;
 

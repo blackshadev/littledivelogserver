@@ -6,7 +6,7 @@ namespace App\Http\Requests\Dives;
 
 use App\Http\Requests\AuthenticatedRequest;
 
-class DiveSearchRequest extends AuthenticatedRequest
+final class DiveSearchRequest extends AuthenticatedRequest
 {
     public function rules()
     {

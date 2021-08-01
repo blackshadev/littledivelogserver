@@ -6,7 +6,7 @@ namespace App\Http\Requests\Places;
 
 use App\Http\Requests\AuthenticatedRequest;
 
-class SearchPlaceRequest extends AuthenticatedRequest
+final class SearchPlaceRequest extends AuthenticatedRequest
 {
     public function rules()
     {

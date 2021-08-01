@@ -22,13 +22,7 @@ final class DiveCreator
             date: $diveData->getDate(),
             divetime: $diveData->getDivetime(),
             maxDepth: $diveData->getMaxDepth(),
-            fingerprint: null,
-            computer: null,
-            place: null,
-            tanks: [],
-            tags: [],
-            buddies: [],
-            samples: [],
+            fingerprint: $diveData->getFingerprint(),
         );
 
         $this->diveUpdater->update($dive, $diveData);

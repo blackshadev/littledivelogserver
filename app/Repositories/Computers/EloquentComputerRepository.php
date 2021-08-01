@@ -61,7 +61,7 @@ class EloquentComputerRepository implements ComputerRepository
             type: $model->type,
             serial: $model->serial,
             lastRead: $model->last_read,
-            fingerprint: $model->fingerprint,
+            fingerprint: $model->last_fingerprint,
         );
     }
 

@@ -60,7 +60,7 @@ final class DiveUpdater
         $computer = $diveData->getComputerId() !== null ?
             $this->computerRepository->findById($diveData->getComputerId()) : null;
         $dive->setComputer($computer);
-        if (!is_null($computer)) {
+        if (!is_null($computer) && !is_null($dive->getFingerprint())) {
             $computer->updateLastRead($dive->getDate(), $dive->getFingerprint());
         }
 

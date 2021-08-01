@@ -11,7 +11,7 @@ use DateTimeInterface;
 class ComputerListViewModel extends ViewModel
 {
     protected array $visible = [
-        'computer_id', 'name', 'serial', 'vendor', 'model', 'type', 'dive_count', 'last_read', 'last_fingerprint',
+        'id', 'name', 'serial', 'vendor', 'model', 'type', 'dive_count', 'last_read', 'last_fingerprint',
     ];
 
     public function __construct(
@@ -42,7 +42,7 @@ class ComputerListViewModel extends ViewModel
         );
     }
 
-    public function getComputerId()
+    public function getId()
     {
         return $this->computerId;
     }

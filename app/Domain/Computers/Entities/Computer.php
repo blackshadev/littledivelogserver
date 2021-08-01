@@ -157,7 +157,7 @@ class Computer
 
     public function updateLastRead(DateTimeInterface $date, string $fingerprint)
     {
-        if ($this->lastRead !== null && $this->lastRead > $date) {
+        if (!is_null($this->lastRead) && !is_null($this->fingerprint) && $this->lastRead > $date) {
             return;
         }
 

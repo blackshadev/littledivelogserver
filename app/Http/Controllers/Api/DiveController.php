@@ -88,7 +88,7 @@ class DiveController extends Controller
         DiveBatchRepository $diveBatchRepository,
         DiveMerger $diveMerger,
     ) {
-        $dives = $diveBatchRepository->findByIds($request->vali('dives'));
+        $dives = $diveBatchRepository->findByIds($request->validated()['dives']);
 
         $dive = $diveMerger->merge($dives);
 

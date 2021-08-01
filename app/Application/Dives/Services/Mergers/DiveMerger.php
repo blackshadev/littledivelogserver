@@ -37,8 +37,8 @@ class DiveMerger
         return Dive::new(
             userId: $dives[0]->getUserId(),
             divetime: array_sum(Arrg::call($divesWithComputerPreferred, 'getDivetime')),
-            date: min(...Arrg::call($divesWithComputerPreferred, 'getDate')),
-            maxDepth: max(...Arrg::call($divesWithComputerPreferred, 'getMaxDepth')),
+            date: min(Arrg::call($divesWithComputerPreferred, 'getDate')),
+            maxDepth: max(Arrg::call($divesWithComputerPreferred, 'getMaxDepth')),
             place: Arrg::firstNotNull(Arrg::call($dives, 'getPlace')),
             computer: Arrg::firstNotNull(Arrg::call($divesWithComputerPreferred, 'getComputer')),
             tanks: $this->diveTankMerger->mergeForDives($dives),

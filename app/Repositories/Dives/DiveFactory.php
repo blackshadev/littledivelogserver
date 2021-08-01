@@ -27,7 +27,7 @@ class DiveFactory
     {
         return new Dive(
             diveId: $model->id,
-            date: $model->date,
+            date: $model->date->toDateTimeImmutable(),
             userId: $model->user_id,
             divetime: $model->divetime,
             maxDepth: $model->max_depth,

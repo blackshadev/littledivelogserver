@@ -53,6 +53,7 @@ final class EloquentDiveRepository implements DiveRepository
             $model->max_depth = $dive->getMaxDepth();
             $model->divetime = $dive->getDivetime();
             $model->samples = $dive->getSamples();
+            $model->fingerprint = $dive->getFingerprint();
 
             // Save to ensure we can associate and dissociate entities
             $model->save();

@@ -11,8 +11,8 @@ class DiveMergeRequest extends FormRequest
     public function rules()
     {
         return [
-            'dives' => 'array|min:2',
-            'dives.*' => 'required|exists:users'
+            'dives' => 'required|array|min:2',
+            'dives.*' => 'required|exists:dives,id'
         ];
     }
 }

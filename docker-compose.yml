@@ -17,7 +17,7 @@ services:
     environment:
     - POSTGRES_USER=littledivelog
     - POSTGRES_DB=littledivelog
-    - POSTGRES_PASSWORD=secretTankData
+    - POSTGRES_PASSWORD=secret
     ports:
     - 5432:5432
     volumes:

@@ -14,10 +14,10 @@ use App\Domain\Buddies\Repositories\BuddyRepository;
 use App\Domain\Buddies\Repositories\DetailBuddyRepository;
 use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Buddies\BuddyCreateRequest;
-use App\Http\Requests\Buddies\BuddyDeleteRequest;
-use App\Http\Requests\Buddies\BuddyRequest;
-use App\Http\Requests\Buddies\BuddyUpdateRequest;
+use App\Http\Requests\Buddies\CreateBuddyRequest;
+use App\Http\Requests\Buddies\DeleteBuddyRequest;
+use App\Http\Requests\Buddies\ShowBuddyRequest;
+use App\Http\Requests\Buddies\UpdateBuddyRequest;
 use App\Models\User;
 
 final class BuddyController extends Controller
@@ -37,13 +37,13 @@ final class BuddyController extends Controller
         );
     }
 
-    public function show(BuddyRequest $request)
+    public function show(ShowBuddyRequest $request)
     {
         $detailBuddy = $this->detailRepository->findById($request->getBuddyId());
         return BuddyDetailViewModel::fromDetailBuddy($detailBuddy);
     }
 
-    public function update(BuddyUpdateRequest $request)
+    public function update(UpdateBuddyRequest $request)
     {
         $buddyData = BuddyData::fromArray($request->all());
         $buddy = $request->getBuddy();
@@ -54,7 +54,7 @@ final class BuddyController extends Controller
         return BuddyDetailViewModel::fromDetailBuddy($detailTag);
     }
 
-    public function store(BuddyCreateRequest $request)
+    public function store(CreateBuddyRequest $request)
     {
         $data = BuddyData::fromArray($request->all());
         $user = $request->getCurrentUser();
@@ -65,7 +65,7 @@ final class BuddyController extends Controller
         return BuddyDetailViewModel::fromDetailBuddy($detailTag);
     }
 
-    public function delete(BuddyDeleteRequest $request, BuddyRepository $repository)
+    public function delete(DeleteBuddyRequest $request, BuddyRepository $repository)
     {
         $repository->remove($request->getBuddy());
         return response()->noContent();

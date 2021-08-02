@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\DiveMerger;
 
-use App\Application\Dives\Services\Mergers\DiveSampleCombiner;
+use App\Application\Dives\Services\Mergers\DiveSampleCombinerImpl;
 use App\Domain\Dives\Entities\Dive;
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +17,7 @@ final class DiveSampleCombinerTest extends TestCase
      */
     public function testItWorks(array $dives, array $expectedSamples): void
     {
-        $combiner = new DiveSampleCombiner();
+        $combiner = new DiveSampleCombinerImpl();
         $result = $combiner->combine($dives);
 
         self::assertEquals($expectedSamples, $result);

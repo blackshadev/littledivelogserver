@@ -34,10 +34,10 @@ final class UserProfileViewModel extends ViewModel
             name: $user->getName(),
             email: $user->getEmail(),
             inserted: $user->getInserted(),
-            diveCount: $user->getDiveCount(),
+            tagCount: $user->getTagCount(),
             buddyCount: $user->getBuddyCount(),
             computerCount: $user->getComputerCount(),
-            tagCount: $user->getTagCount(),
+            diveCount: $user->getDiveCount(),
         );
     }
 

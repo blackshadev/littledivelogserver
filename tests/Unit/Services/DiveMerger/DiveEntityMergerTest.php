@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\DiveMerger;
 
-use App\Application\Dives\Services\Mergers\DiveEntityMerger;
+use App\Application\Dives\Services\Mergers\DiveEntityMergerImpl;
 use App\Domain\Buddies\Entities\Buddy;
 use App\Domain\Tags\Entities\Tag;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +14,7 @@ final class DiveEntityMergerTest extends TestCase
     /** @dataProvider entityDataProvider */
     public function testItMergesEntities(array $input, array $expected): void
     {
-        $merger = new DiveEntityMerger();
+        $merger = new DiveEntityMergerImpl();
 
         $result = $merger->unique($input);
 

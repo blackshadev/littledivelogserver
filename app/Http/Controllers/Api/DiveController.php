@@ -18,17 +18,17 @@ use App\Domain\Dives\Repositories\DiveRepository;
 use App\Domain\Dives\Repositories\DiveSummaryRepository;
 use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AuthenticatedRequest;
 use App\Http\Requests\Dives\DiveCreateRequest;
 use App\Http\Requests\Dives\DiveDeleteRequest;
 use App\Http\Requests\Dives\DiveMergeRequest;
-use App\Http\Requests\Dives\DiveRequest;
 use App\Http\Requests\Dives\DiveSearchRequest;
 use App\Http\Requests\Dives\DiveUpdateRequest;
+use App\Http\Requests\Dives\ListDiveRequest;
+use App\Http\Requests\Dives\ShowDiveRequest;
 
 final class DiveController extends Controller
 {
-    public function index(AuthenticatedRequest $request, DiveSummaryRepository $diveSummaryRepository)
+    public function index(ListDiveRequest $request, DiveSummaryRepository $diveSummaryRepository)
     {
         $user = $request->getCurrentUser();
         $dives = $diveSummaryRepository->listForUser($user);
@@ -54,12 +54,12 @@ final class DiveController extends Controller
         );
     }
 
-    public function show(DiveRequest $request)
+    public function show(ShowDiveRequest $request)
     {
         return DiveDetailViewModel::fromDive($request->getDive());
     }
 
-    public function samples(DiveRequest $request)
+    public function samples(ShowDiveRequest $request)
     {
         return $request->getDive()->getSamples();
     }

@@ -13,7 +13,7 @@ use Littledev\Tauth\Errors\InvalidCredentialsException;
 use Littledev\Tauth\Services\TauthRepositoryInterface;
 use Littledev\Tauth\Services\TauthServiceInterface;
 
-final class TauthController extends Controller
+abstract class TauthController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 

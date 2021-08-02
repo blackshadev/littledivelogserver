@@ -11,8 +11,8 @@ use App\Domain\Computers\Entities\DetailComputer;
 use App\Domain\Computers\Repositories\DetailComputerRepository;
 use App\Domain\Support\Arrg;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Computers\ComputerRequest;
-use App\Http\Requests\Computers\ComputerUpsertRequest;
+use App\Http\Requests\Computers\ShowComputerRequest;
+use App\Http\Requests\Computers\UpsertComputerRequest;
 use App\Models\User;
 
 final class ComputerController extends Controller
@@ -31,13 +31,13 @@ final class ComputerController extends Controller
         );
     }
 
-    public function show(ComputerRequest $request)
+    public function show(ShowComputerRequest $request)
     {
         $detailComputer = $this->detailComputerRepository->findById($request->getComputerId());
         return ComputerListViewModel::fromDetailModel($detailComputer);
     }
 
-    public function upsert(ComputerUpsertRequest $request)
+    public function upsert(UpsertComputerRequest $request)
     {
         $computer = $this->creator->create($request->getCurrentUser(), ComputerData::fromArray($request->validated()));
 

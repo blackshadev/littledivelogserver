@@ -15,7 +15,7 @@ use App\Domain\Equipment\Repositories\EquipmentRepository;
 use App\Domain\Users\Repositories\CurrentUserRepository;
 use App\Domain\Users\Repositories\DetailUserRepository;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Equipment\EquipmentRequest;
+use App\Http\Requests\Equipment\ShowEquipmentRequest;
 use App\Http\Requests\Equipment\UpdateEquipmentRequest;
 use App\Http\Requests\Users\UpdatePasswordRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
@@ -60,7 +60,7 @@ final class UserProfileController extends Controller
         return response(null, 201);
     }
 
-    public function equipment(EquipmentRequest $request)
+    public function equipment(ShowEquipmentRequest $request)
     {
         $equipment = $request->getEquipment();
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Services\DiveMerger;
 
 use App\Application\Dives\Exceptions\CannotMergeTankException;
-use App\Application\Dives\Services\Mergers\DiveTankMerger;
+use App\Application\Dives\Services\Mergers\DiveTankMergerImpl;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Entities\DiveTank;
 use App\Domain\Dives\ValueObjects\GasMixture;
@@ -18,7 +18,7 @@ final class DiveTankMergerTest extends TestCase
 
     public function testItMergesEmptyDiveTanks(): void
     {
-        $merger = new DiveTankMerger();
+        $merger = new DiveTankMergerImpl();
 
         $result = $merger->merge([]);
 
@@ -28,7 +28,7 @@ final class DiveTankMergerTest extends TestCase
     /** @dataProvider diveTankDataProvider */
     public function testItMergesTanks(array $tanks, DiveTank $expected): void
     {
-        $merger = new DiveTankMerger();
+        $merger = new DiveTankMergerImpl();
 
         $result = $merger->merge($tanks);
 
@@ -72,7 +72,7 @@ final class DiveTankMergerTest extends TestCase
     {
         $this->expectException(CannotMergeTankException::class);
 
-        $merger = new DiveTankMerger();
+        $merger = new DiveTankMergerImpl();
 
         $merger->merge($tanks);
     }
@@ -108,7 +108,7 @@ final class DiveTankMergerTest extends TestCase
      */
     public function testItMergesForDives(array $dives, array $expected): void
     {
-        $merger = new DiveTankMerger();
+        $merger = new DiveTankMergerImpl();
 
         $result = $merger->mergeForDives($dives);
 

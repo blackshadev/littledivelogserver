@@ -8,7 +8,7 @@ use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\CurrentUserRepository;
 use Illuminate\Foundation\Http\FormRequest;
 
-final class AuthenticatedRequest extends FormRequest
+abstract class AuthenticatedRequest extends FormRequest
 {
     public function __construct(
         private CurrentUserRepository $currentUserRepository,

@@ -7,6 +7,7 @@ namespace App\Repositories\Dives;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Repositories\DiveBatchRepository;
 use App\Domain\Dives\Repositories\DiveRepository;
+use App\Domain\Factories\Dives\DiveFactory;
 use App\Domain\Support\Arrg;
 use App\Models\Dive as DiveModel;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ final class EloquentDiveBatchRepository implements DiveBatchRepository
     {
         return DiveModel::whereIn('id', $diveIds)
             ->get()
-            ->map(fn (DiveModel $model) => $this->diveFactory->createFromModel($model))
+            ->map(fn (DiveModel $model) => $this->diveFactory->createFrom($model))
             ->toArray();
     }
 

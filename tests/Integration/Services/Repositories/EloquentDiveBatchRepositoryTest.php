@@ -6,9 +6,9 @@ namespace Tests\Integration\Services\Repositories;
 
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Repositories\DiveRepository;
+use App\Domain\Factories\Dives\DiveFactory;
 use App\Domain\Support\Arrg;
 use App\Models\Dive as DiveModel;
-use App\Repositories\Dives\DiveFactory;
 use App\Repositories\Dives\EloquentDiveBatchRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
@@ -49,7 +49,7 @@ final class EloquentDiveBatchRepositoryTest extends TestCase
         ])->toArray();
         $input = Arrg::get($models, 'id');
 
-        $this->diveFactory->expects('createFromModel')
+        $this->diveFactory->expects('createFrom')
             ->times($times)
             ->withArgs(fn ($model) => in_array($model->id, $input, true))
             ->andReturnUsing(fn (DiveModel $model) => $this->createExistingDiveFromModel($model));

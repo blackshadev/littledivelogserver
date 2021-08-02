@@ -13,9 +13,9 @@ use App\Domain\Tags\Entities\DetailTag;
 use App\Domain\Tags\Repositories\DetailTagRepository;
 use App\Domain\Tags\Repositories\TagRepository;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Tags\ShowTagRequest;
 use App\Http\Requests\Tags\TagCreateRequest;
 use App\Http\Requests\Tags\TagDeleteRequest;
-use App\Http\Requests\Tags\TagRequest;
 use App\Http\Requests\Tags\TagUpdateRequest;
 use App\Models\User;
 
@@ -36,7 +36,7 @@ final class TagController extends Controller
         );
     }
 
-    public function show(TagRequest $request)
+    public function show(ShowTagRequest $request)
     {
         $detailTag = $this->detailTagRepository->findById($request->getTagId());
 

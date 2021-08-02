@@ -10,7 +10,7 @@ use App\Domain\Users\Repositories\CurrentUserRepository;
 use App\Error\ComputerNotFound;
 use App\Http\Requests\AuthenticatedRequest;
 
-final class ComputerRequest extends AuthenticatedRequest
+abstract class ComputerRequest extends AuthenticatedRequest
 {
     public function __construct(
         private ComputerRepository $repository,

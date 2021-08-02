@@ -25,8 +25,7 @@ final class TauthJWTServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->configuration = \Mockery::mock(JWTConfiguration::class);
-        $this->configuration->makePartial();
+        $this->configuration = new JWTConfiguration();
 
         $this->configuration->setSigner('hs256');
         $this->configuration->setKey($this->faker->password);

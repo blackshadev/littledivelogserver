@@ -10,7 +10,7 @@ use App\Domain\Users\Repositories\CurrentUserRepository;
 use App\Http\Requests\AuthenticatedRequest;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-final class DiveRequest extends AuthenticatedRequest
+abstract class DiveRequest extends AuthenticatedRequest
 {
     public function __construct(
         private DiveRepository $diveRepository,

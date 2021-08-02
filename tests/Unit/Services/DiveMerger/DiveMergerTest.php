@@ -12,9 +12,12 @@ namespace Tests\Unit\Services\DiveMerger;
 
 use App\Application\Dives\Exceptions\CannotMergeDivesException;
 use App\Application\Dives\Services\Mergers\DiveEntityMerger;
-use App\Application\Dives\Services\Mergers\DiveMerger;
+use App\Application\Dives\Services\Mergers\DiveEntityMergerImpl;
+use App\Application\Dives\Services\Mergers\DiveMergerImpl;
 use App\Application\Dives\Services\Mergers\DiveSampleCombiner;
+use App\Application\Dives\Services\Mergers\DiveSampleCombinerImpl;
 use App\Application\Dives\Services\Mergers\DiveTankMerger;
+use App\Application\Dives\Services\Mergers\DiveTankMergerImpl;
 use App\Domain\Computers\Entities\Computer;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Places\Entities\Place;
@@ -32,17 +35,17 @@ final class DiveMergerTest extends MockeryTestCase
 
     public const DATETIME = '2020-10-09 10:10:10';
 
-    private DiveMerger $subject;
+    private DiveMergerImpl $subject;
 
-    private DiveTankMerger |
+    private DiveTankMergerImpl |
 
 Mockery\MockInterface $diveTankMerger;
 
-    private DiveEntityMerger |
+    private DiveEntityMergerImpl |
 
 Mockery\MockInterface $entityMerger;
 
-    private DiveSampleCombiner |
+    private DiveSampleCombinerImpl |
 
 Mockery\MockInterface $diveSampleCombiner;
 
@@ -54,7 +57,7 @@ Mockery\MockInterface $diveSampleCombiner;
         $this->diveTankMerger = Mockery::mock(DiveTankMerger::class);
         $this->diveSampleCombiner = Mockery::mock(DiveSampleCombiner::class);
 
-        $this->subject = new DiveMerger(
+        $this->subject = new DiveMergerImpl(
             $this->diveTankMerger,
             $this->entityMerger,
             $this->diveSampleCombiner,

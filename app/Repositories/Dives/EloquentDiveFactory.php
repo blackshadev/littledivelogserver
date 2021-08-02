@@ -8,11 +8,13 @@ use App\Domain\Buddies\Repositories\BuddyRepository;
 use App\Domain\Computers\Repositories\ComputerRepository;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Repositories\DiveTankRepository;
+use App\Domain\Factories\Dives\DiveFactory;
 use App\Domain\Places\Repositories\PlaceRepository;
 use App\Domain\Tags\Repositories\TagRepository;
 use App\Models\Dive as DiveModel;
+use Webmozart\Assert\Assert;
 
-final class DiveFactory
+final class EloquentDiveFactory implements DiveFactory
 {
     public function __construct(
         private PlaceRepository $placeRepository,
@@ -23,8 +25,10 @@ final class DiveFactory
     ) {
     }
 
-    public function createFromModel(DiveModel $model): Dive
+    public function createFrom($model): Dive
     {
+        Assert::isInstanceOf($model, DiveModel::class);
+
         return new Dive(
             diveId: $model->id,
             date: $model->date->toDateTimeImmutable(),

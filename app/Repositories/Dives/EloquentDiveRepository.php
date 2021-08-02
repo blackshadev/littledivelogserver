@@ -12,6 +12,7 @@ use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Entities\DiveTank;
 use App\Domain\Dives\Repositories\DiveRepository;
 use App\Domain\Dives\Repositories\DiveTankRepository;
+use App\Domain\Factories\Dives\DiveFactory;
 use App\Domain\Places\Entities\Place;
 use App\Domain\Places\Repositories\PlaceRepository;
 use App\Domain\Support\Arrg;
@@ -36,7 +37,7 @@ final class EloquentDiveRepository implements DiveRepository
     public function findById(int $diveId): Dive
     {
         $model = DiveModel::findOrFail($diveId);
-        return $this->diveFactory->createFromModel($model);
+        return $this->diveFactory->createFrom($model);
     }
 
     public function save(Dive $dive): void

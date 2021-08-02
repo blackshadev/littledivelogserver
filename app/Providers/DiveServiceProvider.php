@@ -10,9 +10,13 @@ use App\Application\Dives\Services\DiveFinder;
 use App\Application\Dives\Services\DiveTankCreator;
 use App\Application\Dives\Services\DiveTankUpdater;
 use App\Application\Dives\Services\Mergers\DiveEntityMerger;
+use App\Application\Dives\Services\Mergers\DiveEntityMergerImpl;
 use App\Application\Dives\Services\Mergers\DiveMerger;
+use App\Application\Dives\Services\Mergers\DiveMergerImpl;
 use App\Application\Dives\Services\Mergers\DiveSampleCombiner;
+use App\Application\Dives\Services\Mergers\DiveSampleCombinerImpl;
 use App\Application\Dives\Services\Mergers\DiveTankMerger;
+use App\Application\Dives\Services\Mergers\DiveTankMergerImpl;
 use App\Application\Places\Services\PlaceFinder;
 use App\Application\Tags\Services\TagCreator;
 use App\Application\Tags\Services\TagUpdater;
@@ -28,6 +32,7 @@ use App\Domain\Dives\Repositories\DiveRepository;
 use App\Domain\Dives\Repositories\DiveSummaryRepository;
 use App\Domain\Dives\Repositories\DiveTankRepository;
 use App\Domain\Equipment\Repositories\EquipmentRepository;
+use App\Domain\Factories\Dives\DiveFactory;
 use App\Domain\Places\Repositories\PlaceRepository;
 use App\Domain\Tags\Repositories\DetailTagRepository;
 use App\Domain\Tags\Repositories\TagRepository;
@@ -40,8 +45,8 @@ use App\Repositories\Buddies\EloquentDetailBuddyRepository;
 use App\Repositories\Computers\EloquentComputerRepository;
 use App\Repositories\Computers\EloquentDetailComputerRepository;
 use App\Repositories\Countries\EloquentCountryRepository;
-use App\Repositories\Dives\DiveFactory;
 use App\Repositories\Dives\EloquentDiveBatchRepository;
+use App\Repositories\Dives\EloquentDiveFactory;
 use App\Repositories\Dives\EloquentDiveRepository;
 use App\Repositories\Dives\EloquentDiveSummaryRepository;
 use App\Repositories\Dives\EloquentDiveTankRepository;
@@ -102,11 +107,11 @@ final class DiveServiceProvider extends ServiceProvider
         $this->app->singleton(DiveTankUpdater::class);
         $this->app->singleton(DiveFinder::class, ExplorerDiveFinder::class);
 
-        $this->app->singleton(DiveFactory::class);
-        $this->app->singleton(DiveMerger::class);
-        $this->app->singleton(DiveEntityMerger::class);
-        $this->app->singleton(DiveTankMerger::class);
-        $this->app->singleton(DiveSampleCombiner::class);
+        $this->app->singleton(DiveFactory::class, EloquentDiveFactory::class);
+        $this->app->singleton(DiveMerger::class, DiveMergerImpl::class);
+        $this->app->singleton(DiveEntityMerger::class, DiveEntityMergerImpl::class);
+        $this->app->singleton(DiveTankMerger::class, DiveTankMergerImpl::class);
+        $this->app->singleton(DiveSampleCombiner::class, DiveSampleCombinerImpl::class);
     }
 
     /**

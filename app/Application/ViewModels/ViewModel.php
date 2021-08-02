@@ -9,9 +9,9 @@ use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Database\Eloquent\JsonEncodingException;
 use JsonSerializable;
 
-final class ViewModel implements Jsonable, JsonSerializable, Arrayable
+abstract class ViewModel implements Jsonable, JsonSerializable, Arrayable
 {
-    private array $visible = [];
+    protected array $visible = [];
 
     public function __get(string $name)
     {

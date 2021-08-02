@@ -9,7 +9,7 @@ use App\Domain\Equipment\Repositories\EquipmentRepository;
 use App\Domain\Users\Repositories\CurrentUserRepository;
 use App\Http\Requests\AuthenticatedRequest;
 
-final class EquipmentRequest extends AuthenticatedRequest
+abstract class EquipmentRequest extends AuthenticatedRequest
 {
     public function __construct(
         private EquipmentRepository $equipmentRepository,

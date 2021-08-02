@@ -38,7 +38,7 @@ final class ComputerControllerTest extends TestCase
 
         $data = $resp->json();
         self::assertIsArray($data);
-        self::assertArrayHasKey('computer_id', $data[0]);
+        self::assertArrayHasKey('id', $data[0]);
         self::assertArrayHasKey('serial', $data[0]);
         self::assertArrayHasKey('vendor', $data[0]);
         self::assertArrayHasKey('model', $data[0]);
@@ -60,7 +60,7 @@ final class ComputerControllerTest extends TestCase
 
         $this->postJson(action([ComputerController::class, 'upsert']), $data)
             ->assertStatus(200)
-            ->assertJsonStructure(['computer_id', 'name', 'serial', 'vendor', 'model', 'type']);
+            ->assertJsonStructure(['id', 'name', 'serial', 'vendor', 'model', 'type']);
 
         $this->assertDatabaseHas(
             'computers',
@@ -82,7 +82,7 @@ final class ComputerControllerTest extends TestCase
 
         $this->postJson(action([ComputerController::class, 'upsert']), $data)
             ->assertStatus(200)
-            ->assertJsonStructure(['computer_id', 'name', 'serial', 'vendor', 'model', 'type']);
+            ->assertJsonStructure(['id', 'name', 'serial', 'vendor', 'model', 'type']);
 
         $this->assertDatabaseHas(
             'computers',

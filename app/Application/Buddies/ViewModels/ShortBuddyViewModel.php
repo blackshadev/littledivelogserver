@@ -9,7 +9,7 @@ use App\Domain\Buddies\Entities\Buddy;
 
 final class ShortBuddyViewModel extends ViewModel
 {
-    protected array $visible = ['id', 'text', 'color'];
+    protected array $visible = ['buddy_id', 'text', 'color'];
 
     public function __construct(
         private int $id,
@@ -23,7 +23,7 @@ final class ShortBuddyViewModel extends ViewModel
         return new self($buddy->getId(), $buddy->getName(), $buddy->getColor());
     }
 
-    public function getId(): int
+    public function getBuddyId(): int
     {
         return $this->id;
     }

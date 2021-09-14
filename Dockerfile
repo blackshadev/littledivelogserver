@@ -34,8 +34,6 @@ RUN apk add --no-cache \
     php8-zip \
     php8-zlib
 
-RUN sed -ie 's/memory_limit = [0-9]\{0,3\}M/memory_limit = '512M'/' /etc/php8/php.ini
-
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY ./docker/ /
 RUN ln /usr/bin/php8 /usr/bin/php

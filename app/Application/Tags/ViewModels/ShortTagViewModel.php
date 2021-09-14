@@ -9,7 +9,7 @@ use App\Domain\Tags\Entities\Tag;
 
 final class ShortTagViewModel extends ViewModel
 {
-    protected array $visible = ['id', 'text', 'color'];
+    protected array $visible = ['tag_id', 'text', 'color'];
 
     public function __construct(
         private int $id,

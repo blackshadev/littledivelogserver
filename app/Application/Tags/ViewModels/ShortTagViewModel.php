@@ -23,7 +23,7 @@ final class ShortTagViewModel extends ViewModel
         return new self($tag->getId(), $tag->getText(), $tag->getColor());
     }
 
-    public function getId(): int
+    public function getTagId(): int
     {
         return $this->id;
     }

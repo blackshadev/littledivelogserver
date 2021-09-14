@@ -48,8 +48,8 @@ final class DiveShowTest extends TestCase
                 'divetime',
                 'max_depth',
                 'place' => ['place_id', 'name', 'country_code'],
-                'tags' => [['id', 'text', 'color']],
-                'buddies' => [['id', 'text', 'color']],
+                'tags' => [['tag_id', 'text', 'color']],
+                'buddies' => [['buddy_id', 'text', 'color']],
                 'tanks',
                 'samples',
             ]);

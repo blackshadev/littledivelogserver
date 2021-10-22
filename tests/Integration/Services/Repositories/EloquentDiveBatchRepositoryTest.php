@@ -109,7 +109,8 @@ final class EloquentDiveBatchRepositoryTest extends TestCase
         return Dive::existing(
             diveId: $model->id,
             userId: $model->user_id,
-            date: $model->date,
+            updated: $model->updated_at->toDateTimeImmutable(),
+            date: $model->date
         );
     }
 }

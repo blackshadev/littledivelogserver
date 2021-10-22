@@ -130,7 +130,12 @@ final class EloquentDiveRepositoryTest extends TestCase
     {
         $model = DiveModel::factory()->for($this->user)->createOne();
 
-        $dive = Dive::existing($model->id, $model->user->id, $model->date->toDateTimeImmutable());
+        $dive = Dive::existing(
+            $model->id,
+            $model->user->id,
+            $model->updated_at->toDateTimeImmutable(),
+            $model->date->toDateTimeImmutable()
+        );
 
         $this->subject->remove($dive);
 

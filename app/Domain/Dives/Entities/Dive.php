@@ -16,6 +16,7 @@ final class Dive
     public function __construct(
         private ?int $diveId,
         private ?int $userId,
+        private DateTimeInterface $updated,
         private ?DateTimeInterface $date,
         private ?int $divetime,
         private ?float $maxDepth,
@@ -25,7 +26,7 @@ final class Dive
         private array $tanks,
         private array $tags,
         private array $buddies,
-        private ?array $samples,
+        private ?array $samples
     ) {
         Assert::allIsInstanceOf($tanks, DiveTank::class);
         Assert::allIsInstanceOf($tags, Tag::class);
@@ -35,6 +36,7 @@ final class Dive
     public static function existing(
         int $diveId,
         int $userId,
+        DateTimeInterface $updated,
         ?DateTimeInterface $date,
         ?int $divetime = null,
         ?float $maxDepth = null,
@@ -49,6 +51,7 @@ final class Dive
         return new self(
             diveId: $diveId,
             userId: $userId,
+            updated: $updated,
             date: $date,
             divetime: $divetime,
             maxDepth: $maxDepth,
@@ -58,7 +61,7 @@ final class Dive
             tanks: $tanks,
             tags: $tags,
             buddies: $buddies,
-            samples: $samples,
+            samples: $samples
         );
     }
 
@@ -78,6 +81,7 @@ final class Dive
         return new self(
             diveId: null,
             userId: $userId,
+            updated: new \DateTimeImmutable(),
             date: $date,
             divetime: $divetime,
             maxDepth: $maxDepth,
@@ -87,7 +91,7 @@ final class Dive
             tanks: $tanks,
             tags: $tags,
             buddies: $buddies,
-            samples: $samples,
+            samples: $samples
         );
     }
 
@@ -222,5 +226,10 @@ final class Dive
     public function isExisting(): bool
     {
         return $this->diveId !== null;
+    }
+
+    public function getUpdated(): DateTimeInterface
+    {
+        return $this->updated;
     }
 }

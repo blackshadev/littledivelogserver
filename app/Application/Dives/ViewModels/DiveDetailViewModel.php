@@ -19,7 +19,7 @@ final class DiveDetailViewModel extends ViewModel
     protected array $visible = [
         'dive_id', 'date', 'divetime',
         'max_depth', 'place', 'buddies',
-        'tags', 'tanks', 'samples'
+        'tags', 'tanks', 'samples', 'updated'
     ];
 
     /**
@@ -37,6 +37,7 @@ final class DiveDetailViewModel extends ViewModel
         private array $buddies,
         private array $diveTanks,
         private array $samples,
+        private \DateTimeInterface $updated,
     ) {
     }
 
@@ -52,6 +53,7 @@ final class DiveDetailViewModel extends ViewModel
             Arrg::map($dive->getBuddies(), fn (Buddy $buddy) => ShortBuddyViewModel::fromBuddy($buddy)),
             Arrg::map($dive->getTanks(), fn (DiveTank $diveTank) => DiveTankViewModel::fromDiveTank($diveTank)),
             $dive->getSamples(),
+            $dive->getUpdated(),
         );
     }
 
@@ -98,5 +100,10 @@ final class DiveDetailViewModel extends ViewModel
     public function getSamples(): array
     {
         return $this->samples;
+    }
+
+    public function getUpdated(): string
+    {
+        return $this->updated->format(\DateTimeInterface::ATOM);
     }
 }

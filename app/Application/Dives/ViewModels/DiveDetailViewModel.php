@@ -11,6 +11,7 @@ use App\Application\ViewModels\ViewModel;
 use App\Domain\Buddies\Entities\Buddy;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Entities\DiveTank;
+use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\Support\Arrg;
 use App\Domain\Tags\Entities\Tag;
 
@@ -19,7 +20,7 @@ final class DiveDetailViewModel extends ViewModel
     protected array $visible = [
         'dive_id', 'date', 'divetime',
         'max_depth', 'place', 'buddies',
-        'tags', 'tanks', 'samples', 'updated'
+        'tags', 'tanks', 'updated'
     ];
 
     /**
@@ -28,7 +29,7 @@ final class DiveDetailViewModel extends ViewModel
      * @param DiveTankViewModel[] $diveTanks
      */
     public function __construct(
-        private int $diveId,
+        private DiveId $diveId,
         private ?\DateTimeInterface $date,
         private ?int $divetime,
         private ?float $maxDepth,
@@ -36,7 +37,6 @@ final class DiveDetailViewModel extends ViewModel
         private array $tags,
         private array $buddies,
         private array $diveTanks,
-        private array $samples,
         private \DateTimeInterface $updated,
     ) {
     }
@@ -52,14 +52,13 @@ final class DiveDetailViewModel extends ViewModel
             Arrg::map($dive->getTags(), fn (Tag $tag) => ShortTagViewModel::fromTag($tag)),
             Arrg::map($dive->getBuddies(), fn (Buddy $buddy) => ShortBuddyViewModel::fromBuddy($buddy)),
             Arrg::map($dive->getTanks(), fn (DiveTank $diveTank) => DiveTankViewModel::fromDiveTank($diveTank)),
-            $dive->getSamples(),
             $dive->getUpdated(),
         );
     }
 
     public function getDiveId()
     {
-        return $this->diveId;
+        return $this->diveId->value();
     }
 
     public function getDivetime(): ?int

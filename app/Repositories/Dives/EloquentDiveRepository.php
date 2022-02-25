@@ -10,8 +10,10 @@ use App\Domain\Computers\Entities\Computer;
 use App\Domain\Computers\Repositories\ComputerRepository;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Entities\DiveTank;
+use App\Domain\Dives\Entities\DiveWithSamples;
 use App\Domain\Dives\Repositories\DiveRepository;
 use App\Domain\Dives\Repositories\DiveTankRepository;
+use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\Factories\Dives\DiveFactory;
 use App\Domain\Places\Entities\Place;
 use App\Domain\Places\Repositories\PlaceRepository;
@@ -34,15 +36,16 @@ final class EloquentDiveRepository implements DiveRepository
     ) {
     }
 
-    public function findById(int $diveId): Dive
+    public function findById(DiveId $diveId): Dive
     {
-        $model = DiveModel::findOrFail($diveId);
+        $model = DiveModel::query()->select(DiveModel::DIVE_COLUMNS)->findOrFail($diveId->value());
         return $this->diveFactory->createFrom($model);
     }
 
-    public function save(Dive $dive): void
+    public function save(Dive $dive): DiveId
     {
-        DB::transaction(function () use ($dive): void {
+        $id = DiveId::new();
+        DB::transaction(function () use ($dive, &$id): void {
             if ($dive->isExisting()) {
                 $model = DiveModel::findOrFail($dive->getDiveId());
             } else {
@@ -53,13 +56,13 @@ final class EloquentDiveRepository implements DiveRepository
             $model->date = $dive->getDate();
             $model->max_depth = $dive->getMaxDepth();
             $model->divetime = $dive->getDivetime();
-            $model->samples = $dive->getSamples();
             $model->fingerprint = $dive->getFingerprint();
 
             // Save to ensure we can associate and dissociate entities
             $model->save();
 
-            $dive->setDiveId($model->id);
+            $id = DiveId::existing($model->id);
+            $dive->setDiveId($id);
 
             $place = $dive->getPlace();
             $this->setPlace($model, $place);
@@ -73,8 +76,16 @@ final class EloquentDiveRepository implements DiveRepository
 
             $this->setTanks($model, $dive->getTanks());
 
+            if ($dive instanceof DiveWithSamples) {
+                $model->samples = $dive->getSamples();
+            }
+
             $model->save();
+
+            $dive->setUpdated($model->updated_at->toDateTimeImmutable());
         });
+
+        return $id;
     }
 
     public function remove(Dive $dive): void

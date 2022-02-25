@@ -18,7 +18,8 @@ final class EloquentDiveSummaryRepository implements DiveSummaryRepository
     /** @return DiveSummary[] */
     public function listForUser(User $user): array
     {
-        return Dive::with(['buddies', 'tags'])
+        return Dive::query()->select(Dive::DIVE_COLUMNS)
+            ->with(['tags', 'place'])
             ->where('user_id', $user->getId())
             ->orderBy('date', 'desc')
             ->get()
@@ -28,7 +29,9 @@ final class EloquentDiveSummaryRepository implements DiveSummaryRepository
 
     public function findByIds(array $ids): array
     {
-        return Dive::with(['buddies', 'tags'])
+        return Dive::query()
+            ->select(Dive::DIVE_COLUMNS)
+            ->with(['buddies', 'tags', 'place'])
             ->whereIn('id', $ids)
             ->get()
             ->map(fn (Dive $dive) => $this->createDiveSummaryFromModel($dive))
@@ -38,8 +41,8 @@ final class EloquentDiveSummaryRepository implements DiveSummaryRepository
     private function createDiveSummaryFromModel(Dive $dive): DiveSummary
     {
         /** @var PlaceModel|null $place */
-        $place = $dive->place()->first();
-        $tags = $dive->tags()->get()
+        $place = $dive->place;
+        $tags = $dive->tags
             ->map(fn (TagModel $tag) => $this->createTagFromModel($tag))
             ->toArray();
 
@@ -56,9 +59,9 @@ final class EloquentDiveSummaryRepository implements DiveSummaryRepository
     {
         return Place::existing(
             id: $model->id,
+            createdBy: $model->created_by,
             name: $model->name,
             countryCode: $model->country_code,
-            createdBy: $model->created_by,
         );
     }
 

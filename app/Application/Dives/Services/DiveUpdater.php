@@ -15,6 +15,7 @@ use App\Domain\Computers\Repositories\ComputerRepository;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Entities\DiveTank;
 use App\Domain\Dives\Repositories\DiveRepository;
+use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\Dives\ValueObjects\GasMixture;
 use App\Domain\Dives\ValueObjects\TankPressures;
 use App\Domain\Support\Arrg;
@@ -32,7 +33,7 @@ final class DiveUpdater
     ) {
     }
 
-    public function update(Dive $dive, DiveData $diveData): void
+    public function update(Dive $dive, DiveData $diveData): DiveId
     {
         $user = $this->userRepository->getCurrentUser();
 
@@ -85,6 +86,6 @@ final class DiveUpdater
         );
         $dive->setTanks($tanks);
 
-        $this->diveRepository->save($dive);
+        return $this->diveRepository->save($dive);
     }
 }

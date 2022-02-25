@@ -14,7 +14,7 @@ final class EloquentDetailBuddyRepository implements DetailBuddyRepository
     /** @return DetailBuddy[] */
     public function listForUser(int $userId): array
     {
-        return User::findOrFail($userId)->buddies()->get()
+        return User::findOrFail($userId)->buddies()->orderBy('id')->get()
             ->map(function (BuddyModel $model) {
                 return $this->fromModel($model);
             })->toArray();
@@ -37,8 +37,9 @@ final class EloquentDetailBuddyRepository implements DetailBuddyRepository
             name: $model->name,
             color: $model->color,
             email: $model->email,
-            diveCount: $model->dives()->count(),
             lastDive: $lastDiveDate,
+            diveCount: $model->dives()->count(),
+            updated: $model->updated_at->toDateTimeImmutable()
         );
     }
 }

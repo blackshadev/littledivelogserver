@@ -21,6 +21,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dives\DiveCreateRequest;
 use App\Http\Requests\Dives\DiveDeleteRequest;
 use App\Http\Requests\Dives\DiveMergeRequest;
+use App\Http\Requests\Dives\DiveSamplesRequest;
 use App\Http\Requests\Dives\DiveSearchRequest;
 use App\Http\Requests\Dives\DiveUpdateRequest;
 use App\Http\Requests\Dives\ListDiveRequest;
@@ -59,28 +60,28 @@ final class DiveController extends Controller
         return DiveDetailViewModel::fromDive($request->getDive());
     }
 
-    public function samples(ShowDiveRequest $request)
+    public function samples(DiveSamplesRequest $request)
     {
-        return $request->getDive()->getSamples();
+        return $request->getDiveSamples()->samples();
     }
 
-    public function update(DiveUpdateRequest $request, DiveUpdater $diveUpdater)
+    public function update(DiveUpdateRequest $request, DiveUpdater $diveUpdater, DiveRepository $diveRepository)
     {
         $dive = $request->getDive();
         $diveData = DiveData::fromArray($request->all());
 
-        $diveUpdater->update($dive, $diveData);
+        $id = $diveUpdater->update($dive, $diveData);
 
-        return DiveDetailViewModel::fromDive($dive);
+        return DiveDetailViewModel::fromDive($diveRepository->findById($id));
     }
 
-    public function store(DiveCreateRequest $request, DiveCreator $diveCreator)
+    public function store(DiveCreateRequest $request, DiveCreator $diveCreator, DiveRepository $diveRepository)
     {
         $diveData = DiveData::fromArray($request->all());
 
-        $dive = $diveCreator->create($request->getCurrentUser(), $diveData);
+        $id = $diveCreator->create($request->getCurrentUser(), $diveData);
 
-        return DiveDetailViewModel::fromDive($dive);
+        return DiveDetailViewModel::fromDive($diveRepository->findById($id));
     }
 
     public function merge(

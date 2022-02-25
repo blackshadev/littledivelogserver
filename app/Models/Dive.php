@@ -18,6 +18,11 @@ final class Dive extends Model implements Explored
     use HasFactory;
     use Searchable;
 
+    public const DIVE_COLUMNS = [
+        'id', 'created_at', 'updated_at', 'user_id', 'date', 'divetime', 'max_depth', 'country_code', 'place_id',
+        'computer_id', 'fingerprint'
+    ];
+
     protected $fillable = ['date', 'max_depth', 'divetime'];
 
     protected $dates = ['created_at', 'updated_at', 'date'];
@@ -25,6 +30,10 @@ final class Dive extends Model implements Explored
     protected $casts = [
         'max_depth' => 'float',
         'samples' => 'array',
+    ];
+
+    protected $hidden = [
+        'samples'
     ];
 
     public function buddies()

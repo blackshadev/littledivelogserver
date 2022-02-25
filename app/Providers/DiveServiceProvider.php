@@ -29,6 +29,7 @@ use App\Domain\Computers\Repositories\DetailComputerRepository;
 use App\Domain\Countries\Repositories\CountryRepository;
 use App\Domain\Dives\Repositories\DiveBatchRepository;
 use App\Domain\Dives\Repositories\DiveRepository;
+use App\Domain\Dives\Repositories\DiveSamplesRepository;
 use App\Domain\Dives\Repositories\DiveSummaryRepository;
 use App\Domain\Dives\Repositories\DiveTankRepository;
 use App\Domain\Equipment\Repositories\EquipmentRepository;
@@ -48,6 +49,7 @@ use App\Repositories\Countries\EloquentCountryRepository;
 use App\Repositories\Dives\EloquentDiveBatchRepository;
 use App\Repositories\Dives\EloquentDiveFactory;
 use App\Repositories\Dives\EloquentDiveRepository;
+use App\Repositories\Dives\EloquentDiveSamplesRepository;
 use App\Repositories\Dives\EloquentDiveSummaryRepository;
 use App\Repositories\Dives\EloquentDiveTankRepository;
 use App\Repositories\Dives\ExplorerDiveFinder;
@@ -100,6 +102,7 @@ final class DiveServiceProvider extends ServiceProvider
         $this->app->singleton(UpdateUserProfileUpdater::class);
 
         $this->app->singleton(DiveSummaryRepository::class, EloquentDiveSummaryRepository::class);
+        $this->app->singleton(DiveSamplesRepository::class, EloquentDiveSamplesRepository::class);
         $this->app->singleton(DiveRepository::class, EloquentDiveRepository::class);
         $this->app->singleton(DiveBatchRepository::class, EloquentDiveBatchRepository::class);
         $this->app->singleton(DiveTankRepository::class, EloquentDiveTankRepository::class);

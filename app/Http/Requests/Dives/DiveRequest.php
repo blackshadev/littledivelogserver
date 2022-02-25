@@ -6,6 +6,7 @@ namespace App\Http\Requests\Dives;
 
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Repositories\DiveRepository;
+use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\Users\Repositories\CurrentUserRepository;
 use App\Http\Requests\AuthenticatedRequest;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -40,14 +41,14 @@ abstract class DiveRequest extends AuthenticatedRequest
         return once(fn () => $this->diveRepository->findById($this->getDiveId()));
     }
 
-    public function getDiveId(): int
+    public function getDiveId(): DiveId
     {
         $routeParam = $this->route('dive');
         if (!filter_var($routeParam, FILTER_VALIDATE_INT)) {
             throw new NotFoundHttpException("Dive ${routeParam} not found");
         }
 
-        return (int)$routeParam;
+        return DiveId::existing((int)$routeParam);
     }
 
     public function authorize()

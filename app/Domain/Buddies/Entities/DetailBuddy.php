@@ -16,6 +16,7 @@ final class DetailBuddy
         private ?string $email,
         private ?DateTimeInterface $lastDive,
         private int $diveCount,
+        private ?DateTimeInterface $updated,
     ) {
     }
 
@@ -52,5 +53,10 @@ final class DetailBuddy
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUpdated(): DateTimeInterface
+    {
+        return $this->updated;
     }
 }

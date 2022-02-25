@@ -6,6 +6,7 @@ namespace App\Application\Dives\Services;
 
 use App\Application\Dives\DataTransferObjects\DiveData;
 use App\Domain\Dives\Entities\Dive;
+use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\Users\Entities\User;
 
 final class DiveCreator
@@ -15,7 +16,7 @@ final class DiveCreator
     ) {
     }
 
-    public function create(User $user, DiveData $diveData): Dive
+    public function create(User $user, DiveData $diveData): DiveId
     {
         $dive = Dive::new(
             userId: $user->getId(),
@@ -25,8 +26,10 @@ final class DiveCreator
             fingerprint: $diveData->getFingerprint(),
         );
 
-        $this->diveUpdater->update($dive, $diveData);
+        if ($diveData->getSamples() !== null) {
+            $dive->setSamples($diveData->getSamples());
+        }
 
-        return $dive;
+        return $this->diveUpdater->update($dive, $diveData);
     }
 }

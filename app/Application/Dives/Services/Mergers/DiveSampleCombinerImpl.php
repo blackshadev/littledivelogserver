@@ -20,7 +20,7 @@ final class DiveSampleCombinerImpl implements DiveSampleCombiner
 
         $divesWithSamples = Arrg::filter(
             $dives,
-            fn (Dive $dive) => !empty($dive->getSamples())
+            fn (Dive $dive) => $dive->hasSamples()
         );
         $orderedDives = $this->orderDives($divesWithSamples);
 

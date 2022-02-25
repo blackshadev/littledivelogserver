@@ -10,7 +10,9 @@ use DateTimeInterface;
 
 final class BuddyDetailViewModel extends ViewModel
 {
-    protected array $visible = ['buddy_id', 'text', 'color', 'dive_count', 'last_dive', 'email', 'buddy_user_id'];
+    protected array $visible = [
+        'buddy_id', 'text', 'color', 'dive_count', 'last_dive', 'email', 'buddy_user_id', 'updated'
+    ];
 
     public function __construct(
         private int $buddyId,
@@ -20,6 +22,7 @@ final class BuddyDetailViewModel extends ViewModel
         private int $buddyUserId,
         private int $diveCount,
         private ?DateTimeInterface $lastDive,
+        private DateTimeInterface $updated,
     ) {
     }
 
@@ -31,8 +34,9 @@ final class BuddyDetailViewModel extends ViewModel
             color: $buddy->getColor(),
             email: $buddy->getEmail(),
             buddyUserId: 0,
-            lastDive:$buddy->getLastDive(),
             diveCount: $buddy->getDiveCount(),
+            lastDive: $buddy->getLastDive(),
+            updated: $buddy->getUpdated(),
         );
     }
 
@@ -69,5 +73,10 @@ final class BuddyDetailViewModel extends ViewModel
     public function getBuddyUserId(): ?int
     {
         return $this->buddyUserId;
+    }
+
+    public function getUpdated(): string
+    {
+        return $this->updated->format(\DateTimeInterface::ATOM);
     }
 }

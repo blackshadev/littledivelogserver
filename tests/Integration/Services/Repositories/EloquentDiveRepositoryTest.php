@@ -8,6 +8,7 @@ use App\Domain\Buddies\Entities\Buddy;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Entities\DiveTank;
 use App\Domain\Dives\Repositories\DiveRepository;
+use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\Dives\ValueObjects\GasMixture;
 use App\Domain\Dives\ValueObjects\TankPressures;
 use App\Domain\Places\Entities\Place;
@@ -56,11 +57,11 @@ final class EloquentDiveRepositoryTest extends TestCase
             ->withComputer()
             ->createOne();
 
-        $dive = $this->subject->findById($diveModel->id);
+        $dive = $this->subject->findById(DiveId::existing($diveModel->id));
 
         self::assertEquals($this->user->id, $dive->getUserId());
         self::assertTrue($dive->isExisting());
-        self::assertEquals($diveModel->id, $dive->getDiveId());
+        self::assertEquals($diveModel->id, $dive->getDiveId()->value());
         self::assertEquals($diveModel->max_depth, $dive->getMaxDepth());
         self::assertEquals($diveModel->date, $dive->getDate());
         self::assertEquals($diveModel->place_id, $dive->getPlace()->getId());
@@ -81,11 +82,11 @@ final class EloquentDiveRepositoryTest extends TestCase
             ->for($this->user)
             ->createOne();
 
-        $dive = $this->subject->findById($diveModel->id);
+        $dive = $this->subject->findById(DiveId::existing($diveModel->id));
 
         self::assertEquals($this->user->id, $dive->getUserId());
         self::assertTrue($dive->isExisting());
-        self::assertEquals($diveModel->id, $dive->getDiveId());
+        self::assertEquals($diveModel->id, $dive->getDiveId()->value());
     }
 
     public function testItSavesDive(): void
@@ -99,11 +100,6 @@ final class EloquentDiveRepositoryTest extends TestCase
             date: new \DateTimeImmutable('2020-10-10 10:10:10'),
             divetime: 420,
             place: Place::new($this->user->id, ':place:', 'NL'),
-            samples: [
-                ['Time' => 0, 'Depth' => 1],
-                ['Time' => 60, 'Depth' => 6],
-                ['Time' => 160, 'Depth' => 1],
-            ],
             tanks: [DiveTank::new(
                 diveId: null,
                 volume: 12,
@@ -120,7 +116,7 @@ final class EloquentDiveRepositoryTest extends TestCase
 
         self::assertTrue($dive->isExisting());
         $this->assertDatabaseHas('dives', [
-            'id' => $dive->getDiveId(),
+            'id' => $dive->getDiveId()->value(),
             'max_depth' => $dive->getMaxDepth(),
             'divetime' => $dive->getDivetime(),
         ]);
@@ -131,7 +127,7 @@ final class EloquentDiveRepositoryTest extends TestCase
         $model = DiveModel::factory()->for($this->user)->createOne();
 
         $dive = Dive::existing(
-            $model->id,
+            DiveId::existing($model->id),
             $model->user->id,
             $model->updated_at->toDateTimeImmutable(),
             $model->date->toDateTimeImmutable()
@@ -139,6 +135,6 @@ final class EloquentDiveRepositoryTest extends TestCase
 
         $this->subject->remove($dive);
 
-        $this->assertDatabaseMissing('dives', ['id' => $dive->getDiveId()]);
+        $this->assertDatabaseMissing('dives', ['id' => $dive->getDiveId()->value()]);
     }
 }

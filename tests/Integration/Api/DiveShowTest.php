@@ -51,7 +51,6 @@ final class DiveShowTest extends TestCase
                 'tags' => [['tag_id', 'text', 'color']],
                 'buddies' => [['buddy_id', 'text', 'color']],
                 'tanks',
-                'samples',
             ]);
     }
 }

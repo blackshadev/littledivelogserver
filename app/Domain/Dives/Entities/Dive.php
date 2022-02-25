@@ -6,6 +6,7 @@ namespace App\Domain\Dives\Entities;
 
 use App\Domain\Buddies\Entities\Buddy;
 use App\Domain\Computers\Entities\Computer;
+use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\Places\Entities\Place;
 use App\Domain\Tags\Entities\Tag;
 use DateTimeInterface;
@@ -13,14 +14,14 @@ use Webmozart\Assert\Assert;
 
 final class Dive
 {
-    public function __construct(
-        private ?int $diveId,
+    private function __construct(
+        private DiveId $diveId,
         private ?int $userId,
         private DateTimeInterface $updated,
         private ?DateTimeInterface $date,
         private ?int $divetime,
         private ?float $maxDepth,
-        private ?Computer $computerId,
+        private ?Computer $computer,
         private ?string $fingerprint,
         private ?Place $place,
         private array $tanks,
@@ -34,7 +35,7 @@ final class Dive
     }
 
     public static function existing(
-        int $diveId,
+        DiveId $diveId,
         int $userId,
         DateTimeInterface $updated,
         ?DateTimeInterface $date,
@@ -46,16 +47,16 @@ final class Dive
         array $tanks = [],
         array $tags = [],
         array $buddies = [],
-        ?array $samples = [],
+        ?array $samples = null
     ): self {
-        return new self(
+        return new static(
             diveId: $diveId,
             userId: $userId,
             updated: $updated,
             date: $date,
             divetime: $divetime,
             maxDepth: $maxDepth,
-            computerId: $computer,
+            computer: $computer,
             fingerprint: $fingerprint,
             place: $place,
             tanks: $tanks,
@@ -76,16 +77,16 @@ final class Dive
         array $tanks = [],
         array $tags = [],
         array $buddies = [],
-        ?array $samples = [],
+        ?array $samples = null,
     ): self {
         return new self(
-            diveId: null,
+            diveId: DiveId::new(),
             userId: $userId,
             updated: new \DateTimeImmutable(),
             date: $date,
             divetime: $divetime,
             maxDepth: $maxDepth,
-            computerId: $computer,
+            computer: $computer,
             fingerprint: $fingerprint,
             place: $place,
             tanks: $tanks,
@@ -95,12 +96,12 @@ final class Dive
         );
     }
 
-    public function getDiveId(): ?int
+    public function getDiveId(): DiveId
     {
         return $this->diveId;
     }
 
-    public function setDiveId(?int $diveId): void
+    public function setDiveId(DiveId $diveId): void
     {
         $this->diveId = $diveId;
     }
@@ -147,12 +148,12 @@ final class Dive
 
     public function getComputer(): ?Computer
     {
-        return $this->computerId;
+        return $this->computer;
     }
 
     public function setComputer(?Computer $computerId): void
     {
-        $this->computerId = $computerId;
+        $this->computer = $computerId;
     }
 
     public function getFingerprint(): ?string
@@ -213,9 +214,24 @@ final class Dive
         $this->buddies = $buddies;
     }
 
+    public function isExisting(): bool
+    {
+        return !$this->diveId->isNew();
+    }
+
+    public function getUpdated(): DateTimeInterface
+    {
+        return $this->updated;
+    }
+
+    public function setUpdated(DateTimeInterface $updated): void
+    {
+        $this->updated = $updated;
+    }
+
     public function getSamples(): array
     {
-        return $this->samples ?? [];
+        return $this->samples;
     }
 
     public function setSamples(array $samples): void
@@ -223,13 +239,8 @@ final class Dive
         $this->samples = $samples;
     }
 
-    public function isExisting(): bool
+    public function hasSamples(): bool
     {
-        return $this->diveId !== null;
-    }
-
-    public function getUpdated(): DateTimeInterface
-    {
-        return $this->updated;
+        return !empty($this->samples);
     }
 }

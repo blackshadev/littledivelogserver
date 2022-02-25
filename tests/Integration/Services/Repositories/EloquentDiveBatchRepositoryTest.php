@@ -6,6 +6,7 @@ namespace Tests\Integration\Services\Repositories;
 
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Repositories\DiveRepository;
+use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\Factories\Dives\DiveFactory;
 use App\Domain\Support\Arrg;
 use App\Models\Dive as DiveModel;
@@ -61,7 +62,7 @@ final class EloquentDiveBatchRepositoryTest extends TestCase
         /** @var Dive $dive */
         foreach ($result as $dive) {
             self::assertEquals($userId, $dive->getUserId());
-            self::assertContains($dive->getDiveId(), $input);
+            self::assertContains($dive->getDiveId()->value(), $input);
         }
     }
 
@@ -107,7 +108,7 @@ final class EloquentDiveBatchRepositoryTest extends TestCase
     private function createExistingDiveFromModel(DiveModel $model): Dive
     {
         return Dive::existing(
-            diveId: $model->id,
+            diveId: DiveId::existing($model->id),
             userId: $model->user_id,
             updated: $model->updated_at->toDateTimeImmutable(),
             date: $model->date

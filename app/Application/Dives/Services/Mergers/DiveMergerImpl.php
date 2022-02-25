@@ -6,6 +6,7 @@ namespace App\Application\Dives\Services\Mergers;
 
 use App\Application\Dives\Exceptions\CannotMergeDivesException;
 use App\Domain\Dives\Entities\Dive;
+use App\Domain\Dives\Entities\DiveWithSamples;
 use App\Domain\Support\ArrayUtil;
 use App\Domain\Support\Arrg;
 
@@ -34,18 +35,24 @@ final class DiveMergerImpl implements DiveMerger
 
         $divesWithComputerPreferred = $this->preferDivesWithComputer($dives);
 
-        return Dive::new(
+        $dive = Dive::new(
             userId: $dives[0]->getUserId(),
-            divetime: array_sum(Arrg::call($divesWithComputerPreferred, 'getDivetime')),
             date: min(Arrg::call($divesWithComputerPreferred, 'getDate')),
+            divetime: array_sum(Arrg::call($divesWithComputerPreferred, 'getDivetime')),
             maxDepth: max(Arrg::call($divesWithComputerPreferred, 'getMaxDepth')),
-            place: Arrg::firstNotNull(Arrg::call($dives, 'getPlace')),
             computer: Arrg::firstNotNull(Arrg::call($divesWithComputerPreferred, 'getComputer')),
+            place: Arrg::firstNotNull(Arrg::call($dives, 'getPlace')),
             tanks: $this->diveTankMerger->mergeForDives($dives),
             tags: $this->diveEntityMerger->unique(ArrayUtil::flatten(Arrg::call($dives, 'getTags'))),
-            buddies: $this->diveEntityMerger->unique(ArrayUtil::flatten(Arrg::call($dives, 'getBuddies'))),
-            samples: $this->diveSampleStitcher->combine($dives),
+            buddies: $this->diveEntityMerger->unique(ArrayUtil::flatten(Arrg::call($dives, 'getBuddies')))
         );
+
+        $samples = $this->diveSampleStitcher->combine($dives);
+        if (empty($samples)) {
+            return $dive;
+        }
+
+        return DiveWithSamples::addSamples($dive, $samples);
     }
 
     /**

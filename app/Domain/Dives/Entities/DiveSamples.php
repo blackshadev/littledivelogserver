@@ -16,7 +16,7 @@ final class DiveSamples
 
     public static function create(DiveId $diveId, mixed $samples)
     {
-        return new self($diveId, $samples);
+        return new self($diveId, $samples ?? []);
     }
 
     public function samples(): array

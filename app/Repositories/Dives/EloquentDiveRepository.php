@@ -10,7 +10,6 @@ use App\Domain\Computers\Entities\Computer;
 use App\Domain\Computers\Repositories\ComputerRepository;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Entities\DiveTank;
-use App\Domain\Dives\Entities\DiveWithSamples;
 use App\Domain\Dives\Repositories\DiveRepository;
 use App\Domain\Dives\Repositories\DiveTankRepository;
 use App\Domain\Dives\ValueObjects\DiveId;
@@ -76,7 +75,7 @@ final class EloquentDiveRepository implements DiveRepository
 
             $this->setTanks($model, $dive->getTanks());
 
-            if ($dive instanceof DiveWithSamples) {
+            if ($dive->hasSamples()) {
                 $model->samples = $dive->getSamples();
             }
 

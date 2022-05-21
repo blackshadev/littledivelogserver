@@ -78,9 +78,9 @@ final class DiveUpdater
                     oxygen: $tank->getOxygen(),
                 ),
                 pressures: new TankPressures(
+                    type: $tank->getPressures()->getType(),
                     begin: $tank->getPressures()->getBegin(),
                     end: $tank->getPressures()->getEnd(),
-                    type: $tank->getPressures()->getType(),
                 ),
             )
         );

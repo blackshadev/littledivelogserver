@@ -12,10 +12,10 @@ final class DiveTankViewModel extends ViewModel
     protected array $visible = ['volume', 'oxygen', 'pressure'];
 
     public function __construct(
-        private int $volume,
-        private int $oxygen,
-        private int $pressure_begin,
-        private int $pressure_end,
+        private ?int $volume,
+        private ?int $oxygen,
+        private ?int $pressure_begin,
+        private ?int $pressure_end,
         private string $pressure_type,
     ) {
     }
@@ -31,17 +31,17 @@ final class DiveTankViewModel extends ViewModel
         );
     }
 
-    public function getVolume()
+    public function getVolume(): int
     {
         return $this->volume;
     }
 
-    public function getOxygen()
+    public function getOxygen(): int
     {
         return $this->oxygen;
     }
 
-    public function getPressure()
+    public function getPressure(): array
     {
         return [
             'begin' => $this->pressure_begin,

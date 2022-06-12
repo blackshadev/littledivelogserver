@@ -1,0 +1,103 @@
+#!/bin/bash
+set -eo pipefail
+
+function docker:exec {
+  docker-compose exec --user php app sh -c "$1"
+}
+
+# ===========================
+# Laravel
+# ===========================
+
+function task:artisan { ## Run any artisan command
+  docker:exec "php artisan ${@}"
+}
+
+# ===========================
+# Testing
+# ===========================
+
+function task:tests { ## Run all tests
+  docker:exec "php artisan test"
+}
+
+function banner {
+  echo ""
+  echo "██╗     ██╗████████╗████████╗██╗     ███████╗██████╗ ██╗██╗   ██╗███████╗██╗      ██████╗  ██████╗ "
+  echo "██║     ██║╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔══██╗██║██║   ██║██╔════╝██║     ██╔═══██╗██╔════╝ "
+  echo "██║     ██║   ██║      ██║   ██║     █████╗  ██║  ██║██║██║   ██║█████╗  ██║     ██║   ██║██║  ███╗"
+  echo "██║     ██║   ██║      ██║   ██║     ██╔══╝  ██║  ██║██║╚██╗ ██╔╝██╔══╝  ██║     ██║   ██║██║   ██║"
+  echo "███████╗██║   ██║      ██║   ███████╗███████╗██████╔╝██║ ╚████╔╝ ███████╗███████╗╚██████╔╝╚██████╔╝"
+  echo "╚══════╝╚═╝   ╚═╝      ╚═╝   ╚══════╝╚══════╝╚═════╝ ╚═╝  ╚═══╝  ╚══════╝╚══════╝ ╚═════╝  ╚═════╝ "
+  echo ""
+}
+
+NETWORK=littledivelog
+
+
+# ===========================
+# Proxy
+# ===========================
+
+function proxy:start {
+  curl --silent https://gitlab.enrise.com/Enrise/DevProxy/-/raw/master/start.sh | sh
+}
+
+function proxy:connect {
+  docker network connect $NETWORK enrise-dev-proxy || true
+}
+
+function proxy:stop {
+  docker container stop enrise-dev-proxy || true
+}
+
+function proxy:disconnect {
+  docker network disconnect $NETWORK enrise-dev-proxy || true
+}
+
+# Add environment variables for docker-compose or sail commands
+export WWWGROUP=${WWWGROUP:-$(id -g)}
+function task:build { ## Build and start the project containers.
+  docker-compose build
+}
+
+function task:db:rebuild {
+    docker:exec "php artisan migrate:fresh --seed"
+}
+
+function task:start { ## Start the project and connects proxy
+  docker-compose up -d
+  proxy:start
+  proxy:connect
+
+  echo "Project viewable on http://api.littledivelog.local if you add '127.0.0.1 api.littledivelog.local' to your hostfile"
+}
+
+function task:stop { ## Stop the project containers.
+  proxy:disconnect
+
+  docker-compose down
+}
+
+function task:restart { ## Restart the project containers.
+  docker-compose restart
+}
+
+function task:shell { ## Open the application shell.
+  docker-compose exec app /bin/sh
+}
+
+function task:exec { ## Run anything in the application shell
+  docker:exec "${@}"
+}
+
+# ===========================
+# Default: help section
+# ===========================
+
+function task:help { ## This help text
+  echo "Tasks:"
+  cat $0 | awk 'match($0, /^function\s+task:([a-z][a-zA-Z0-9_:-]*)([ ]+\{[ ]*##(.*))*/, a) {printf "  \033[33m%-15s\033[0m  %s\n", a[1], a[3]}'
+}
+banner
+"task:${@:-help}"

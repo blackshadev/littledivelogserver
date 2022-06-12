@@ -7,8 +7,12 @@ services:
       target: dev
       args:
         WWWGROUP: ${WWWGROUP}
-    ports:
-      - "8000:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api-littledivelog.rule=Host(`api.littledivelog.local`)"
+      - "traefik.http.routers.api-littledivelog.tls=false"
+      - "traefik.http.routers.api-littledivelog.entrypoints=web"
+      - "traefik.http.services.api-littledivelog.loadbalancer.server.port=80"
     volumes:
       - .:/www
 

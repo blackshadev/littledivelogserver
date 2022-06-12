@@ -86,3 +86,10 @@ jobs:
           push: true
           target: prod
           tags: blackshadev/littledivelogserver:next-1
+      - name: Update server
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ secrets.PORTAINER_WEB_HOOK }}
+          method: 'POST'
+
+

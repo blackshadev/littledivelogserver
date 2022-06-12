@@ -1,5 +1,5 @@
 
-set-ids = USERID=$$(id -u) GROUPID=$$(id -g)
+set-ids = WWWGROUP=$$(id -g) \
 
 .PHONY: test
 test:
@@ -19,10 +19,10 @@ shell:
 
 .PHONY: build build
 build:
-	@${set-ids} docker-compose build --build-arg USERID=$$(id -u) --build-arg GROUPID=$$(id -g)
+	${set-ids} docker-compose build
 
 build-clean:
-	@${set-ids} docker-compose build --build-arg USERID=$$(id -u) --build-arg GROUPID=$$(id -g) --no-cache
+	${set-ids} docker-compose build --no-cache
 
 push:
 	@${set-ids} docker build --target=prod --build-arg USERID=$$(id -u) --build-arg GROUPID=$$(id -g) --tag=blackshadev/littledivelogserver:next-1 .

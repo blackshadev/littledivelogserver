@@ -40,11 +40,10 @@ RUN ln /usr/bin/php8 /usr/bin/php
 
 
 FROM base AS dev
-ARG USERID=101
-ARG GROUPID=101
 
-RUN usermod -u ${USERID} php \
- && groupmod -o -g ${GROUPID} php \
+ARG WWWGROUP
+
+RUN groupmod -o -g ${WWWGROUP} php \
  && chown -R php:php /www
 
 FROM base AS prod

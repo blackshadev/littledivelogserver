@@ -15,6 +15,7 @@ final class DetailTag
         private string $color,
         private ?DateTimeInterface $lastDive,
         private int $diveCount,
+        private DateTimeInterface $updated,
     ) {
     }
 
@@ -56,5 +57,10 @@ final class DetailTag
     public function getUserId(): int
     {
         return $this->userId;
+    }
+
+    public function getUpdated(): DateTimeInterface
+    {
+        return $this->updated;
     }
 }

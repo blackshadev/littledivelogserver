@@ -10,7 +10,7 @@ use DateTimeInterface;
 
 final class TagViewModel extends ViewModel
 {
-    protected array $visible = ['tag_id', 'text', 'color', 'dive_count', 'last_dive'];
+    protected array $visible = ['tag_id', 'text', 'color', 'dive_count', 'last_dive', 'updated'];
 
     public function __construct(
         private int $tagId,
@@ -18,6 +18,7 @@ final class TagViewModel extends ViewModel
         private string $color,
         private int $diveCount,
         private ?DateTimeInterface $lastDive,
+        private DateTimeInterface $updated,
     ) {
     }
 
@@ -29,6 +30,7 @@ final class TagViewModel extends ViewModel
             color: $tag->getColor(),
             diveCount: $tag->getDiveCount(),
             lastDive: $tag->getLastDive(),
+            updated: $tag->getUpdated(),
         );
     }
 
@@ -55,5 +57,10 @@ final class TagViewModel extends ViewModel
     public function getLastDive(): ?string
     {
         return $this->lastDive !== null ? $this->lastDive->format(\DateTimeInterface::ATOM) : null;
+    }
+
+    public function getUpdated(): string
+    {
+        return $this->updated->format(\DateTimeInterface::ATOM);
     }
 }

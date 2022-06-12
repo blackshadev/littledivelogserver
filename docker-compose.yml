@@ -5,7 +5,8 @@ services:
     build:
       context: .
       target: dev
-    restart: unless-stopped
+      args:
+        WWWGROUP: ${WWWGROUP}
     ports:
       - "8000:80"
     volumes:
@@ -13,7 +14,6 @@ services:
 
   db:
     image: postgres:alpine
-    restart: always
     environment:
     - POSTGRES_USER=littledivelog
     - POSTGRES_DB=littledivelog

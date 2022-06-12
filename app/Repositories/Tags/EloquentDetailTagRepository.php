@@ -40,6 +40,7 @@ final class EloquentDetailTagRepository implements DetailTagRepository
             color: $model->color,
             diveCount: $model->dives()->count(),
             lastDive: $lastDiveDate,
+            updated: $model->updated_at->toDateTimeImmutable(),
         );
     }
 }

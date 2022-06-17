@@ -86,10 +86,8 @@ jobs:
           push: true
           target: prod
           tags: blackshadev/littledivelogserver:next-1
-      - name: Update server
-        uses: fjogeleit/http-request-action@v1
+      - name: Update server image
+        uses: satak/webrequest-action@v1.2.4
         with:
           url: ${{ secrets.PORTAINER_WEB_HOOK }}
-          method: 'POST'
-
-
+          method: POST

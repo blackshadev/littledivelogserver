@@ -13,6 +13,7 @@ final class UpdateBuddyRequest extends BuddyRequest
         return [
             'text' => 'required|string',
             'color' => ['required', new HexColor()],
+            'email' => 'email'
         ];
     }
 }

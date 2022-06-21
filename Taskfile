@@ -91,6 +91,14 @@ function task:exec { ## Run anything in the application shell
   docker:exec "${@}"
 }
 
+
+function task:index:recreate { ## recreate all indices
+  docker:exec "php8 artisan elastic:delete || true"
+  docker:exec "php8 artisan elastic:create"
+  docker:exec "php8 artisan scout:import App\\\\Models\\\\Dive"
+  docker:exec "php8 artisan scout:import App\\\\Models\\\\Place"
+}
+
 # ===========================
 # Default: help section
 # ===========================

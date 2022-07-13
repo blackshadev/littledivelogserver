@@ -47,6 +47,13 @@ final class DiveSeeder extends Seeder
                         'dive_id' => $dive->id,
                     ]);
 
+                    $dive->computer()->associate(
+                        $user->computers()
+                            ->inRandomOrder()
+                            ->first()
+                    );
+                    $dive->save();
+
                     $dive->tanks()->save($tank);
                 });
         });

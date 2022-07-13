@@ -38,6 +38,9 @@
         "discard-changes": true,
         "platform": {
             "php": "8.0"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "extra": {

@@ -8,15 +8,11 @@ use Illuminate\Database\Seeder;
 
 final class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
     public function run(): void
     {
         $this->call(CountrySeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(ComputerSeeder::class);
         $this->call(PlaceSeeder::class);
         $this->call(BuddySeeder::class);
         $this->call(TagSeeder::class);

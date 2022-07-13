@@ -20,7 +20,7 @@ final class DiveDetailViewModel extends ViewModel
     protected array $visible = [
         'dive_id', 'date', 'divetime',
         'max_depth', 'place', 'buddies',
-        'tags', 'tanks', 'updated'
+        'tags', 'tanks', 'updated', 'computer'
     ];
 
     /**
@@ -34,6 +34,7 @@ final class DiveDetailViewModel extends ViewModel
         private ?int $divetime,
         private ?float $maxDepth,
         private ?PlaceViewModel $place,
+        private ?ComputerDiveViewModel $computer,
         private array $tags,
         private array $buddies,
         private array $diveTanks,
@@ -49,6 +50,7 @@ final class DiveDetailViewModel extends ViewModel
             $dive->getDivetime(),
             $dive->getMaxDepth(),
             $dive->getPlace() !== null ? PlaceViewModel::fromPlace($dive->getPlace()) : null,
+            $dive->getComputer() !== null ? ComputerDiveViewModel::fromComputer($dive->getComputer()) : null,
             Arrg::map($dive->getTags(), fn (Tag $tag) => ShortTagViewModel::fromTag($tag)),
             Arrg::map($dive->getBuddies(), fn (Buddy $buddy) => ShortBuddyViewModel::fromBuddy($buddy)),
             Arrg::map($dive->getTanks(), fn (DiveTank $diveTank) => DiveTankViewModel::fromDiveTank($diveTank)),
@@ -94,6 +96,11 @@ final class DiveDetailViewModel extends ViewModel
     public function getTanks(): array
     {
         return $this->diveTanks;
+    }
+
+    public function getComputer(): ?ComputerDiveViewModel
+    {
+        return $this->computer;
     }
 
     public function getSamples(): array

@@ -15,7 +15,7 @@ final class CreateBuddyRequest extends AuthenticatedRequest
             'text' => 'required_without:name|string',
             'name' => 'required_without:text|string',
             'color' => ['required', new HexColor()],
-            'email' => 'email',
+            'email' => 'nullable|email',
         ];
     }
 }

@@ -20,7 +20,8 @@ final class DiveDetailViewModel extends ViewModel
     protected array $visible = [
         'dive_id', 'date', 'divetime',
         'max_depth', 'place', 'buddies',
-        'tags', 'tanks', 'updated', 'computer'
+        'tags', 'tanks', 'updated', 'computer',
+        'is_imported'
     ];
 
     /**
@@ -39,6 +40,7 @@ final class DiveDetailViewModel extends ViewModel
         private array $buddies,
         private array $diveTanks,
         private \DateTimeInterface $updated,
+        private bool $isImported
     ) {
     }
 
@@ -55,6 +57,7 @@ final class DiveDetailViewModel extends ViewModel
             Arrg::map($dive->getBuddies(), fn (Buddy $buddy) => ShortBuddyViewModel::fromBuddy($buddy)),
             Arrg::map($dive->getTanks(), fn (DiveTank $diveTank) => DiveTankViewModel::fromDiveTank($diveTank)),
             $dive->getUpdated(),
+            $dive->getFingerprint() !== null,
         );
     }
 
@@ -106,6 +109,11 @@ final class DiveDetailViewModel extends ViewModel
     public function getSamples(): array
     {
         return $this->samples;
+    }
+
+    public function getIsImported(): bool
+    {
+        return $this->isImported;
     }
 
     public function getUpdated(): string

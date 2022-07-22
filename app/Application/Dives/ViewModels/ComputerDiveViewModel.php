@@ -10,10 +10,11 @@ use App\Domain\Computers\Entities\Computer;
 final class ComputerDiveViewModel extends ViewModel
 {
     protected array $visible = [
-        'name', 'vendor'
+        'computer_id', 'name', 'vendor'
     ];
 
     private function __construct(
+        private int $compterId,
         private string $name,
         private string $vendor,
     ) {
@@ -22,6 +23,7 @@ final class ComputerDiveViewModel extends ViewModel
     public static function fromComputer(Computer $computer): self
     {
         return new self(
+            $computer->getId(),
             $computer->getName(),
             $computer->getVendor(),
         );
@@ -35,5 +37,10 @@ final class ComputerDiveViewModel extends ViewModel
     public function getVendor(): string
     {
         return $this->vendor;
+    }
+
+    public function getComputerId(): int
+    {
+        return $this->compterId;
     }
 }

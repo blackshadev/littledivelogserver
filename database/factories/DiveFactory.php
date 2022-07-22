@@ -57,12 +57,11 @@ final class DiveFactory extends Factory
             });
     }
 
-    public function withComputer()
+    public function withComputer(): self
     {
         return $this->afterMaking(function (Dive $dive): void {
             /** @var User $user */
             $user = $dive->user;
-
             $dive->computer()->associate($user->computers()->inRandomOrder()->first());
         });
     }

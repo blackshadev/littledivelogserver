@@ -26,6 +26,14 @@ final class DiveSeeder extends Seeder
                     ];
                 })
                 ->state(['user_id' => $user->id])
+                ->sequence(fn () => [ 'fingerprint' => random_int(0, 1) === 1 ? 'deadbeef' : null ])
+                ->afterMaking(function (Dive $dive) use ($user): void {
+                    if (random_int(0, 3) < 3) {
+                        $dive->computer()->associate($user->computers()->inRandomOrder()->first());
+                    } else {
+                        $dive->fingerprint = null;
+                    }
+                })
                 ->create()
                 ->each(function (Dive $dive) use ($user): void {
                     $dive->buddies()->attach(
@@ -46,13 +54,6 @@ final class DiveSeeder extends Seeder
                     $tank = DiveTank::factory()->createOne([
                         'dive_id' => $dive->id,
                     ]);
-
-                    $dive->computer()->associate(
-                        $user->computers()
-                            ->inRandomOrder()
-                            ->first()
-                    );
-                    $dive->save();
 
                     $dive->tanks()->save($tank);
                 });

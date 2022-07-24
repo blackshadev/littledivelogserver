@@ -2,12 +2,11 @@ name: CI
 
 on:
   pull_request:
-  release:
-    types:
-      - published
   push:
     branches:
       - master
+    tags:
+      - 'v*'
 
 jobs:
 
@@ -17,7 +16,6 @@ jobs:
     strategy:
       matrix:
         php: [ 8.1 ]
-        experimental: [ false ]
 
     services:
       # Label used to access the service container

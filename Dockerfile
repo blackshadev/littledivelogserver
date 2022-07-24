@@ -1,42 +1,43 @@
-FROM existenz/webstack:8.0 AS base
+FROM existenz/webstack:8.1 AS base
 
 RUN apk add --no-cache \
     argon2 \
     curl \
-    shadow \
     icu \
-    php8-common \
-    php8 \
-    php8-fpm \
-    php8-sodium \
-    php8-ctype \
-    php8-curl  \
-    php8-redis \
-    php8-dom  \
-    php8-gd \
-    php8-iconv \
-    php8-intl \
-    php8-json \
-    php8-mbstring \
-    php8-opcache \
-    php8-openssl \
-    php8-pdo \
-    php8-pdo_pgsql \
-    php8-pgsql \
-    php8-phar \
-    php8-session \
-    php8-tokenizer \
-    php8-xmlwriter \
-    php8-xmlreader \
-    php8-simplexml \
-    php8-fileinfo \
-    php8-xml \
-    php8-zip \
-    php8-zlib
+    php81 \
+    php81-common \
+    php81-ctype \
+    php81-curl  \
+    php81-dom  \
+    php81-fileinfo \
+    php81-fpm \
+    php81-gd \
+    php81-iconv \
+    php81-intl \
+    php81-json \
+    php81-mbstring \
+    php81-opcache \
+    php81-openssl \
+    php81-pdo \
+    php81-pdo_pgsql \
+    php81-pgsql \
+    php81-phar \
+    php81-redis \
+    php81-session \
+    php81-simplexml \
+    php81-sodium \
+    php81-tokenizer \
+    php81-xml \
+    php81-xmlreader \
+    php81-xmlwriter \
+    php81-zip \
+    php81-zlib \
+    shadow
 
+RUN rm /etc/nginx/http.d/*
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY ./docker/ /
-RUN ln /usr/bin/php8 /usr/bin/php
+RUN ln /usr/bin/php81 /usr/bin/php
 
 
 FROM base AS dev

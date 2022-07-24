@@ -6,7 +6,7 @@
         }
     },
     "lint-staged": {
-        "*.php": "php vendor/bin/ecs check --fix --config=dev/ecs.php"
+        "*.php": "./Taskfile lint:fix"
     },
     "scripts": {
         "dev": "npm run development",

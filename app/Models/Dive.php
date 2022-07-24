@@ -7,13 +7,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use JeroenG\Explorer\Application\Aliased;
 use JeroenG\Explorer\Application\Explored;
 use Laravel\Scout\Searchable;
 
 /**
  * @mixin Builder
  */
-final class Dive extends Model implements Explored
+final class Dive extends Model implements Explored, Aliased
 {
     use HasFactory;
     use Searchable;

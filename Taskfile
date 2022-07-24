@@ -103,7 +103,7 @@ vendor/bin/ecs --config=dev/ecs.php check --fix $1
 }
 
 function task:index:update { ## recreate all indices
-  docker:exec "php artisan elastic:update"c
+  docker:exec "php artisan elastic:update"
 }
 
 function task:db:create { ## recreates all database

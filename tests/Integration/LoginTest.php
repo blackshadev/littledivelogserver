@@ -21,7 +21,7 @@ final class LoginTest extends TestCase
         $this->json('post', self::LOGIN_URL, [])
             ->assertStatus(422)
             ->assertJson([
-                'message' => 'The given data was invalid.',
+                'message' => 'The email field is required. (and 1 more error)',
                 'errors' => [
                     'email' => ['The email field is required.'],
                     'password' => ['The password field is required.'],

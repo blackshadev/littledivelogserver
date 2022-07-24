@@ -21,7 +21,7 @@ final class RegistrationTest extends TestCase
         $this->json('post', self::REGISTRATION_URL)
             ->assertStatus(422)
             ->assertJson([
-                'message' => 'The given data was invalid.',
+                'message' => 'The email field is required. (and 2 more errors)',
                 'errors' => [
                     'email' => ['The email field is required.'],
                     'password' => ['The password field is required.'],
@@ -39,7 +39,7 @@ final class RegistrationTest extends TestCase
         ])
             ->assertStatus(422)
             ->assertJson([
-                'message' => 'The given data was invalid.',
+                'message' => 'The email must be a valid email address.',
                 'errors' => [
                     'email' => ['The email must be a valid email address.'],
                 ],
@@ -57,7 +57,7 @@ final class RegistrationTest extends TestCase
         ])
             ->assertStatus(422)
             ->assertJson([
-                'message' => 'The given data was invalid.',
+                'message' => 'The email has already been taken.',
                 'errors' => [
                     'email' => ['The email has already been taken.'],
                 ],

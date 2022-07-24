@@ -48,7 +48,7 @@ jobs:
           php-version: ${{ matrix.php }}
 
       - name: Install composer dependencies
-        run: composer install --prefer-dist --ignore-platform-reqs
+        run: composer install --ignore-platform-reqs --ansi
 
       - name: Codestyle check
         run: ./vendor/bin/ecs check --config=dev/ecs.php --no-interaction

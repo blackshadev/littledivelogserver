@@ -50,5 +50,5 @@ RUN groupmod -o -g ${WWWGROUP} php \
 FROM base AS prod
 
 COPY --chown=php:php . /www
-RUN composer install \
+RUN composer install --ansi \
  && chown -R php:php /www/vendor

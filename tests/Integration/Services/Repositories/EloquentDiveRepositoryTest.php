@@ -37,7 +37,6 @@ final class EloquentDiveRepositoryTest extends TestCase
         parent::setUp();
         $this->subject = $this->app->make(DiveRepository::class);
 
-
         $this->user = UserModel::factory()->createOne();
 
         $this->fakedTauth();

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Dives;
 
-use App\Domain\Dives\Entities\DiveSamples;
 use App\Domain\Dives\Repositories\DiveRepository;
-use App\Domain\Dives\Repositories\DiveSamplesRepository;
+use App\Domain\DiveSamples\DiveSamplesRepository;
+use App\Domain\DiveSamples\Entities\DiveSamples;
 use App\Domain\Users\Repositories\CurrentUserRepository;
 
 final class DiveSamplesRequest extends DiveRequest

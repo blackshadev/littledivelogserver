@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Domain\Dives\ValueObjects\DiveId;
+use App\Domain\DiveSamples\Entities\DiveSamples;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -70,6 +72,11 @@ final class Dive extends Model implements Explored, Aliased
     public function computer()
     {
         return $this->belongsTo(Computer::class);
+    }
+
+    public function diveSamples(): DiveSamples
+    {
+        return DiveSamples::create(DiveId::existing($this->id), $this->samples);
     }
 
     public function getCountryCodeAttribute(): ?string

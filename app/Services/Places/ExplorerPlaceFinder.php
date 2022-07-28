@@ -10,7 +10,7 @@ use App\Domain\Places\Entities\Place;
 use App\Domain\Support\Arrg;
 use App\Explorer\Syntax\Wildcard;
 use App\Models\Place as PlaceModel;
-use JeroenG\Explorer\Application\IndexAdapterInterface;
+use JeroenG\Explorer\Application\DocumentAdapterInterface;
 use JeroenG\Explorer\Application\Results;
 use JeroenG\Explorer\Application\SearchCommand;
 use JeroenG\Explorer\Domain\Query\Query;
@@ -21,7 +21,7 @@ use JeroenG\Explorer\Domain\Syntax\Term;
 final class ExplorerPlaceFinder implements PlaceFinder
 {
     public function __construct(
-        private IndexAdapterInterface $adapter
+        private DocumentAdapterInterface $adapter
     ) {
     }
 

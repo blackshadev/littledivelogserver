@@ -10,7 +10,7 @@ use App\Domain\Dives\Repositories\DiveSummaryRepository;
 use App\Domain\Support\Arrg;
 use App\Models\Dive;
 use App\Repositories\Dives\ExplorerDiveFinder;
-use JeroenG\Explorer\Application\IndexAdapterInterface;
+use JeroenG\Explorer\Application\DocumentAdapterInterface;
 use JeroenG\Explorer\Application\Results;
 use JeroenG\Explorer\Application\SearchCommand;
 use Mockery;
@@ -20,19 +20,15 @@ final class DiveFinderTest extends TestCase
 {
     private ExplorerDiveFinder $subject;
 
-    private DiveSummaryRepository |
+    private DiveSummaryRepository|Mockery\MockInterface $repository;
 
-Mockery\MockInterface $repository;
-
-    private IndexAdapterInterface |
-
-Mockery\MockInterface $indexAdapter;
+    private DocumentAdapterInterface|Mockery\MockInterface $indexAdapter;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->indexAdapter = Mockery::mock(IndexAdapterInterface::class);
+        $this->indexAdapter = Mockery::mock(DocumentAdapterInterface::class);
         $this->repository = Mockery::mock(DiveSummaryRepository::class);
         $this->subject = new ExplorerDiveFinder($this->indexAdapter, $this->repository);
     }

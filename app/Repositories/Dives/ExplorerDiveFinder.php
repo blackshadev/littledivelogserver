@@ -10,7 +10,7 @@ use App\Domain\Dives\Entities\DiveSummary;
 use App\Domain\Dives\Repositories\DiveSummaryRepository;
 use App\Domain\Support\Arrg;
 use App\Models\Dive as DiveModel;
-use JeroenG\Explorer\Application\IndexAdapterInterface;
+use JeroenG\Explorer\Application\DocumentAdapterInterface;
 use JeroenG\Explorer\Application\Results;
 use JeroenG\Explorer\Application\SearchCommand;
 use JeroenG\Explorer\Domain\Query\Query;
@@ -23,7 +23,7 @@ use JeroenG\Explorer\Domain\Syntax\Term;
 final class ExplorerDiveFinder implements DiveFinder
 {
     public function __construct(
-        private IndexAdapterInterface $adapter,
+        private DocumentAdapterInterface $adapter,
         private DiveSummaryRepository $repository,
     ) {
     }

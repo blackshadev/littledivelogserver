@@ -6,17 +6,15 @@ namespace App\Repositories\Users;
 
 use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\CurrentUserRepository;
-use LogicException;
+use App\Models\User as UserModel;
+use Webmozart\Assert\Assert;
 
 final class LaravelCurrentUserRepository implements CurrentUserRepository
 {
     public function getCurrentUser(): User
     {
         $user = auth()->user();
-
-        if ($user === null) {
-            throw new LogicException('Not authenticated at this point');
-        }
+        Assert::isInstanceOf($user, UserModel::class);
 
         return new User($user->id, $user->name);
     }

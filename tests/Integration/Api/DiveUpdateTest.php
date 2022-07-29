@@ -67,7 +67,7 @@ final class DiveUpdateTest extends TestCase
         $this->assertDatabaseMissing('dives', array_merge($data, ['user_id' => $user->id]));
     }
 
-    public function testNewFullData(): void
+    public function testUpdateWithFullData(): void
     {
         /** @var User $user */
         $user = User::factory()->createOne();
@@ -157,38 +157,45 @@ final class DiveUpdateTest extends TestCase
         ]);
     }
 
-    public function testItUpdatedComputerOnNewDive(): void
+    public function testItDoesntUpdateComputerData(): void
     {
-
         /** @var User $user */
         $user = User::factory()->createOne();
-        $computer = Computer::factory()->createOne([
-            'user_id' => $user->id,
-            'last_read' => '2020-07-07 15:14:13',
-            'last_fingerprint' => 'yyy'
-        ]);
         $this->fakeAccessTokenFor($user);
 
         $dive = Dive::factory()->state([
-            'user_id' => null,
-            'date' => '2020-08-08 15:14:13'
-        ])->makeOne();
+            'user_id' => $user->id,
+        ])->createOne();
+
+        $computerData = [
+            'user_id' => $user->id,
+            'last_read' => '2021-02-03T14:13:12Z',
+            'last_fingerprint' => 'xxx',
+        ];
+        /** @var Computer $computer */
+        $computer = Computer::factory()->state([
+            'user_id' => $user->id,
+            'last_read' => '2021-02-03T14:13:12Z',
+            'last_fingerprint' => 'xxx',
+        ])->createOne();
 
         $data = [
-            'date' => $dive->date->format(\DateTimeInterface::ATOM),
-            'divetime' => $dive->divetime,
-            'max_depth' => $dive->max_depth,
+            ...$dive->attributesToArray(),
             'computer_id' => $computer->id,
-            'fingerprint' => 'xxx'
         ];
 
-        $this->post(action([DiveController::class, 'store']), $data)
-            ->assertStatus(200);
+        $this->put(action([DiveController::class, 'update'], [$dive->id]), $data)
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'dive_id' => $dive->id,
+                'computer' => [
+                    'computer_id' => $computer->id,
+                    'name' => $computer->name,
+                    'vendor' => $computer->vendor,
+                ],
+            ]);
 
-        $this->assertDatabaseHas('computers', [
-            'id' => $computer->id,
-            'last_read' => $data['date'],
-            'last_fingerprint' => 'xxx'
-        ]);
+        $this->assertDatabaseHas('dives', array_merge($data, ['user_id' => $user->id]));
+        $this->assertDatabaseHas('computers', array_merge(['id' => $computer->id], $computerData));
     }
 }

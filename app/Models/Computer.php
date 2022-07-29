@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin Builder
+ * @property integer $id
+ * @property string $vendor
+ * @property string $name
  */
 final class Computer extends Model
 {

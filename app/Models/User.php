@@ -13,6 +13,8 @@ use Littledev\Tauth\Contracts\TauthAuthenticatable;
 
 /**
  * @mixin Builder
+ * @property integer $id
+ * @property string $name
  */
 final class User extends AuthUser implements TauthAuthenticatable
 {

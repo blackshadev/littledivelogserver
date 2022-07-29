@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Dives\Services;
 
 use App\Application\Dives\DataTransferObjects\DiveData;
+use App\Domain\Computers\Repositories\ComputerRepository;
 use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\Users\Entities\User;
@@ -13,6 +14,7 @@ final class DiveCreator
 {
     public function __construct(
         private DiveUpdater $diveUpdater,
+        private ComputerRepository $computerRepository,
     ) {
     }
 
@@ -26,10 +28,24 @@ final class DiveCreator
             fingerprint: $diveData->getFingerprint(),
         );
 
+        $computer = $diveData->getComputerId() !== null ?
+            $this->computerRepository->findById($diveData->getComputerId()) : null;
+        $dive->setComputer($computer);
+
+        if (!is_null($computer) && !is_null($dive->getFingerprint())) {
+            $computer->updateLastRead($dive->getDate(), $dive->getFingerprint());
+        }
+
         if ($diveData->getSamples() !== null) {
             $dive->setSamples($diveData->getSamples());
         }
 
-        return $this->diveUpdater->update($dive, $diveData);
+        $diveId = $this->diveUpdater->update($dive, $diveData);
+
+        if (!is_null($computer)) {
+            $this->computerRepository->save($computer);
+        }
+
+        return $diveId;
     }
 }

@@ -27,12 +27,17 @@ final class DiveUpdater
         private DiveRepository $diveRepository,
         private BuddyProvider $buddyProvider,
         private TagProvider $tagProvider,
-        private ComputerRepository $computerRepository,
         private PlaceProvider $placeProvider,
         private CurrentUserRepository $userRepository,
+        private ComputerRepository $computerRepository,
     ) {
     }
 
+    /**
+     * Updates all dive attributes except:
+     *  - fingerprint
+     * Does not update divecomputer
+     */
     public function update(Dive $dive, DiveData $diveData): DiveId
     {
         $user = $this->userRepository->getCurrentUser();
@@ -40,7 +45,6 @@ final class DiveUpdater
         $dive->setDate($diveData->getDate());
         $dive->setMaxDepth($diveData->getMaxDepth());
         $dive->setDivetime($diveData->getDivetime());
-        $dive->setFingerprint($diveData->getFingerprint());
 
         if ($diveData->getSamples() !== null) {
             $dive->setSamples($diveData->getSamples());
@@ -58,16 +62,13 @@ final class DiveUpdater
         );
         $dive->setTags($tags);
 
-        $computer = $diveData->getComputerId() !== null ?
-            $this->computerRepository->findById($diveData->getComputerId()) : null;
-        $dive->setComputer($computer);
-        if (!is_null($computer) && !is_null($dive->getFingerprint())) {
-            $computer->updateLastRead($dive->getDate(), $dive->getFingerprint());
-        }
-
         $place = !$diveData->getPlace()->isEmpty() ?
             $this->placeProvider->findOrMake($user, $diveData->getPlace()) : null;
         $dive->setPlace($place);
+
+        $computer = $diveData->getComputerId() !== null ?
+            $this->computerRepository->findById($diveData->getComputerId()) : null;
+        $dive->setComputer($computer);
 
         $tanks = Arrg::map(
             $diveData->getTanks(),

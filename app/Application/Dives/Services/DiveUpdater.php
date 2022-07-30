@@ -66,9 +66,11 @@ final class DiveUpdater
             $this->placeProvider->findOrMake($user, $diveData->getPlace()) : null;
         $dive->setPlace($place);
 
-        $computer = $diveData->getComputerId() !== null ?
-            $this->computerRepository->findById($diveData->getComputerId()) : null;
-        $dive->setComputer($computer);
+        if (!$dive->getFingerprint()) {
+            $computer = $diveData->getComputerId() !== null ?
+                $this->computerRepository->findById($diveData->getComputerId()) : null;
+            $dive->setComputer($computer);
+        }
 
         $tanks = Arrg::map(
             $diveData->getTanks(),

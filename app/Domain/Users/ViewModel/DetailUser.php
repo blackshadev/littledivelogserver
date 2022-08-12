@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Users\Entities;
+namespace App\Domain\Users\ViewModel;
 
 final class DetailUser
 {

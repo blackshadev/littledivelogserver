@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repositories\Users;
 
-use App\Domain\Users\Entities\DetailUser;
 use App\Domain\Users\Repositories\DetailUserRepository;
+use App\Domain\Users\ViewModel\DetailUser;
 use App\Models\User as UserModel;
 
 final class EloquentDetailUserRepository implements DetailUserRepository

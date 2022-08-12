@@ -3,6 +3,10 @@
 declare(strict_types=1);
 
 return [
+    'origin' => [
+        'default' => env('DEFAULT_ORIGIN'),
+        'allowed' => explode(',', env('ALLOWED_ORIGINS', '')),
+    ],
 
     /*
     |--------------------------------------------------------------------------

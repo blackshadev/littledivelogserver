@@ -11,3 +11,4 @@ Route::delete('/sessions', [AuthController::class, 'logout']);
 Route::delete('/sessions/{refreshToken}', [AuthController::class, 'deleteSession']);
 Route::get('/sessions/refresh', [AuthController::class, 'access']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::get('/register/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->middleware(['signed'])->name('verification.verify');

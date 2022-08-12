@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Users\ViewModels;
 
 use App\Application\ViewModels\ViewModel;
-use App\Domain\Users\Entities\DetailUser;
+use App\Domain\Users\ViewModel\DetailUser;
 
 final class UserProfileViewModel extends ViewModel
 {

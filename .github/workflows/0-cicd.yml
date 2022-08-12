@@ -95,6 +95,9 @@ jobs:
           target: prod
           tags: blackshadev/littledivelogserver:latest,blackshadev/littledivelogserver:${{ steps.get_version.outputs.VERSION }}
 
+      - name: Wait for docker to update
+        run: sleep 4s
+
       - name: Update server image
         uses: satak/webrequest-action@v1.2.4
         with:

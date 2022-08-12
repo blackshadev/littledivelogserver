@@ -38,6 +38,16 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - bootstrap.memory_lock=true
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mail-littledivelog.rule=Host(`mail.littledivelog.local`)"
+      - "traefik.http.routers.mail-littledivelog.tls=false"
+      - "traefik.http.routers.mail-littledivelog.entrypoints=web"
+      - "traefik.http.services.mail-littledivelog.loadbalancer.server.port=8025"
+    environment:
+      - MH_STORAGE=maildir
 
   redis:
     image: redis:5-alpine

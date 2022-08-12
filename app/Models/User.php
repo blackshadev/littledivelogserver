@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as AuthUser;
@@ -15,13 +16,15 @@ use Littledev\Tauth\Contracts\TauthAuthenticatable;
  * @mixin Builder
  * @property integer $id
  * @property string $name
+ * @property string $email
+ * @property string $origin
  */
-final class User extends AuthUser implements TauthAuthenticatable
+final class User extends AuthUser implements TauthAuthenticatable, MustVerifyEmail
 {
     use Notifiable, HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'origin',
     ];
 
     protected $hidden = [

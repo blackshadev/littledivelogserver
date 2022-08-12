@@ -9,6 +9,7 @@ final class User
     public function __construct(
         private ?int $id,
         private string $name,
+        private string $email
     ) {
     }
 
@@ -30,6 +31,11 @@ final class User
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
     }
 
     public function isExisting(): bool

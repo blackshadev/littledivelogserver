@@ -6,17 +6,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Application\ViewModels\ApiModels\UserSessionViewModel;
 use App\Domain\Users\Services\UserRegistrator;
-use App\Http\Requests\EmailVerificationRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Models\RefreshToken;
 use App\Models\User;
-use Illuminate\Auth\Events\Verified;
 use Littledev\Tauth\Http\Controllers\TauthController;
 use Littledev\Tauth\Services\TauthRepositoryInterface;
 use Littledev\Tauth\Services\TauthServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Webmozart\Assert\Assert;
 
 final class AuthController extends TauthController
 {
@@ -55,19 +52,5 @@ final class AuthController extends TauthController
         }
 
         return UserSessionViewModel::fromCollection($user->sessions);
-    }
-
-    public function verifyEmail(EmailVerificationRequest $emailVerificationRequest)
-    {
-        $user = $emailVerificationRequest->findUser();
-        Assert::notNull($user);
-
-        if (!$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified();
-
-            event(new Verified($user));
-        }
-
-        return redirect()->away($user->origin);
     }
 }

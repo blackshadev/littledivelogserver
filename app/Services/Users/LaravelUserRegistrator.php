@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Users;
+namespace App\Services\Users;
 
 use App\Domain\Users\Commands\RegisterUser;
 use App\Domain\Users\Entities\User;
@@ -23,6 +23,6 @@ final class LaravelUserRegistrator implements UserRegistrator
 
         event(new Registered($user));
 
-        return new User($user->id, $user->name, $user->email);
+        return new User($user->id, $user->name, $user->email, $user->origin);
     }
 }

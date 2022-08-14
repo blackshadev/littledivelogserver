@@ -16,7 +16,7 @@ final class LaravelCurrentUserRepository implements CurrentUserRepository
         $user = auth()->user();
         Assert::isInstanceOf($user, UserModel::class);
 
-        return new User($user->id, $user->name, $user->email);
+        return new User($user->id, $user->name, $user->email, $user->origin);
     }
 
     public function isLoggedIn(): bool

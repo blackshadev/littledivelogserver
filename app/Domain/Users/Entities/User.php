@@ -9,8 +9,19 @@ final class User
     public function __construct(
         private ?int $id,
         private string $name,
-        private string $email
+        private string $email,
+        private string $origin
     ) {
+    }
+
+    public static function fromArray(array $array): self
+    {
+        return new self(
+            id: $array['id'],
+            name: $array['name'],
+            email: $array['email'],
+            origin: $array['origin'],
+        );
     }
 
     public function getId(): ?int
@@ -36,6 +47,11 @@ final class User
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function getOrigin(): string
+    {
+        return $this->origin;
     }
 
     public function isExisting(): bool

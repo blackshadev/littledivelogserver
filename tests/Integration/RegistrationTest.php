@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Tests\Integration;
 
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 final class RegistrationTest extends TestCase
@@ -71,8 +73,10 @@ final class RegistrationTest extends TestCase
             ]);
     }
 
-    public function testSuccessfullRegistration(): void
+    public function testSuccessfulRegistrationCreatesUser(): void
     {
+        Mail::fake();
+
         $data = [
             'email' => $this->faker->email,
             'name' => $this->faker->name,
@@ -89,5 +93,26 @@ final class RegistrationTest extends TestCase
             'users',
             $data
         );
+    }
+
+    public function testSuccessfulRegistrationSentsNotification(): void
+    {
+        Notification::fake();
+
+        $data = [
+            'email' => $this->faker->email,
+            'name' => $this->faker->name,
+        ];
+
+        $this->json(
+            'post',
+            self::REGISTRATION_URL,
+            array_merge($data, ['password' => $this->faker->password])
+        )
+            ->assertStatus(201);
+
+        $user = User::query()->where('email', '=', $data['email'])->get();
+
+        Notification::assertSentTo($user, VerifyEmail::class);
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Domain\Users\Entities\User as UserVO;
+use App\Domain\Users\ValueObjects\OriginUrl;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -73,5 +75,15 @@ final class User extends AuthUser implements TauthAuthenticatable, MustVerifyEma
     public function equipment()
     {
         return $this->hasOne(Equipment::class);
+    }
+
+    public function toValueObject(): UserVO
+    {
+        return new UserVO(
+            id: $this->id,
+            name: $this->name,
+            email: $this->email,
+            origin: OriginUrl::fromString($this->origin),
+        );
     }
 }

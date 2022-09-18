@@ -15,15 +15,16 @@ final class LaravelUserRegistrator implements UserRegistrator
 {
     public function register(RegisterUser $registerUser): User
     {
+        $origin = OriginUrl::fromString($registerUser->origin);
         $user = UserModel::create([
             'name' => $registerUser->name,
             'email' => $registerUser->email,
             'password' => $registerUser->password,
-            'origin' => $registerUser->origin,
+            'origin' => $origin->toString(),
         ]);
 
         event(new Registered($user));
 
-        return new User($user->id, $user->name, $user->email, OriginUrl::fromString($user->origin));
+        return new User($user->id, $user->name, $user->email, $origin);
     }
 }

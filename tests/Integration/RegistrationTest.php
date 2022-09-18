@@ -7,6 +7,7 @@ namespace Tests\Integration;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 final class RegistrationTest extends TestCase
@@ -15,6 +16,12 @@ final class RegistrationTest extends TestCase
     use WithFaker;
 
     public const REGISTRATION_URL = '/api/auth/register';
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Mail::pretend();
+    }
 
     public function testFailsWithNoData(): void
     {

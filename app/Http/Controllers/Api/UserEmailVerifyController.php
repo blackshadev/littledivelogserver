@@ -23,7 +23,7 @@ final class UserEmailVerifyController
 
         $this->emailVerifier->verify($user);
 
-        return redirect()->away($user->getOrigin()->withMessage("Your email has been verified. You can now login.")->toString());
+        return redirect()->away($user->getOrigin()->withMessage("account.verified")->toString());
     }
 
     public function sendVerificationEmail(SendVerificationEmailRequest $emailVerificationRequest)

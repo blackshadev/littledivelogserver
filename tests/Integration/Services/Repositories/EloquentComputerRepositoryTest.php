@@ -46,7 +46,7 @@ final class EloquentComputerRepositoryTest extends TestCase
     {
         $userModel = UserModel::factory()->createOne();
         $model = ComputerModel::factory()->for($userModel)->createOne();
-        $user = new User($userModel->id, $userModel->name);
+        $user = new User($userModel->id, $userModel->name, $userModel->email, $userModel->origin);
 
         $computer = $this->subject->findBySerial($user, $model->serial);
 

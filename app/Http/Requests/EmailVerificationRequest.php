@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 
 use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\UserRepository;
-use App\Error\UserNotFound;
+use App\Error\Auth\UserNotFound;
 use Illuminate\Foundation\Http\FormRequest;
 
 final class EmailVerificationRequest extends FormRequest

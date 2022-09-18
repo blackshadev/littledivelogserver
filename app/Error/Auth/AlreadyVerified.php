@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Error;
+namespace App\Error\Auth;
 
 use InvalidArgumentException;
 

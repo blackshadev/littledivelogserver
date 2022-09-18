@@ -27,10 +27,15 @@ final class UserFactory extends Factory
 
     public function filled(): self
     {
-        $this->has(
+        return $this->has(
             Dive::factory()->filled()->count($this->faker->numberBetween(1, 50))
         );
+    }
 
-        return $this;
+    public function notVerified(): self
+    {
+        return $this->state([
+            'email_verified_at' => null,
+        ]);
     }
 }

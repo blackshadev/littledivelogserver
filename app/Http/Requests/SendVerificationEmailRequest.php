@@ -33,6 +33,11 @@ final class SendVerificationEmailRequest extends FormRequest
 
     public function findUser(): User
     {
-        return $this->userRepository->findByEmail($this->validated('email'));
+        return $this->userRepository->findByEmail($this->email());
+    }
+
+    public function email(): string
+    {
+        return isset($this->validator) ? $this->validated('email') : $this->get('email');
     }
 }

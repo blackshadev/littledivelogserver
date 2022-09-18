@@ -6,6 +6,7 @@ namespace Tests\Integration\Services\Repositories;
 
 use App\Domain\Computers\Entities\Computer;
 use App\Domain\Users\Entities\User;
+use App\Domain\Users\ValueObjects\OriginUrl;
 use App\Models\Computer as ComputerModel;
 use App\Models\User as UserModel;
 use App\Repositories\Computers\EloquentComputerRepository;
@@ -46,7 +47,7 @@ final class EloquentComputerRepositoryTest extends TestCase
     {
         $userModel = UserModel::factory()->createOne();
         $model = ComputerModel::factory()->for($userModel)->createOne();
-        $user = new User($userModel->id, $userModel->name, $userModel->email, $userModel->origin);
+        $user = new User($userModel->id, $userModel->name, $userModel->email, OriginUrl::fromString($userModel->origin));
 
         $computer = $this->subject->findBySerial($user, $model->serial);
 

@@ -20,7 +20,7 @@ final class RegistrationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Mail::pretend();
+        Mail::fake();
     }
 
     public function testFailsWithNoData(): void

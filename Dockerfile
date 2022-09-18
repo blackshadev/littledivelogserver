@@ -34,7 +34,6 @@ RUN apk add --no-cache \
     php81-zlib \
     shadow
 
-RUN rm /etc/nginx/http.d/*
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY ./docker/ /
 RUN ln /usr/bin/php81 /usr/bin/php

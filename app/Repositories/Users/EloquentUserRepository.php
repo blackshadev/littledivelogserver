@@ -6,7 +6,8 @@ namespace App\Repositories\Users;
 
 use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\UserRepository;
-use App\Error\UserNotFound;
+use App\Domain\Users\ValueObjects\OriginUrl;
+use App\Error\Auth\UserNotFound;
 use App\Models\User as UserModel;
 
 final class EloquentUserRepository implements UserRepository
@@ -46,7 +47,7 @@ final class EloquentUserRepository implements UserRepository
             id: $user->id,
             name: $user->name,
             email: $user->email,
-            origin: $user->origin,
+            origin: OriginUrl::fromString($user->origin),
         );
     }
 }

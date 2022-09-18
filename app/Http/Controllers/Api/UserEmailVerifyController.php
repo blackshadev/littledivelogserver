@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Domain\Users\Services\UserEmailVerifier;
 use App\Http\Requests\EmailVerificationRequest;
 use App\Http\Requests\SendVerificationEmailRequest;
+use Symfony\Component\HttpFoundation\Response;
 use Webmozart\Assert\Assert;
 
 final class UserEmailVerifyController
@@ -22,7 +23,7 @@ final class UserEmailVerifyController
 
         $this->emailVerifier->verify($user);
 
-        return redirect()->away($user->getOrigin());
+        return redirect()->away($user->getOrigin()->withMessage("Your email has been verified. You can now login.")->toString());
     }
 
     public function sendVerificationEmail(SendVerificationEmailRequest $emailVerificationRequest)
@@ -31,6 +32,6 @@ final class UserEmailVerifyController
 
         $this->emailVerifier->resend($user);
 
-        return redirect()->away($user->getOrigin());
+        return response()->noContent(Response::HTTP_CREATED);
     }
 }

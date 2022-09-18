@@ -6,7 +6,7 @@ namespace App\Services\Users;
 
 use App\Domain\Users\Entities\User;
 use App\Domain\Users\Services\UserEmailVerifier;
-use App\Error\AlreadyVerified;
+use App\Error\Auth\AlreadyVerified;
 use App\Models\User as UserModel;
 use Illuminate\Auth\Events\Verified;
 

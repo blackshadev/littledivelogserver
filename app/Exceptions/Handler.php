@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
+use App\Error\UserException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
 final class Handler extends ExceptionHandler
@@ -15,7 +18,7 @@ final class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        UserException::class,
     ];
 
     /**
@@ -44,7 +47,7 @@ final class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  \Throwable  $exception
      * @return \Symfony\Component\HttpFoundation\Response
      *
@@ -52,6 +55,29 @@ final class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof UserException) {
+            return $this->renderUserException($request, $exception);
+        }
+
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  Request  $request
+     * @param  UserException  $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
+     */
+    private function renderUserException(Request $request, UserException $exception)
+    {
+        $statuscode = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
+
+        return response()->json([
+            'message' => $exception->message(),
+            'code' => $exception->code(),
+        ], $statuscode);
     }
 }

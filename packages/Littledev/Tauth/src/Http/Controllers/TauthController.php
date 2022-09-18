@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Littledev\Tauth\Http\Controllers;
 
+use App\Error\Auth\UnverifiedUser;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -55,6 +57,10 @@ abstract class TauthController extends Controller
         $user = $this->tauthRepository->findUserByCredentials($credentials);
         if ($user === null) {
             throw new InvalidCredentialsException();
+        }
+
+        if ($user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
+            throw new UnverifiedUser();
         }
 
         $refreshToken = $this->authenticationService->createRefreshToken($user);

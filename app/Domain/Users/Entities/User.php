@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Domain\Users\Entities;
 
+use App\Domain\Users\ValueObjects\OriginUrl;
+
 final class User
 {
     public function __construct(
         private ?int $id,
         private string $name,
         private string $email,
-        private string $origin
+        private OriginUrl $origin
     ) {
     }
 
@@ -20,7 +22,7 @@ final class User
             id: $array['id'],
             name: $array['name'],
             email: $array['email'],
-            origin: $array['origin'],
+            origin: OriginUrl::fromString($array['origin']),
         );
     }
 
@@ -49,7 +51,7 @@ final class User
         return $this->email;
     }
 
-    public function getOrigin(): string
+    public function getOrigin(): OriginUrl
     {
         return $this->origin;
     }

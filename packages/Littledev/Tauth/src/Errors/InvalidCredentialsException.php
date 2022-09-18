@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Littledev\Tauth\Errors;
 
-use Symfony\Component\HttpKernel\Exception\HttpException;
-
-final class InvalidCredentialsException extends HttpException
+final class InvalidCredentialsException extends AuthenticationFailureException
 {
     public function __construct($message = "Invalid credentials.")
     {
-        parent::__construct(401, $message);
+        parent::__construct($message);
     }
 }

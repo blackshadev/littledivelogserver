@@ -6,6 +6,7 @@ namespace App\Repositories\Users;
 
 use App\Domain\Users\Entities\User;
 use App\Domain\Users\Repositories\CurrentUserRepository;
+use App\Domain\Users\ValueObjects\OriginUrl;
 use App\Models\User as UserModel;
 use Webmozart\Assert\Assert;
 
@@ -16,7 +17,7 @@ final class LaravelCurrentUserRepository implements CurrentUserRepository
         $user = auth()->user();
         Assert::isInstanceOf($user, UserModel::class);
 
-        return new User($user->id, $user->name, $user->email, $user->origin);
+        return new User($user->id, $user->name, $user->email, OriginUrl::fromString($user->origin));
     }
 
     public function isLoggedIn(): bool

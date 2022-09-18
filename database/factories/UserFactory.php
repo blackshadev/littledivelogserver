@@ -21,7 +21,7 @@ final class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => 'password', // password
             'remember_token' => Str::random(10),
-            'origin' => $this->faker->randomElement(config('auth.origin.allowed')),
+            'origin' => 'https://divelog.littledev.nl',
         ];
     }
 

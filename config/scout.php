@@ -105,4 +105,25 @@ return [
         'secret' => env('ALGOLIA_SECRET', ''),
     ],
 
+    'typesense' => [
+        'api_key' => env('TYPESENSE_API_KEY', ''),
+        'nodes' => [
+            [
+                'host' => env('TYPESENSE_HOST', ''),
+                'port' => env('TYPESENSE_PORT', '8108'),
+                'path' => env('TYPESENSE_PATH', ''),
+                'protocol' => env('TYPESENSE_PROTO', 'http'),
+            ],
+        ],
+        'nearest_node' => [
+            'host' => env('TYPESENSE_HOST', ''),
+            'port' => env('TYPESENSE_PORT', '8108'),
+            'path' => env('TYPESENSE_PATH', ''),
+            'protocol' => env('TYPESENSE_PROTO', 'http'),
+        ],
+        'connection_timeout_seconds' => 2,
+        'healthcheck_interval_seconds' => 30,
+        'num_retries' => 3,
+        'retry_interval_seconds' => 1,
+    ],
 ];

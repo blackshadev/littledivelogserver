@@ -61,7 +61,7 @@ use App\Repositories\Users\EloquentDetailUserRepository;
 use App\Repositories\Users\EloquentUserRepository;
 use App\Repositories\Users\LaravelCurrentUserRepository;
 use App\Repositories\Users\LaravelPasswordRepository;
-use App\Services\Places\ExplorerPlaceFinder;
+use App\Services\Places\TypesensePlaceFinder;
 use Illuminate\Support\ServiceProvider;
 
 final class DiveServiceProvider extends ServiceProvider
@@ -89,7 +89,7 @@ final class DiveServiceProvider extends ServiceProvider
         $this->app->singleton(CountryRepository::class, EloquentCountryRepository::class);
 
         $this->app->singleton(PlaceRepository::class, EloquentPlacesRepositories::class);
-        $this->app->singleton(PlaceFinder::class, ExplorerPlaceFinder::class);
+        $this->app->singleton(PlaceFinder::class, TypesensePlaceFinder::class);
 
         $this->app->singleton(EquipmentRepository::class, EloquentEquipmentRepository::class);
 

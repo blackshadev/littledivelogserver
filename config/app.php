@@ -168,6 +168,7 @@ return [
          * Package Service Providers...
          */
         App\Providers\TauthServiceProvider::class,
+        Typesense\LaravelTypesense\TypesenseServiceProvider::class,
 
         /*
          * Application Service Providers...

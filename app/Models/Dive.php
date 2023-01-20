@@ -9,14 +9,13 @@ use App\Domain\DiveSamples\Entities\DiveSamples;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use JeroenG\Explorer\Application\Aliased;
-use JeroenG\Explorer\Application\Explored;
 use Laravel\Scout\Searchable;
+use Typesense\LaravelTypesense\Interfaces\TypesenseDocument;
 
 /**
  * @mixin Builder
  */
-final class Dive extends Model implements Explored, Aliased
+final class Dive extends Model implements TypesenseDocument
 {
     use HasFactory;
     use Searchable;
@@ -87,54 +86,89 @@ final class Dive extends Model implements Explored, Aliased
     public function toSearchableArray(): array
     {
         $place = $this->place;
+
         return [
-            'id' => $this->id,
+            'id' => (string)$this->id,
             'user_id' => $this->user_id,
             'max_depth' => $this->max_depth,
             'divetime' => $this->divetime,
-            'date' => $this->date,
-            'created_at' => $this->created_at,
-            'tags' => $this->tags()->getQuery()->select(['tags.id', 'tags.text'])->get()->toArray(),
-            'buddies' => $this->buddies()->getQuery()->select(['buddies.id', 'buddies.name'])->get()->toArray(),
-            'place' => $place !== null ? [
-                'id' => $place->id,
-                'name' => $place->name,
-                'country_code' => $place->country_code,
-            ] : null
+            'date' => $this->date->timestamp,
+            'created_at' => $this->created_at->timestamp,
+            'tags.name' => $this->tags()->getQuery()->pluck('tags.text')->toArray(),
+            'buddies.name' => $this->buddies()->getQuery()->pluck('buddies.name')->toArray(),
+            'place.id' => $place?->id,
+            'place.name' => $place?->name,
+            'place.country_code' => $place?->country_code,
         ];
     }
 
-    public function mappableAs(): array
+    public function getCollectionSchema(): array
     {
         return [
-            'id' => 'keyword',
-            'user_id' => 'keyword',
-            'max_depth' => 'float',
-            'date' => 'date',
-            'created_at' => 'date',
-            'divetime' => 'integer',
-            'tags' => [
-                'type' => 'nested',
-                'properties' => [
-                    'id' => 'keyword',
-                    'text' => 'text'
-                ]
+            'name' => $this->searchableAs(),
+            'fields' => [
+                [
+                    'name' => 'id',
+                    'type' => 'string',
+                ],
+                [
+                    'name' => 'user_id',
+                    'type' => 'int32',
+                ],
+                [
+                    'name' => 'created_at',
+                    'type' => 'int64',
+                ],
+                [
+                    'name' => 'max_depth',
+                    'type' => 'float',
+                    'optional' => true,
+                ],
+                [
+                    'name' => 'divetime',
+                    'type' => 'int64',
+                    'optional' => true,
+                ],
+                [
+                    'name' => 'date',
+                    'type' => 'int64',
+                    'optional' => true,
+                ],
+                [
+                    'name' => 'tags.name',
+                    'type' => 'string[]',
+                    'optional' => true,
+                ],
+                [
+                    'name' => 'buddies.name',
+                    'type' => 'string[]',
+                    'optional' => true,
+                ],
+                [
+                    'name' => 'place.id',
+                    'type' => 'int32',
+                    'optional' => true,
+                ],
+                [
+                    'name' => 'place.name',
+                    'type' => 'string',
+                    'optional' => true,
+                ],
+                [
+                    'name' => 'place.country_code',
+                    'type' => 'string',
+                    'optional' => true,
+                ],
             ],
-            'buddies' => [
-                'type' => 'nested',
-                'properties' => [
-                    'id' => 'keyword',
-                    'name' => 'text'
-                ]
-            ],
-            'place' => [
-                'type' => 'nested',
-                'properties' => [
-                    'id' => 'keyword',
-                    'name' => 'text',
-                    'country_code' => 'keyword'
-                ]
-            ],
+        ];
+    }
+
+    public function typesenseQueryBy(): array
+    {
+        return [
+            'buddies.name',
+            'tags.name',
+            'place.name',
         ];
     }
 }

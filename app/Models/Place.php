@@ -7,14 +7,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use JeroenG\Explorer\Application\Aliased;
-use JeroenG\Explorer\Application\Explored;
 use Laravel\Scout\Searchable;
+use Typesense\LaravelTypesense\Interfaces\TypesenseDocument;
 
 /**
  * @mixin Builder
  */
-final class Place extends Model implements Explored, Aliased
+final class Place extends Model implements TypesenseDocument
 {
     use HasFactory;
     use Searchable;
@@ -39,22 +38,49 @@ final class Place extends Model implements Explored, Aliased
     public function toSearchableArray(): array
     {
         return [
-            'id' => $this->id,
+            'id' => (string)$this->id,
             'name' => $this->name,
-            'country_code' => $this->country !== null ? $this->country->iso2 : null,
-            'country' => $this->country !== null ? $this->country->name : null,
-            'created_by' => $this->created_by,
+            'country_code' => $this->country?->iso2,
+            'country' => $this->country?->name,
+            'created_by' => (string)$this->created_by,
         ];
     }
 
-    public function mappableAs(): array
+    public function getCollectionSchema(): array
     {
         return [
-            'id' => 'keyword',
-            'name' => 'text',
-            'country_code' => 'keyword',
-            'country' => 'text',
-            'created_by' => 'keyword',
+            'name' => $this->searchableAs(),
+            'fields' => [
+                [
+                    'name' => 'id',
+                    'type' => 'string',
+                ],
+                [
+                    'name' => 'name',
+                    'type' => 'string',
+                ],
+                [
+                    'name' => 'country',
+                    'type' => 'string',
+                    'optional' => true,
+                ],
+                [
+                    'name' => 'country_code',
+                    'type' => 'string',
+                    'optional' => true,
+                ],
+                [
+                    'name' => 'created_by',
+                    'type' => 'string',
+                ],
+            ],
+        ];
+    }
+
+    public function typesenseQueryBy(): array
+    {
+        return [
+            'name', 'country', 'country_code'
         ];
     }
 }

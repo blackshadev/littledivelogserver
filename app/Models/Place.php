@@ -72,6 +72,7 @@ final class Place extends Model implements TypesenseDocument
                 [
                     'name' => 'created_by',
                     'type' => 'string',
+                    'optional' => true,
                 ],
             ],
         ];

@@ -51,7 +51,6 @@ use App\Repositories\Dives\EloquentDiveFactory;
 use App\Repositories\Dives\EloquentDiveRepository;
 use App\Repositories\Dives\EloquentDiveSummaryRepository;
 use App\Repositories\Dives\EloquentDiveTankRepository;
-use App\Repositories\Dives\ExplorerDiveFinder;
 use App\Repositories\DiveSamples\EloquentDiveSamplesRepository;
 use App\Repositories\Equipment\EloquentEquipmentRepository;
 use App\Repositories\Places\EloquentPlacesRepositories;
@@ -61,6 +60,7 @@ use App\Repositories\Users\EloquentDetailUserRepository;
 use App\Repositories\Users\EloquentUserRepository;
 use App\Repositories\Users\LaravelCurrentUserRepository;
 use App\Repositories\Users\LaravelPasswordRepository;
+use App\Services\Dives\TypesenseDiveFinder;
 use App\Services\Places\TypesensePlaceFinder;
 use Illuminate\Support\ServiceProvider;
 
@@ -108,7 +108,7 @@ final class DiveServiceProvider extends ServiceProvider
         $this->app->singleton(DiveTankRepository::class, EloquentDiveTankRepository::class);
         $this->app->singleton(DiveTankCreator::class);
         $this->app->singleton(DiveTankUpdater::class);
-        $this->app->singleton(DiveFinder::class, ExplorerDiveFinder::class);
+        $this->app->singleton(DiveFinder::class, TypesenseDiveFinder::class);
 
         $this->app->singleton(DiveFactory::class, EloquentDiveFactory::class);
         $this->app->singleton(DiveMerger::class, DiveMergerImpl::class);

@@ -89,14 +89,22 @@ final class Dive extends Model implements TypesenseDocument
 
         return [
             'id' => (string)$this->id,
-            'user_id' => $this->user_id,
+            'user_id' => (string)$this->user_id,
             'max_depth' => $this->max_depth,
             'divetime' => $this->divetime,
             'date' => $this->date->timestamp,
             'created_at' => $this->created_at->timestamp,
+            'tags.id' => $this->tags()->getQuery()
+                ->pluck('tags.id')
+                ->map(static fn (int $id) => (string)$id)
+                ->toArray(),
             'tags.name' => $this->tags()->getQuery()->pluck('tags.text')->toArray(),
+            'buddies.id' => $this->buddies()->getQuery()
+                ->pluck('buddies.id')
+                ->map(static fn (int $id) => (string)$id)
+                ->toArray(),
             'buddies.name' => $this->buddies()->getQuery()->pluck('buddies.name')->toArray(),
-            'place.id' => $place?->id,
+            'place.id' => (string)$place?->id,
             'place.name' => $place?->name,
             'place.country_code' => $place?->country_code,
         ];
@@ -113,7 +121,7 @@ final class Dive extends Model implements TypesenseDocument
                 ],
                 [
                     'name' => 'user_id',
-                    'type' => 'int32',
+                    'type' => 'string',
                 ],
                 [
                     'name' => 'created_at',
@@ -135,18 +143,25 @@ final class Dive extends Model implements TypesenseDocument
                     'optional' => true,
                 ],
                 [
+                    'name' => 'tags.id',
+                    'type' => 'string[]',
+                ],
+                [
                     'name' => 'tags.name',
                     'type' => 'string[]',
-                    'optional' => true,
                 ],
                 [
                     'name' => 'buddies.name',
                     'type' => 'string[]',
-                    'optional' => true,
+                ],
+
+                [
+                    'name' => 'buddies.id',
+                    'type' => 'string[]',
                 ],
                 [
                     'name' => 'place.id',
-                    'type' => 'int32',
+                    'type' => 'string',
                     'optional' => true,
                 ],
                 [

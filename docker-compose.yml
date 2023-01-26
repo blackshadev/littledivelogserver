@@ -15,6 +15,10 @@ services:
       - "traefik.http.services.api-littledivelog.loadbalancer.server.port=80"
     volumes:
       - .:/www
+    environment:
+      PHP_IDE_CONFIG: "serverName=api.littledivelog.local"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   db:
     image: postgres:alpine

@@ -25,22 +25,21 @@ final class PlaceController extends Controller
     {
         return Arrg::map(
             $this->placeRepository->list(),
-            fn (Place $place) => PlaceViewModel::fromPlace($place)
+            static fn (Place $place) => PlaceViewModel::fromPlace($place)
         );
     }
 
     public function search(SearchPlaceRequest $request)
     {
-        $findCommand = new FindPlaceCommand(
-            keywords: $request->input('keywords'),
-            country: $request->input('country'),
-            userId: $request->user()->id,
+        $findCommand = FindPlaceCommand::forUser(
+            $request->user()->id,
+            $request->query(),
         );
         $places = $this->placeFinder->find($findCommand);
 
         return Arrg::map(
             $places,
-            fn (Place $place) => PlaceViewModel::fromPlace($place)
+            static fn (Place $place) => PlaceViewModel::fromPlace($place)
         );
     }
 
@@ -48,7 +47,7 @@ final class PlaceController extends Controller
     {
         return Arrg::map(
             $this->placeRepository->forCountry($country),
-            fn (Place $place) => PlaceViewModel::fromPlace($place)
+            static fn (Place $place) => PlaceViewModel::fromPlace($place)
         );
     }
 }

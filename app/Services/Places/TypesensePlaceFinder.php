@@ -21,9 +21,10 @@ final class TypesensePlaceFinder implements PlaceFinder
     {
         $model = new PlaceModel();
         $results = $this->typesense->getCollectionIndex($model)->getDocuments()->search([
-            'q' => $command->getKeywords(),
-            'sort_by' => sprintf('_eval(created_by:%d):desc,_text_match:desc', $command->getUserId()),
+            'q' => $command->keywords,
+            'sort_by' => sprintf('_eval(created_by:%d):desc,_text_match:desc', $command->userId),
             'query_by' => implode(',', $model->typesenseQueryBy()),
+            'infix' => 'fallback'
         ]);
 
         return Arrg::map(

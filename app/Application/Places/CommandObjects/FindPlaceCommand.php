@@ -6,25 +6,19 @@ namespace App\Application\Places\CommandObjects;
 
 final class FindPlaceCommand
 {
-    public function __construct(
-        private ?string $keywords,
-        private ?string $country,
-        private ?int $userId,
+    private function __construct(
+        public readonly string $keywords,
+        public readonly ?string $country,
+        public readonly ?int $userId,
     ) {
     }
 
-    public function getKeywords(): ?string
+    public static function forUser(int $userId, array $data): self
     {
-        return $this->keywords;
-    }
-
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->userId;
+        return new self(
+            keywords: $data['keywords'] ?? '',
+            country: $data['country'] ?? null,
+            userId: $userId,
+        );
     }
 }

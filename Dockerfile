@@ -43,6 +43,12 @@ FROM base AS dev
 
 ARG WWWGROUP
 
+RUN apk add --no-cache \
+    php81-pecl-xdebug
+
+COPY ./docker/dev-files/ /
+
+
 RUN groupmod -o -g ${WWWGROUP} php \
  && chown -R php:php /www
 

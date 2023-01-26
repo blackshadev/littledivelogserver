@@ -25,7 +25,7 @@ final class TypesenseDiveFinder implements DiveFinder
         $documents = $this->typesense->getCollectionIndex($model)->getDocuments();
 
         $results = $documents->search([
-            'q' => $findDivesCommand->getKeywords(),
+            'q' => $findDivesCommand->keywords,
             'query_by' => implode(',', $model->typesenseQueryBy()),
             'filter_by' => $this->createFilterBy($findDivesCommand),
         ]);
@@ -40,26 +40,26 @@ final class TypesenseDiveFinder implements DiveFinder
 
     private function createFilterBy(FindDivesCommand $findDivesCommand): string
     {
-        $filters = [sprintf("user_id:=%d", $findDivesCommand->getUserId())];
+        $filters = [sprintf("user_id:=%d", $findDivesCommand->userId)];
 
-        if ($findDivesCommand->getBuddies()) {
-            $filters[] = sprintf('buddies.id:=[%s]', implode(',', $findDivesCommand->getBuddies()));
+        if ($findDivesCommand->buddies) {
+            $filters[] = sprintf('buddies.id:=[%s]', implode(',', $findDivesCommand->buddies));
         }
 
-        if ($findDivesCommand->getTags()) {
-            $filters[] = sprintf('tags.id:=[%s]', implode(',', $findDivesCommand->getTags()));
+        if ($findDivesCommand->tags) {
+            $filters[] = sprintf('tags.id:=[%s]', implode(',', $findDivesCommand->tags));
         }
 
-        if ($findDivesCommand->getPlaceId()) {
-            $filters[] = sprintf('place.id:=%d', $findDivesCommand->getPlaceId());
+        if ($findDivesCommand->placeId) {
+            $filters[] = sprintf('place.id:=%d', $findDivesCommand->placeId);
         }
 
-        if ($findDivesCommand->getBefore()) {
-            $filters[] = sprintf('date:<%d', $findDivesCommand->getBefore()->getTimestamp());
+        if ($findDivesCommand->before) {
+            $filters[] = sprintf('date:<%d', $findDivesCommand->before->getTimestamp());
         }
 
-        if ($findDivesCommand->getAfter()) {
-            $filters[] = sprintf('date:>%d', $findDivesCommand->getAfter()->getTimestamp());
+        if ($findDivesCommand->after) {
+            $filters[] = sprintf('date:>%d', $findDivesCommand->after->getTimestamp());
         }
 
         return implode(' && ', $filters);

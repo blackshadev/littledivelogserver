@@ -24,7 +24,7 @@ final class TypesensePlaceFinder implements PlaceFinder
             'q' => $command->keywords,
             'sort_by' => sprintf('_eval(created_by:%d):desc,_text_match:desc', $command->userId),
             'query_by' => implode(',', $model->typesenseQueryBy()),
-            'infix' => 'fallback'
+            'infix' => 'always'
         ]);
 
         return Arrg::map(

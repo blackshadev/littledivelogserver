@@ -58,6 +58,7 @@ final class Place extends Model implements TypesenseDocument
                 [
                     'name' => 'name',
                     'type' => 'string',
+                    'infix' => true,
                 ],
                 [
                     'name' => 'country',

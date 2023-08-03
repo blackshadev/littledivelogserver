@@ -27,7 +27,7 @@ final class BuddyListViewModel extends ViewModel
             buddyId: $buddy->getId(),
             text: $buddy->getName(),
             color: $buddy->getColor(),
-            lastDive:$buddy->getLastDive(),
+            lastDive: $buddy->getLastDive(),
             diveCount: $buddy->getDiveCount(),
         );
     }

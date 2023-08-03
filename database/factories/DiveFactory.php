@@ -37,7 +37,6 @@ final class DiveFactory extends Factory
             })
             ->has(DiveTank::factory(), 'tanks')
             ->afterCreating(function (Dive $dive): void {
-
                 /** @var User $user */
                 $user = $dive->user;
 

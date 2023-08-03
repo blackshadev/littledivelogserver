@@ -6,6 +6,7 @@ namespace Tests\Unit\Tauth;
 
 use App\Models\RefreshToken;
 use Illuminate\Foundation\Testing\WithFaker;
+use InvalidArgumentException;
 use Littledev\Tauth\Errors\TokenExpiredException;
 use Littledev\Tauth\Services\JWTService;
 use Littledev\Tauth\Services\JWTServiceInterface;
@@ -22,13 +23,15 @@ final class TauthJWTServiceTest extends TestCase
     /** @var Mock|JWTConfiguration */
     private $configuration;
 
+    private string $key;
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->configuration = new JWTConfiguration();
 
+        $this->configuration = new JWTConfiguration();
         $this->configuration->setSigner('hs256');
-        $this->configuration->setKey($this->faker->password);
+        $this->configuration->setKey($this->faker->password(32, 32));
         $this->configuration->setAudience('http://not.so.localhost');
         $this->configuration->setIssuer('http://localhost/');
         $this->configuration->setLifetime('PT5M');
@@ -38,7 +41,7 @@ final class TauthJWTServiceTest extends TestCase
 
     public function testInvalidSignerInConfig(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->configuration->setSigner('invalid');
     }
 
@@ -61,7 +64,7 @@ final class TauthJWTServiceTest extends TestCase
 
         $token = $this->jwtService->createTokenFor($refresh);
 
-        $this->configuration->setKey($this->faker->password);
+        $this->configuration->setKey($this->faker->password(32, 32));
         $this->jwtService->setConfiguration($this->configuration);
 
         self::assertFalse($this->jwtService->isValid($token));

@@ -10,8 +10,10 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use Littledev\Tauth\Services\JWTServiceInterface;
 use Littledev\Tauth\Services\TauthRepositoryInterface;
+use Mockery;
 use stdClass;
 use Tests\TestCase;
+use UnexpectedValueException;
 
 final class TauthRepositoryTest extends TestCase
 {
@@ -25,7 +27,7 @@ final class TauthRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->jwtService = \Mockery::mock(JWTServiceInterface::class);
+        $this->jwtService = Mockery::mock(JWTServiceInterface::class);
 
         $this->subject = new TauthRepository($this->jwtService);
     }
@@ -71,7 +73,7 @@ final class TauthRepositoryTest extends TestCase
         Auth::shouldReceive('once')->with($data)->andReturnFalse();
         Auth::shouldReceive('user')->andReturn(new StdClass());
 
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $result = $this->subject->findUserByCredentials($data);
 
         self::assertNull($result);

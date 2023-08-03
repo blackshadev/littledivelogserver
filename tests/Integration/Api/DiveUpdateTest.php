@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\DiveController;
 use App\Models\Computer;
 use App\Models\Dive;
 use App\Models\User;
+use DateTimeInterface;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
@@ -36,7 +37,7 @@ final class DiveUpdateTest extends TestCase
         ])->createOne();
 
         $data = [
-            'date' => Carbon::now()->format(\DateTimeInterface::ATOM),
+            'date' => Carbon::now()->format(DateTimeInterface::ATOM),
             'divetime' => $dive->divetime + 15,
             'max_depth' => $dive->max_depth + 1,
         ];
@@ -79,7 +80,7 @@ final class DiveUpdateTest extends TestCase
         $flatFields = ['date', 'divetime', 'max_depth'];
 
         $data = [
-            'date' => Carbon::now()->format(\DateTimeInterface::ATOM),
+            'date' => Carbon::now()->format(DateTimeInterface::ATOM),
             'divetime' => $dive->divetime + 15,
             'max_depth' => $dive->max_depth + 1,
             'buddies' => [

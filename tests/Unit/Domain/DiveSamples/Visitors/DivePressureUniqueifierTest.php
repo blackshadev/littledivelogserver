@@ -7,11 +7,13 @@ namespace Tests\Unit\Domain\DiveSamples\Visitors;
 use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\DiveSamples\Entities\DiveSamples;
 use App\Domain\DiveSamples\Visitors\DivePressureUniqueifier;
+use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DivePressureUniqueifierTest extends TestCase
 {
-    /** @dataProvider provideSkippableData */
+    #[DataProvider('provideSkippableData')]
     public function testItSkipsWhenNothingToDo(array $data): void
     {
         $visitor = new DivePressureUniqueifier();
@@ -31,24 +33,24 @@ final class DivePressureUniqueifierTest extends TestCase
         yield 'Multiple Different Pressures' => [[[ 'Time' => 0, 'Pressure' => [['Tank' => 0, 'Pressure' => 142 ], ['Tank' => 2, 'Pressure' => 55 ]]]]];
     }
 
-    /** @dataProvider provideInvalidData */
+    #[DataProvider('provideInvalidData')]
     public function testItFailsOnInvalidData(array $data): void
     {
         $visitor = new DivePressureUniqueifier();
         $diveSamples = DiveSamples::create(DiveId::new(), $data);
 
-        self::expectException(\InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
 
         $diveSamples->accept($visitor);
     }
 
-    public function provideInvalidData(): iterable
+    public static function provideInvalidData(): iterable
     {
         yield 'Missing Tank' => [[[ 'Time' => 0, 'Pressure' => [['Pressure' => 142]]]]];
         yield 'Missing Pressure' => [[[  'Time' => 0, 'Pressure' => [['Tank' => 0]]]]];
     }
 
-    /** @dataProvider provideUnifiableData */
+    #[DataProvider('provideUnifiableData')]
     public function testItUnifiesPressures(array $data, array $expected): void
     {
         $visitor = new DivePressureUniqueifier();

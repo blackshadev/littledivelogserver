@@ -11,8 +11,10 @@ use App\Domain\Factories\Dives\DiveFactory;
 use App\Domain\Support\Arrg;
 use App\Models\Dive as DiveModel;
 use App\Repositories\Dives\EloquentDiveBatchRepository;
+use DateTimeImmutable;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 final class EloquentDiveBatchRepositoryTest extends TestCase
@@ -23,11 +25,11 @@ final class EloquentDiveBatchRepositoryTest extends TestCase
 
     private DiveRepository |
 
- Mockery\MockInterface $diveRepository;
+ MockInterface $diveRepository;
 
     private DiveFactory |
 
- Mockery\MockInterface $diveFactory;
+ MockInterface $diveFactory;
 
     protected function setUp(): void
     {
@@ -78,7 +80,7 @@ final class EloquentDiveBatchRepositoryTest extends TestCase
         $dives = $this->createExistingDives($times);
         $newDive = Dive::new(
             userId: $dives[0]->getUserId(),
-            date: new \DateTimeImmutable('2020-10-10 10:10:10'),
+            date: new DateTimeImmutable('2020-10-10 10:10:10'),
             divetime: 42,
             maxDepth: 10.5,
         );

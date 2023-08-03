@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\User;
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 final class RefreshTokenFactory extends Factory
@@ -14,7 +14,7 @@ final class RefreshTokenFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'expired_at' => (Carbon::now()->subMinutes($this->faker->numberBetween(1, 210))),
+                'expired_at' => (CarbonImmutable::now()->subMinutes($this->faker->numberBetween(1, 210))),
             ];
         });
     }

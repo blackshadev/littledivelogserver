@@ -10,10 +10,11 @@ use App\Domain\DiveSamples\Entities\DiveSamples;
 use App\Domain\DiveSamples\Services\FixDiveSamplePressures;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\MockInterface;
 
 final class FixDiveSamplePressuresTest extends MockeryTestCase
 {
-    private DiveSamplesRepository|Mockery\MockInterface $diveSamples;
+    private DiveSamplesRepository|MockInterface $diveSamples;
 
     private FixDiveSamplePressures $subject;
 

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\DiveSamples\Entities\DiveSamples;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,16 @@ use Typesense\LaravelTypesense\Interfaces\TypesenseDocument;
 
 /**
  * @mixin Builder
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $divetime
+ * @property float $max_depth
+ * @property int $place_id
+ * @property string $country_code
+ * @property CarbonInterface $date
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
  */
 final class Dive extends Model implements TypesenseDocument
 {
@@ -27,9 +38,8 @@ final class Dive extends Model implements TypesenseDocument
 
     protected $fillable = ['date', 'max_depth', 'divetime'];
 
-    protected $dates = ['created_at', 'updated_at', 'date'];
-
     protected $casts = [
+        'date' => 'datetime',
         'max_depth' => 'float',
         'samples' => 'array',
     ];

@@ -7,11 +7,12 @@ namespace Tests\Unit\Services\DiveMerger;
 use App\Application\Dives\Services\Mergers\DiveEntityMergerImpl;
 use App\Domain\Buddies\Entities\Buddy;
 use App\Domain\Tags\Entities\Tag;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DiveEntityMergerTest extends TestCase
 {
-    /** @dataProvider entityDataProvider */
+    #[DataProvider('entityDataProvider')]
     public function testItMergesEntities(array $input, array $expected): void
     {
         $merger = new DiveEntityMergerImpl();
@@ -21,7 +22,7 @@ final class DiveEntityMergerTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    public function entityDataProvider()
+    public static function entityDataProvider()
     {
         yield 'empty' => [[], []];
 

@@ -6,15 +6,17 @@ namespace Tests\Unit\Services\DiveMerger;
 
 use App\Application\Dives\Services\Mergers\DiveSampleCombinerImpl;
 use App\Domain\Dives\Entities\Dive;
+use DateTimeImmutable;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DiveSampleCombinerTest extends TestCase
 {
     /**
-     * @dataProvider diveProvider
      * @param Dive[] $dives
      * @param array[] $expectedSamples
      */
+    #[DataProvider('diveProvider')]
     public function testItWorks(array $dives, array $expectedSamples): void
     {
         $combiner = new DiveSampleCombinerImpl();
@@ -153,7 +155,7 @@ final class DiveSampleCombinerTest extends TestCase
 
     private function createDiveWithSamples(string $date, array $samples): Dive
     {
-        return Dive::new(null, new \DateTimeImmutable($date), samples: $samples);
+        return Dive::new(null, new DateTimeImmutable($date), samples: $samples);
     }
 
     private function createSample(

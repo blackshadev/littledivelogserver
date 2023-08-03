@@ -10,8 +10,12 @@ use App\Domain\Dives\Repositories\DiveSummaryRepository;
 use App\Domain\Support\Arrg;
 use App\Models\Dive;
 use App\Services\Dives\TypesenseDiveFinder;
+use DateTimeImmutable;
+use Generator;
 use Mockery;
+use Mockery\MockInterface;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 use Typesense\Collection;
 use Typesense\Documents;
@@ -21,9 +25,9 @@ final class TypesenseDiveFinderTest extends TestCase
 {
     private TypesenseDiveFinder $subject;
 
-    private DiveSummaryRepository|Mockery\MockInterface $repository;
+    private DiveSummaryRepository|MockInterface $repository;
 
-    private Typesense|Mockery\MockInterface $typesense;
+    private Typesense|MockInterface $typesense;
 
     public function setUp(): void
     {
@@ -95,7 +99,7 @@ final class TypesenseDiveFinderTest extends TestCase
         $this->subject->search($cmd);
     }
 
-    /** @dataProvider provideFilters */
+    #[DataProvider('provideFilters')]
     public function testItBuildsFilterQueries(array $input, string $expectedFilter): void
     {
         $cmd = FindDivesCommand::forUser(0, $input);
@@ -145,9 +149,9 @@ final class TypesenseDiveFinderTest extends TestCase
         self::assertEquals($dives, $results);
     }
 
-    public function provideFilters(): \Generator
+    public static function provideFilters(): Generator
     {
-        $date = new \DateTimeImmutable('2020-10-11 15:12:15');
+        $date = new DateTimeImmutable('2020-10-11 15:12:15');
         yield 'empty' => [
             [],
             ''
@@ -201,7 +205,7 @@ final class TypesenseDiveFinderTest extends TestCase
     /**
      * @param class-string $modelClass
      */
-    private function expectsTypesenseDocumentsForModel(string $modelClass): Mockery\MockInterface|Documents
+    private function expectsTypesenseDocumentsForModel(string $modelClass): MockInterface|Documents
     {
         $collection = Mockery::mock(Collection::class);
         $documents = Mockery::mock(Documents::class);
@@ -226,7 +230,7 @@ final class TypesenseDiveFinderTest extends TestCase
             static fn (int $id) => new DiveSummary(
                 diveId: $id,
                 divetime: 5,
-                date: new \DateTimeImmutable(),
+                date: new DateTimeImmutable(),
                 tags: [],
                 place: null,
             ),

@@ -19,6 +19,7 @@ use App\Models\Computer as ComputerModel;
 use App\Models\Dive as DiveModel;
 use App\Models\Tag as TagModel;
 use App\Models\User as UserModel;
+use DateTimeImmutable;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Tests\WithFakeTAuthentication;
@@ -96,7 +97,7 @@ final class EloquentDiveRepositoryTest extends TestCase
         $dive = Dive::new(
             userId: $this->user->id,
             maxDepth: 42.42,
-            date: new \DateTimeImmutable('2020-10-10 10:10:10'),
+            date: new DateTimeImmutable('2020-10-10 10:10:10'),
             divetime: 420,
             place: Place::new($this->user->id, ':place:', 'NL'),
             tanks: [DiveTank::new(

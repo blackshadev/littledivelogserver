@@ -21,11 +21,13 @@
         "typesense/laravel-scout-typesense-driver": "^5.2.7"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest",
-        "spatie/laravel-ignition": "^2.0",
+        "fakerphp/faker": "^1.23",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^7.7",
         "phpunit/phpunit": "^10.0",
+        "rector/rector": "^0.17.7",
+        "roave/security-advisories": "dev-latest",
+        "spatie/laravel-ignition": "^2.0",
         "symplify/easy-coding-standard": "^11.0"
     },
     "config": {

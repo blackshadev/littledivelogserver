@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\DiveController;
 use App\Models\Computer;
 use App\Models\Dive;
 use App\Models\User;
+use DateTimeInterface;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Tests\WithFakeTAuthentication;
@@ -35,7 +36,7 @@ final class DiveCreateTest extends TestCase
         ])->makeOne();
 
         $data = [
-            'date' => $dive->date->format(\DateTimeInterface::ATOM),
+            'date' => $dive->date->format(DateTimeInterface::ATOM),
             'divetime' => $dive->divetime,
             'max_depth' => $dive->max_depth,
         ];
@@ -79,7 +80,7 @@ final class DiveCreateTest extends TestCase
         $flatFields = ['date', 'divetime', 'max_depth'];
 
         $data = [
-            'date' => $dive->date->format(\DateTimeInterface::ATOM),
+            'date' => $dive->date->format(DateTimeInterface::ATOM),
             'divetime' => $dive->divetime,
             'max_depth' => $dive->max_depth,
             'buddies' => [
@@ -159,7 +160,6 @@ final class DiveCreateTest extends TestCase
 
     public function testItUpdatedComputerOnNewDive(): void
     {
-
         /** @var User $user */
         $user = User::factory()->createOne();
         $computer = Computer::factory()->createOne([
@@ -175,7 +175,7 @@ final class DiveCreateTest extends TestCase
         ])->makeOne();
 
         $data = [
-            'date' => $dive->date->format(\DateTimeInterface::ATOM),
+            'date' => $dive->date->format(DateTimeInterface::ATOM),
             'divetime' => $dive->divetime,
             'max_depth' => $dive->max_depth,
             'computer_id' => $computer->id,

@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Tests\Unit\Domain\Users\ValueObjects;
 
 use App\Domain\Users\ValueObjects\OriginUrl;
+use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class OriginUrlTest extends TestCase
 {
-    /** @dataProvider invalidURLs */
+    #[DataProvider('invalidURLs')]
     public function testItValidatesInput(string $invalidInput): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         OriginUrl::fromString($invalidInput);
     }
 
@@ -35,7 +37,7 @@ final class OriginUrlTest extends TestCase
         self::assertStringContainsString(':msg:', $subject->toString());
     }
 
-    public function invalidURLs()
+    public static function invalidURLs()
     {
         yield 'empty' => [ '' ];
         yield 'random string' => [ 'random' ];

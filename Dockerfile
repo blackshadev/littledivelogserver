@@ -47,7 +47,7 @@ FROM base AS dev
 ARG WWWGROUP
 
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
-    php82-pecl-xdebug
+    php82-xdebug
 
 COPY ./docker/dev-files/ /
 

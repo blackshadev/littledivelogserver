@@ -7,6 +7,7 @@ namespace Tests;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Littledev\Tauth\Services\TauthServiceInterface;
+use Mockery;
 use Mockery\MockInterface;
 
 trait WithFakeTAuthentication
@@ -16,7 +17,7 @@ trait WithFakeTAuthentication
 
     private function fakedTauth(): void
     {
-        $this->tauthService = \Mockery::mock(TauthServiceInterface::class);
+        $this->tauthService = Mockery::mock(TauthServiceInterface::class);
         $this->app->instance(TauthServiceInterface::class, $this->tauthService);
 
         $this->tauthService->shouldReceive('validateAccessToken')->andReturnFalse()->byDefault();

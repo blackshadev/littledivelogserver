@@ -10,6 +10,7 @@ use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\Entities\DiveTank;
 use App\Domain\Dives\ValueObjects\GasMixture;
 use App\Domain\Dives\ValueObjects\TankPressures;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DiveTankMergerTest extends TestCase
@@ -25,7 +26,7 @@ final class DiveTankMergerTest extends TestCase
         self::assertNull($result);
     }
 
-    /** @dataProvider diveTankDataProvider */
+    #[DataProvider('diveTankDataProvider')]
     public function testItMergesTanks(array $tanks, DiveTank $expected): void
     {
         $merger = new DiveTankMergerImpl();
@@ -67,7 +68,7 @@ final class DiveTankMergerTest extends TestCase
         ];
     }
 
-    /** @dataProvider invalidDiveTankDataProvider */
+    #[DataProvider('invalidDiveTankDataProvider')]
     public function testItThrowsExceptionOnInvalidTanks(array $tanks): void
     {
         $this->expectException(CannotMergeTankException::class);
@@ -102,10 +103,10 @@ final class DiveTankMergerTest extends TestCase
     }
 
     /**
-     * @dataProvider divesWithDiveTankDataProvider
      * @param Dive[] $dives
      * @param DiveTank[] $expected
      */
+    #[DataProvider('divesWithDiveTankDataProvider')]
     public function testItMergesForDives(array $dives, array $expected): void
     {
         $merger = new DiveTankMergerImpl();

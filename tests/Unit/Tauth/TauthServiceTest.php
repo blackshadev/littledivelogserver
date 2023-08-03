@@ -8,20 +8,25 @@ use App\Models\RefreshToken;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Token\DataSet;
+use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\Token\Signature;
 use Littledev\Tauth\Errors\InvalidJWTException;
 use Littledev\Tauth\Errors\NoSuchUserException;
 use Littledev\Tauth\Services\JWTServiceInterface;
 use Littledev\Tauth\Services\TauthRepositoryInterface;
 use Littledev\Tauth\Services\TauthService;
 use Littledev\Tauth\Services\TauthServiceInterface;
+use Mockery;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 final class TauthServiceTest extends TestCase
 {
-    /** @var TauthRepositoryInterface|\Mockery\MockInterface  */
+    /** @var TauthRepositoryInterface|MockInterface  */
     private TauthRepositoryInterface $repository;
 
-    /** @var JWTServiceInterface|\Mockery\MockInterface  */
+    /** @var JWTServiceInterface|MockInterface  */
     private JWTServiceInterface $jwtService;
 
     private TauthServiceInterface $tauthService;
@@ -29,8 +34,8 @@ final class TauthServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->repository = \Mockery::mock(TauthRepositoryInterface::class);
-        $this->jwtService = \Mockery::mock(JWTServiceInterface::class);
+        $this->repository = Mockery::mock(TauthRepositoryInterface::class);
+        $this->jwtService = Mockery::mock(JWTServiceInterface::class);
         $this->tauthService = new TauthService($this->jwtService, $this->repository);
     }
 
@@ -224,10 +229,10 @@ final class TauthServiceTest extends TestCase
 
     private function createToken(): Token
     {
-        return new Token\Plain(
-            new Token\DataSet([], 'headers'),
-            new Token\DataSet([], 'claims'),
-            new Token\Signature('hash', 'signature'),
+        return new Plain(
+            new DataSet([], 'headers'),
+            new DataSet([], 'claims'),
+            new Signature('hash', 'signature'),
         );
     }
 }

@@ -32,7 +32,8 @@ final class Dive extends Model implements TypesenseDocument
     use Searchable;
 
     public const DIVE_COLUMNS = [
-        'id', 'created_at', 'updated_at', 'user_id', 'date', 'divetime', 'max_depth', 'country_code', 'place_id',
+        'id', 'created_at', 'updated_at', 'user_id',
+        'date', 'divetime', 'max_depth', 'country_code', 'place_id',
         'computer_id', 'fingerprint'
     ];
 

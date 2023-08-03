@@ -40,8 +40,12 @@ final class TauthRepositoryTest extends TestCase
         ];
         $user = new User();
 
-        Auth::shouldReceive('once')->with($data)->andReturnTrue();
-        Auth::shouldReceive('user')->andReturn($user);
+        Auth::shouldReceive('once')
+            ->with($data)
+            ->andReturnTrue();
+
+        Auth::shouldReceive('user')
+            ->andReturn($user);
 
         $result = $this->subject->findUserByCredentials($data);
 
@@ -55,8 +59,12 @@ final class TauthRepositoryTest extends TestCase
             'password' => $this->faker->password,
         ];
 
-        Auth::shouldReceive('once')->with($data)->andReturnFalse();
-        Auth::shouldReceive('user')->andReturnNull();
+        Auth::shouldReceive('once')
+            ->with($data)
+            ->andReturnFalse();
+
+        Auth::shouldReceive('user')
+            ->andReturnNull();
 
         $result = $this->subject->findUserByCredentials($data);
 
@@ -70,8 +78,12 @@ final class TauthRepositoryTest extends TestCase
             'password' => $this->faker->password,
         ];
 
-        Auth::shouldReceive('once')->with($data)->andReturnFalse();
-        Auth::shouldReceive('user')->andReturn(new StdClass());
+        Auth::shouldReceive('once')
+            ->with($data)
+            ->andReturnFalse();
+
+        Auth::shouldReceive('user')
+            ->andReturn(new StdClass());
 
         $this->expectException(UnexpectedValueException::class);
         $result = $this->subject->findUserByCredentials($data);

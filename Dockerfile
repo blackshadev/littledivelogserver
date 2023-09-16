@@ -15,7 +15,6 @@ RUN apk -U --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/mai
     php82-dom  \
     php82-fileinfo \
     php82-fpm \
-    php82-gd \
     php82-iconv \
     php82-intl \
     php82-json \

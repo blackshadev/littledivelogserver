@@ -92,6 +92,21 @@ final class EloquentDiveRepository implements DiveRepository
         DiveModel::findOrFail($dive->getDiveId())->delete();
     }
 
+    public function findByFingerprint(int $userId, int $computerId, string $fingerprint): ?Dive
+    {
+        $dive = DiveModel::query()
+            ->where('fingerprint', $fingerprint)
+            ->where('user_id', $userId)
+            ->where('computer_id', $computerId)
+            ->first();
+
+        if ($dive === null) {
+            return null;
+        }
+
+        return $this->diveFactory->createFrom($dive);
+    }
+
     private function setPlace(DiveModel $model, ?Place $place): void
     {
         if ($place === null) {

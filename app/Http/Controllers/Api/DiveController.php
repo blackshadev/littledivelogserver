@@ -6,7 +6,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Application\Dives\CommandObjects\FindDivesCommand;
 use App\Application\Dives\DataTransferObjects\DiveData;
-use App\Application\Dives\Services\DiveCreator;
+use App\Application\Dives\Services\DiveComputerDataPatcher;
+use App\Application\Dives\Services\DiveCreatorInterface;
 use App\Application\Dives\Services\DiveFinder;
 use App\Application\Dives\Services\DiveUpdater;
 use App\Application\Dives\Services\Mergers\DiveMerger;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dives\DiveCreateRequest;
 use App\Http\Requests\Dives\DiveDeleteRequest;
 use App\Http\Requests\Dives\DiveMergeRequest;
+use App\Http\Requests\Dives\DivePatchComputerDataRequest;
 use App\Http\Requests\Dives\DiveSamplesRequest;
 use App\Http\Requests\Dives\DiveSearchRequest;
 use App\Http\Requests\Dives\DiveUpdateRequest;
@@ -65,8 +67,11 @@ final class DiveController extends Controller
         return $request->getDiveSamples()->samples();
     }
 
-    public function update(DiveUpdateRequest $request, DiveUpdater $diveUpdater, DiveRepository $diveRepository)
-    {
+    public function update(
+        DiveUpdateRequest $request,
+        DiveUpdater $diveUpdater,
+        DiveRepository $diveRepository
+    ): DiveDetailViewModel {
         $dive = $request->getDive();
         $diveData = DiveData::fromArray($request->all());
 
@@ -75,8 +80,23 @@ final class DiveController extends Controller
         return DiveDetailViewModel::fromDive($diveRepository->findById($id));
     }
 
-    public function store(DiveCreateRequest $request, DiveCreator $diveCreator, DiveRepository $diveRepository)
-    {
+    public function patchComputerData(
+        DivePatchComputerDataRequest $request,
+        DiveComputerDataPatcher $patcher,
+        DiveRepository $diveRepository
+    ): DiveDetailViewModel {
+        $diveData = DiveData::fromArray($request->validated());
+
+        $id = $patcher->patchOrCreate($request->getCurrentUser(), $diveData);
+
+        return DiveDetailViewModel::fromDive($diveRepository->findById($id));
+    }
+
+    public function store(
+        DiveCreateRequest $request,
+        DiveCreatorInterface $diveCreator,
+        DiveRepository $diveRepository
+    ): DiveDetailViewModel {
         $diveData = DiveData::fromArray($request->all());
 
         $id = $diveCreator->create($request->getCurrentUser(), $diveData);

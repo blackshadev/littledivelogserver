@@ -14,4 +14,6 @@ interface DiveRepository
     public function save(Dive $dive): DiveId;
 
     public function remove(Dive $getDive): void;
+
+    public function findByFingerprint(int $userId, int $computerId, string $fingerprint);
 }

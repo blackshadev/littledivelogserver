@@ -22,9 +22,9 @@ final class DiveTankUpdater
         $diveTank->setGasMixture(new GasMixture($data->getOxygen()));
         $diveTank->setPressures(
             new TankPressures(
+                type: $data->getPressures()->getType(),
                 begin: $data->getPressures()->getBegin(),
                 end: $data->getPressures()->getEnd(),
-                type: $data->getPressures()->getType(),
             )
         );
         $diveTank->setVolume($data->getVolume());

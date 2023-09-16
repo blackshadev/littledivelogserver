@@ -36,45 +36,45 @@ final class DiveUpdater
     /**
      * Updates all dive attributes except:
      *  - fingerprint
-     * Does not update divecomputer
+     * Note: Does not update divecomputer's last read and fingerprint
      */
     public function update(Dive $dive, DiveData $diveData): DiveId
     {
         $user = $this->userRepository->getCurrentUser();
 
-        $dive->setDate($diveData->getDate());
-        $dive->setMaxDepth($diveData->getMaxDepth());
-        $dive->setDivetime($diveData->getDivetime());
+        $dive->setDate($diveData->date);
+        $dive->setMaxDepth($diveData->maxDepth);
+        $dive->setDivetime($diveData->divetime);
 
-        if ($diveData->getSamples() !== null) {
-            $dive->setSamples($diveData->getSamples());
+        if ($diveData->samples !== null) {
+            $dive->setSamples($diveData->samples);
         }
 
         $buddies = array_map(
             fn (BuddyData $buddy) => $this->buddyProvider->findOrMake($user, $buddy),
-            $diveData->getBuddies(),
+            $diveData->buddies,
         );
         $dive->setBuddies($buddies);
 
         $tags = array_map(
             fn (TagData $tag) => $this->tagProvider->findOrMake($user, $tag),
-            $diveData->getTags(),
+            $diveData->tags,
         );
         $dive->setTags($tags);
 
-        $place = !$diveData->getPlace()->isEmpty() ?
-            $this->placeProvider->findOrMake($user, $diveData->getPlace()) : null;
+        $place = !$diveData->placeData->isEmpty() ?
+            $this->placeProvider->findOrMake($user, $diveData->placeData) : null;
         $dive->setPlace($place);
 
         if (!$dive->getFingerprint()) {
-            $computer = $diveData->getComputerId() !== null ?
-                $this->computerRepository->findById($diveData->getComputerId()) : null;
+            $computer = $diveData->computerId !== null ?
+                $this->computerRepository->findById($diveData->computerId) : null;
             $dive->setComputer($computer);
         }
 
         $tanks = Arrg::map(
-            $diveData->getTanks(),
-            fn (TankData $tank) => DiveTank::new(
+            $diveData->tanks,
+            static fn (TankData $tank) => DiveTank::new(
                 diveId: null,
                 volume: $tank->getVolume(),
                 gasMixture: new GasMixture(

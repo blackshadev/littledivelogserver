@@ -21,15 +21,15 @@ final class DiveTankCreator
     public function create(Dive $dive, TankData $data): DiveTank
     {
         $diveTank = DiveTank::new(
-            diveId: $dive->getDiveId(),
+            diveId: $dive->getDiveId()->value(),
             volume: $data->getVolume(),
             gasMixture: new GasMixture(
                 oxygen: $data->getOxygen()
             ),
             pressures: new TankPressures(
+                type: $data->getPressures()->getType(),
                 begin: $data->getPressures()->getBegin(),
                 end: $data->getPressures()->getEnd(),
-                type: $data->getPressures()->getType(),
             )
         );
         $this->diveTankRepository->save($diveTank);

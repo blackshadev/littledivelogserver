@@ -10,7 +10,7 @@ use App\Domain\Dives\Entities\Dive;
 use App\Domain\Dives\ValueObjects\DiveId;
 use App\Domain\Users\Entities\User;
 
-final class DiveCreator
+final class DiveCreator implements DiveCreatorInterface
 {
     public function __construct(
         private DiveUpdater $diveUpdater,
@@ -22,22 +22,22 @@ final class DiveCreator
     {
         $dive = Dive::new(
             userId: $user->getId(),
-            date: $diveData->getDate(),
-            divetime: $diveData->getDivetime(),
-            maxDepth: $diveData->getMaxDepth(),
-            fingerprint: $diveData->getFingerprint(),
+            date: $diveData->date,
+            divetime: $diveData->divetime,
+            maxDepth: $diveData->maxDepth,
+            fingerprint: $diveData->fingerprint,
         );
 
-        $computer = $diveData->getComputerId() !== null ?
-            $this->computerRepository->findById($diveData->getComputerId()) : null;
+        $computer = $diveData->computerId !== null ?
+            $this->computerRepository->findById($diveData->computerId) : null;
         $dive->setComputer($computer);
 
         if (!is_null($computer) && !is_null($dive->getFingerprint())) {
             $computer->updateLastRead($dive->getDate(), $dive->getFingerprint());
         }
 
-        if ($diveData->getSamples() !== null) {
-            $dive->setSamples($diveData->getSamples());
+        if ($diveData->samples !== null) {
+            $dive->setSamples($diveData->samples);
         }
 
         $diveId = $this->diveUpdater->update($dive, $diveData);

@@ -6,6 +6,8 @@ namespace App\Providers;
 
 use App\Application\Buddies\Services\BuddyCreator;
 use App\Application\Buddies\Services\BuddyUpdater;
+use App\Application\Dives\Services\DiveCreator;
+use App\Application\Dives\Services\DiveCreatorInterface;
 use App\Application\Dives\Services\DiveFinder;
 use App\Application\Dives\Services\DiveTankCreator;
 use App\Application\Dives\Services\DiveTankUpdater;
@@ -106,6 +108,7 @@ final class DiveServiceProvider extends ServiceProvider
         $this->app->singleton(DiveRepository::class, EloquentDiveRepository::class);
         $this->app->singleton(DiveBatchRepository::class, EloquentDiveBatchRepository::class);
         $this->app->singleton(DiveTankRepository::class, EloquentDiveTankRepository::class);
+        $this->app->singleton(DiveCreatorInterface::class, DiveCreator::class);
         $this->app->singleton(DiveTankCreator::class);
         $this->app->singleton(DiveTankUpdater::class);
         $this->app->singleton(DiveFinder::class, TypesenseDiveFinder::class);
